@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@drawable/item_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clItemScheduleDayTime"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/divideLine"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtItemTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="09:00"
+            android:textColor="@color/colorItemTime"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtItemDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="May 13"
+            android:textColor="@color/colorItemOtherDay"
+            android:textSize="14dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txtItemTime" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/divideLine"
+        android:layout_width="2dp"
+        android:layout_height="70dp"
+        android:background="@color/colorDivideLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/clItemScheduleDayTime"
+        app:layout_constraintRight_toLeftOf="@id/clItemScheduleDetail"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clItemScheduleDetail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="2.5"
+        app:layout_constraintLeft_toRightOf="@id/divideLine"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtItemBonsaiName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:text="BonsaiName"
+            android:textColor="@color/colorItemTitle"
+            android:textSize="22dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgItemLocation"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/ic_location_filled"
+            app:layout_constraintBottom_toBottomOf="@id/txtItemLocation"
+            app:layout_constraintLeft_toLeftOf="@id/txtItemBonsaiName"
+            app:layout_constraintTop_toTopOf="@id/txtItemLocation" />
+
+        <TextView
+            android:id="@+id/txtItemLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="Location"
+            android:textColor="@color/colorItemInfo"
+            android:textSize="14dp"
+            app:layout_constraintLeft_toRightOf="@id/imgItemLocation"
+            app:layout_constraintTop_toBottomOf="@id/txtItemBonsaiName" />
+
+        <ImageView
+            android:id="@+id/imgItemSupplies"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:src="@drawable/ic_supplies_filled"
+            app:layout_constraintBottom_toBottomOf="@id/txtItemSupplies"
+            app:layout_constraintLeft_toLeftOf="@id/imgItemLocation"
+            app:layout_constraintTop_toTopOf="@id/txtItemSupplies" />
+
+        <TextView
+            android:id="@+id/txtItemSupplies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="Supplies"
+            android:textColor="@color/colorItemInfo"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toRightOf="@id/imgItemSupplies"
+            app:layout_constraintTop_toBottomOf="@id/txtItemLocation" />
+
+        <ImageView
+            android:id="@+id/imgItemTick"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            app:layout_constraintDimensionRatio="1:1"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_nottick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgItemNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_note"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintTop_toTopOf="@id/txtItemBonsaiName"
+            app:layout_constraintLeft_toRightOf="@id/txtItemBonsaiName"
+            app:layout_constraintBottom_toBottomOf="@id/txtItemBonsaiName"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
