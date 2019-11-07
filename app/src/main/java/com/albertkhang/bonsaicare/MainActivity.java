@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -45,11 +47,20 @@ public class MainActivity extends AppCompatActivity {
         frame_search = findViewById(R.id.frame_search);
 
         vpViewPager = findViewById(R.id.vpViewPager);
+        vpViewPager.setOffscreenPageLimit(2);//load 2 fragment per time
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         vpViewPager.setAdapter(viewPagerAdapter);
     }
 
     private void addEvent() {
+        frame_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, NewScheduleActivity.class);
+                startActivity(intent);
+            }
+        });
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -73,21 +84,19 @@ public class MainActivity extends AppCompatActivity {
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
+                Log.d("_ViewPager", "onPageSelected_" + position);
                 handleUIFragmentChange(position, true);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
-
 
     private void handleAddSearchIcon(boolean wantShow) {
         if (wantShow) {
@@ -112,8 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 txtTabTitle.setText(R.string.schedule);
                 break;
+
             case 1:
-                handleAddSearchIcon(true);
+                handleAddSearchIcon(false);
                 if (isViewPager) {
                     /* isViewPager */
                     bottomNavigationView.getMenu().getItem(position).setChecked(true);
@@ -123,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 txtTabTitle.setText(R.string.manage);
                 break;
+
             case 2:
                 handleAddSearchIcon(false);
                 if (isViewPager) {

@@ -1,5 +1,9 @@
 package com.albertkhang.bonsaicare.adapter;
 
+import android.util.Log;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -10,9 +14,6 @@ import com.albertkhang.bonsaicare.fragment.fragment_schedule;
 import com.albertkhang.bonsaicare.fragment.fragment_setting;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    Fragment fragment_schedule;
-    Fragment fragment_manage;
-    Fragment fragment_setting;
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
