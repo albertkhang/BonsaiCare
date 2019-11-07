@@ -4,10 +4,17 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="colorMain">#2ECC71</color>
+    <color name="colorBackground">#3B4254</color>
+
     <color name="colorItemBackground">#424B5E</color>
     <color name="colorItemTitle">#FFFFFF</color>
     <color name="colorItemTime">#FFFFFF</color>
     <color name="colorItemInfo">#D1D3D4</color>
     <color name="colorItemOtherDay">#737C90</color>
+
     <color name="colorDivideLine">#495363</color>
+
+    <color name="colorTabCheckedTrue">#2ECC71</color>
+    <color name="colorTabCheckedFalse">#FFFFFF</color>
 </resources>

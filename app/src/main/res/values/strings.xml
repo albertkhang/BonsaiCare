@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">BonsaiCare</string>
 
+    <string name="schedule">Schedule</string>
+    <string name="manage">Manage</string>
+    <string name="setting">Setting</string>
 </resources>
