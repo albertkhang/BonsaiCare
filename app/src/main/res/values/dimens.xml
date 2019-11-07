@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    bonsai-->
+    <dimen name="bonsaiNameTextSize">20sp</dimen>
+    <dimen name="bonsaiDetailTextSize">14sp</dimen>
+    <dimen name="bonsaiTimeTextSize">30sp</dimen>
+    <dimen name="bonsaiDayTextSize">14sp</dimen>
+
+    <dimen name="bonsaiIconHeight">10dp</dimen>
+    <dimen name="bonsaiTickIconHeight">36dp</dimen>
+
+    <!--    manage-->
+    <dimen name="manageTitleTextSize">20sp</dimen>
+    <dimen name="manageDetailTextSize">12sp</dimen>
+
+    <dimen name="manageIconHeight">44dp</dimen>
+    <dimen name="manageMaxWidthDetail">200dp</dimen>
+</resources>

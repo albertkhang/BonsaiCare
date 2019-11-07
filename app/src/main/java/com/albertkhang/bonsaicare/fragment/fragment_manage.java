@@ -4,7 +4,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,6 +77,22 @@ public class fragment_manage extends Fragment {
         return inflater.inflate(R.layout.fragment_manage, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        addControl();
+        addEvent();
+    }
+
+    private void addControl() {
+
+    }
+
+    private void addEvent() {
+
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -88,7 +107,7 @@ public class fragment_manage extends Fragment {
             if (context instanceof OnFragmentInteractionListener) {
                 mListener = (OnFragmentInteractionListener) context;
             }
-        }catch (ClassCastException e){
+        } catch (ClassCastException e) {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }

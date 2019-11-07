@@ -4,14 +4,22 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.albertkhang.bonsaicare.ObjectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.adapter.ScheduleRecyclerViewAdapter;
+
+import java.util.ArrayList;
 
 
 /**
@@ -33,6 +41,10 @@ public class fragment_schedule extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    RecyclerView rvSchedule;
+    ScheduleRecyclerViewAdapter adapter;
+    ArrayList<ScheduleItem> scheduleItems;
 
     public fragment_schedule() {
         // Required empty public constructor
@@ -68,6 +80,34 @@ public class fragment_schedule extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        addControl();
+        addEvent();
+    }
+
+    private void addControl() {
+        scheduleItems = new ArrayList<>();
+        rvSchedule = getView().findViewById(R.id.rvSchedule);
+        adapter = new ScheduleRecyclerViewAdapter(getContext(), scheduleItems);
+
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(RecyclerView.VERTICAL);
+        rvSchedule.setLayoutManager(manager);
+        rvSchedule.setAdapter(adapter);
+    }
+
+    private void addEvent() {
+        for (int i = 0; i < 30; i++) {
+            ScheduleItem item = new ScheduleItem();
+            scheduleItems.add(item);
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -88,7 +128,7 @@ public class fragment_schedule extends Fragment {
             if (context instanceof OnFragmentInteractionListener) {
                 mListener = (OnFragmentInteractionListener) context;
             }
-        }catch (ClassCastException e){
+        } catch (ClassCastException e) {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }

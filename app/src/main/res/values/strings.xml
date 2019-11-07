@@ -4,4 +4,22 @@
     <string name="schedule">Schedule</string>
     <string name="manage">Manage</string>
     <string name="setting">Setting</string>
+
+    <!--    manage tab-->
+    <!--    titile-->
+    <string name="titleBonsai">Bonsai Management</string>
+    <string name="titlePlacement">Place Management</string>
+    <string name="titleSupplies">Supplies Management</string>
+    <string name="titleReport">Report Details</string>
+    <!--    detail-->
+    <string name="detailBonsai">Show the bonsais that you have.</string>
+    <string name="detailPlacement">Show the placements that you have.</string>
+    <string name="detailSupplies">Show the supplies that you have.</string>
+    <string name="detailReport">Show cost of bonsai care and bonsai status.</string>
+
+    <!--    ratio icon-->
+    <string name="ratioIconBonsai">47:50</string>
+    <string name="ratioIconPlacement">36.75:50</string>
+    <string name="ratioIconSupplies">51.25:50</string>
+    <string name="ratioIconReport">34.52:50</string>
 </resources>
