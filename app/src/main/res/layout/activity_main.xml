@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <!--    top bar-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,41 +28,48 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/frame_add"
-            android:layout_width="55dp"
-            android:layout_height="70dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" >
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                app:layout_constraintDimensionRatio="1:1"
-                android:src="@drawable/ic_add_stroke"
-                android:layout_marginBottom="14dp"
-                android:layout_marginRight="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/frame_add"-->
+<!--            android:layout_width="55dp"-->
+<!--            android:layout_height="70dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent" >-->
+<!--            <ImageView-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                app:layout_constraintDimensionRatio="1:1"-->
+<!--                android:src="@drawable/ic_add_stroke"-->
+<!--                android:layout_marginBottom="14dp"-->
+<!--                android:layout_marginRight="15dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintRight_toRightOf="parent"/>-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/frame_search"
-            android:layout_width="55dp"
-            android:layout_height="70dp"
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <ImageView
+            android:id="@+id/imgAddButton"
+            android:layout_width="@dimen/topBarWidthButton"
+            android:layout_height="@dimen/topBarHeightButton"
+            android:src="@drawable/ic_add_stroke"
+            android:paddingRight="@dimen/topBarPaddingRightAddButton"
+            android:paddingBottom="@dimen/topBarPaddingBottomButton"
+            android:paddingTop="@dimen/topBarPaddingTopButton"
+            android:paddingLeft="@dimen/topBarPaddingLeftAddButton"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/frame_add" >
-            <ImageView
-                android:id="@+id/imgSearch"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="20dp"
-                app:layout_constraintDimensionRatio="1:1"
-                android:src="@drawable/ic_search_stroke"
-                android:layout_marginBottom="14dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgSearchButton"
+            android:layout_width="@dimen/topBarWidthButton"
+            android:layout_height="@dimen/topBarHeightButton"
+
+            android:paddingRight="@dimen/topBarPaddingRightSearchButton"
+            android:paddingBottom="@dimen/topBarPaddingBottomButton"
+            android:paddingTop="@dimen/topBarPaddingTopButton"
+            android:paddingLeft="15dp"
+
+            android:src="@drawable/ic_search_stroke"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/imgAddButton"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

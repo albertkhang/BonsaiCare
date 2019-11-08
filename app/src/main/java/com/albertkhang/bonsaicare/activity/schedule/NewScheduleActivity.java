@@ -1,9 +1,11 @@
-package com.albertkhang.bonsaicare;
+package com.albertkhang.bonsaicare.activity.schedule;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+
+import com.albertkhang.bonsaicare.R;
 
 public class NewScheduleActivity extends AppCompatActivity {
 

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--    top bar-->
+    <dimen name="topBarPaddingTopButton">26dp</dimen>
+    <dimen name="topBarPaddingRightAddButton">15dp</dimen>
+    <dimen name="topBarPaddingRightSearchButton">10dp</dimen>
+    <dimen name="topBarPaddingBottomButton">14dp</dimen>
+    <dimen name="topBarPaddingLeftAddButton">10dp</dimen>
+
+    <dimen name="topBarHeightButton">70dp</dimen>
+    <dimen name="topBarWidthButton">65dp</dimen>
+
     <!--    bonsai-->
     <dimen name="bonsaiNameTextSize">20sp</dimen>
     <dimen name="bonsaiDetailTextSize">14sp</dimen>
@@ -8,6 +18,9 @@
 
     <dimen name="bonsaiIconHeight">10dp</dimen>
     <dimen name="bonsaiTickIconHeight">36dp</dimen>
+    <dimen name="bonsaiTickIconPadding">25dp</dimen>
+
+    <dimen name="divideHeight">60dp</dimen>
 
     <!--    manage-->
     <dimen name="manageTitleTextSize">20sp</dimen>
@@ -15,4 +28,7 @@
 
     <dimen name="manageIconHeight">44dp</dimen>
     <dimen name="manageMaxWidthDetail">200dp</dimen>
+
+    <!--    setting-->
+    <dimen name="settingTitleSize">18sp</dimen>
 </resources>

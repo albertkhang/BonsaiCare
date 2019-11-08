@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.albertkhang.bonsaicare.ObjectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.MainActivity;
+import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
 
 import java.util.ArrayList;
 
@@ -41,9 +43,11 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         if (scheduleItems.get(position).isTicked()) {
-            holder.imgItemTick.setBackgroundResource(R.drawable.ic_ticked);
+//            holder.imgItemTick.setBackgroundResource(R.drawable.ic_ticked);
+            holder.imgItemTick.setImageResource(R.drawable.ic_ticked);
         } else {
-            holder.imgItemTick.setBackgroundResource(R.drawable.ic_nottick);
+//            holder.imgItemTick.setBackgroundResource(R.drawable.ic_nottick);
+            holder.imgItemTick.setImageResource(R.drawable.ic_nottick);
         }
 
         holder.imgItemTick.setOnClickListener(new View.OnClickListener() {
@@ -51,10 +55,15 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
             public void onClick(View view) {
                 if (!scheduleItems.get(position).isTicked()) {
                     scheduleItems.get(position).setTicked(true);
-                    holder.imgItemTick.setBackgroundResource(R.drawable.ic_ticked);
+                    holder.imgItemTick.setScaleX(0);
+                    holder.imgItemTick.setScaleY(0);
+                    holder.imgItemTick.setImageResource(R.drawable.ic_ticked);
+                    holder.imgItemTick.setVisibility(View.VISIBLE);
+                    TickMarkAnimation.showTickMark(holder.imgItemTick);
                 } else {
                     scheduleItems.get(position).setTicked(false);
-                    holder.imgItemTick.setBackgroundResource(R.drawable.ic_nottick);
+//                    holder.imgItemTick.setImageResource(R.drawable.ic_nottick);
+                    TickMarkAnimation.hideTickMark(holder.imgItemTick);
                 }
             }
         });

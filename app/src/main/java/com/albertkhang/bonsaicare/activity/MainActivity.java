@@ -1,31 +1,31 @@
-package com.albertkhang.bonsaicare;
+package com.albertkhang.bonsaicare.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.schedule.NewScheduleActivity;
 import com.albertkhang.bonsaicare.adapter.ViewPagerAdapter;
-import com.albertkhang.bonsaicare.fragment.fragment_schedule;
-import com.albertkhang.bonsaicare.fragment.fragment_setting;
+import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
     TextView txtTabTitle;
     BottomNavigationView bottomNavigationView;
 
-    ConstraintLayout frame_search;
-    ConstraintLayout frame_add;
+    ImageView imgAddButton;
+    ImageView imgSearchButton;
 
     ViewPager vpViewPager;
     ViewPagerAdapter viewPagerAdapter;
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         txtTabTitle = findViewById(R.id.txtTabTitle);
 
-        frame_add = findViewById(R.id.frame_add);
-        frame_search = findViewById(R.id.frame_search);
+        imgAddButton = findViewById(R.id.imgAddButton);
+        imgSearchButton = findViewById(R.id.imgSearchButton);
 
         vpViewPager = findViewById(R.id.vpViewPager);
         vpViewPager.setOffscreenPageLimit(2);//load 2 fragment per time
@@ -53,14 +53,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
-        frame_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NewScheduleActivity.class);
-                startActivity(intent);
-            }
-        });
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -100,11 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleAddSearchIcon(boolean wantShow) {
         if (wantShow) {
-            frame_add.setVisibility(View.VISIBLE);
-            frame_search.setVisibility(View.VISIBLE);
+            imgAddButton.setVisibility(View.VISIBLE);
+            imgSearchButton.setVisibility(View.VISIBLE);
         } else {
-            frame_add.setVisibility(View.INVISIBLE);
-            frame_search.setVisibility(View.INVISIBLE);
+            imgAddButton.setVisibility(View.INVISIBLE);
+            imgSearchButton.setVisibility(View.INVISIBLE);
         }
     }
 

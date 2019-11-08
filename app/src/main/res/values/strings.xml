@@ -22,4 +22,8 @@
     <string name="ratioIconPlacement">36.75:50</string>
     <string name="ratioIconSupplies">51.25:50</string>
     <string name="ratioIconReport">34.52:50</string>
+
+    <!--    setting-->
+    <string name="maxBonsaiPerPlacement">Max of bonsai per placement</string>
+    <string name="maxMoneyPerSupply">Max of money per supply</string>
 </resources>
