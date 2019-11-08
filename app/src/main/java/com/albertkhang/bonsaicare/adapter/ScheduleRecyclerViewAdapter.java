@@ -43,10 +43,8 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         if (scheduleItems.get(position).isTicked()) {
-//            holder.imgItemTick.setBackgroundResource(R.drawable.ic_ticked);
             holder.imgItemTick.setImageResource(R.drawable.ic_ticked);
         } else {
-//            holder.imgItemTick.setBackgroundResource(R.drawable.ic_nottick);
             holder.imgItemTick.setImageResource(R.drawable.ic_nottick);
         }
 
@@ -62,8 +60,7 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
                     TickMarkAnimation.showTickMark(holder.imgItemTick);
                 } else {
                     scheduleItems.get(position).setTicked(false);
-//                    holder.imgItemTick.setImageResource(R.drawable.ic_nottick);
-                    TickMarkAnimation.hideTickMark(holder.imgItemTick);
+                    holder.imgItemTick.setImageResource(R.drawable.ic_nottick);
                 }
             }
         });
