@@ -1,6 +1,7 @@
 package com.albertkhang.bonsaicare.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.albertkhang.bonsaicare.ObjectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.MainActivity;
+import com.albertkhang.bonsaicare.activity.schedule.ScheduleItemActivity;
 import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
 
 import java.util.ArrayList;

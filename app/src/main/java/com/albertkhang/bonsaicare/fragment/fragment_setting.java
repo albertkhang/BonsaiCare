@@ -1,9 +1,13 @@
 package com.albertkhang.bonsaicare.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -12,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.manage.ManageList;
+import com.albertkhang.bonsaicare.activity.setting.ChangeSetting;
 
 
 /**
@@ -33,6 +39,9 @@ public class fragment_setting extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    ConstraintLayout frame_MaxBonsaiPerPlacement;
+    ConstraintLayout frame_MaxMoneyPerSupply;
 
     public fragment_setting() {
         // Required empty public constructor
@@ -67,6 +76,42 @@ public class fragment_setting extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        addControl();
+        addEvent();
+    }
+
+    private void addControl() {
+        frame_MaxBonsaiPerPlacement = getView().findViewById(R.id.frame_MaxBonsaiPerPlacement);
+        frame_MaxMoneyPerSupply = getView().findViewById(R.id.frame_MaxMoneyPerSupply);
+    }
+
+    private void addEvent() {
+        frame_MaxBonsaiPerPlacement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(ChangeSetting.class, R.string.maxBonsaiPerPlacement);
+            }
+        });
+
+        frame_MaxMoneyPerSupply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(ChangeSetting.class, R.string.maxMoneyPerSupply);
+            }
+        });
+    }
+
+    private void startActivity(Class<ChangeSetting> changeSettingClass, int titleId) {
+        Intent intent = new Intent(getContext(), changeSettingClass);
+        intent.putExtra(getString(R.string.putExtraSettingTitle), getString(titleId));
+
+        startActivity(intent);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -87,7 +132,7 @@ public class fragment_setting extends Fragment {
             if (context instanceof OnFragmentInteractionListener) {
                 mListener = (OnFragmentInteractionListener) context;
             }
-        }catch (ClassCastException e){
+        } catch (ClassCastException e) {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }

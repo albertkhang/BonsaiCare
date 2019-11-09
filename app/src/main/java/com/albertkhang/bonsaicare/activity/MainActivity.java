@@ -4,13 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.schedule.ScheduleNewItemActivity;
 import com.albertkhang.bonsaicare.adapter.ViewPagerAdapter;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -85,6 +90,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("_onPageScrollState", "onPageSelected_" + state);
             }
         });
+
+        imgAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAddActivity();
+            }
+        });
+    }
+
+    private void startAddActivity() {
+        Intent intent = new Intent(MainActivity.this, ScheduleNewItemActivity.class);
+        startActivity(intent);
     }
 
     private void handleAddSearchIcon(boolean wantShow) {

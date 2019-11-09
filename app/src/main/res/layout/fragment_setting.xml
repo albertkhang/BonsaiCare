@@ -29,7 +29,6 @@
             android:text="@string/maxBonsaiPerPlacement"
             android:textColor="@color/colorItemTitle"
             android:textSize="@dimen/settingTitleSize"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +68,6 @@
             android:text="@string/maxMoneyPerSupply"
             android:textColor="@color/colorItemTitle"
             android:textSize="@dimen/settingTitleSize"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

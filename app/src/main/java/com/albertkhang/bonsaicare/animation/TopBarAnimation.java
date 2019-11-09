@@ -19,6 +19,8 @@ public class TopBarAnimation {
 
     public static void showIcon(View view) {
         if (view.getTranslationY() != 0) {
+            view.setVisibility(View.VISIBLE);
+
             ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(view, "alpha", alphaValue);
             ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0);
 
@@ -31,7 +33,7 @@ public class TopBarAnimation {
         }
     }
 
-    public static void hideIcon(View view) {
+    public static void hideIcon(final View view) {
         if (view.getTranslationY() != translationValue) {
             ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(view, "alpha", 0);
             ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(view, "translationY", translationValue);
@@ -41,6 +43,18 @@ public class TopBarAnimation {
             animatorSet.playTogether(alphaAnimator, translationYAnimator);
 
             animatorSet.start();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    view.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.setVisibility(View.GONE);
+                        }
+                    }, transparentHideDuration);
+                }
+            }).start();
         }
     }
 

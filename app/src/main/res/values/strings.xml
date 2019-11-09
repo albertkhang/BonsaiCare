@@ -5,6 +5,9 @@
     <string name="manage">Manage</string>
     <string name="setting">Setting</string>
 
+    <!--    schedule-->
+    <string name="titleScheduleItemTitle">Bonsai Detail</string>
+
     <!--    manage tab-->
     <!--    titile-->
     <string name="titleBonsai">Bonsai Management</string>
@@ -26,4 +29,11 @@
     <!--    setting-->
     <string name="maxBonsaiPerPlacement">Max of bonsai per placement</string>
     <string name="maxMoneyPerSupply">Max of money per supply</string>
+
+    <!--    requestCode-->
+    <string name="scheduleAddRequestCode">1</string>
+
+    <!--    putExtra-->
+    <string name="putExtraManageTitle">manageTitle</string>
+    <string name="putExtraSettingTitle">settingTitle</string>
 </resources>

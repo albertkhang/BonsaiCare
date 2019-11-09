@@ -1,13 +1,14 @@
 package com.albertkhang.bonsaicare.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.MainActivity;
+import com.albertkhang.bonsaicare.activity.manage.ManageList;
 
 
 /**
@@ -36,6 +39,11 @@ public class fragment_manage extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    ConstraintLayout frame_bonsai;
+    ConstraintLayout frame_placement;
+    ConstraintLayout frame_supplies;
+    ConstraintLayout frame_report;
 
     public fragment_manage() {
         // Required empty public constructor
@@ -86,11 +94,52 @@ public class fragment_manage extends Fragment {
     }
 
     private void addControl() {
-
+        frame_bonsai = getView().findViewById(R.id.frame_bonsai);
+        frame_placement = getView().findViewById(R.id.frame_placement);
+        frame_supplies = getView().findViewById(R.id.frame_supplies);
+        frame_report = getView().findViewById(R.id.frame_report);
     }
 
     private void addEvent() {
+        frame_bonsai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(ManageList.class, R.string.titleBonsai);
+            }
+        });
 
+        frame_placement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(ManageList.class, R.string.titlePlacement);
+            }
+        });
+
+        frame_supplies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(ManageList.class, R.string.titleSupplies);
+            }
+        });
+
+        frame_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(ManageList.class, R.string.titleReport);
+            }
+        });
+    }
+
+    private void startActivity(Class<ManageList> manageListClass, int titleId) {
+        Intent intent = new Intent(getContext(), manageListClass);
+        intent.putExtra(getString(R.string.putExtraManageTitle), getString(titleId));
+
+        startActivity(intent);
+    }
+
+    private void startActivity(Class activityClass) {
+        Intent intent = new Intent(getContext(), activityClass);
+        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".activity.schedule.ScheduleItemActivity">
+    tools:context=".activity.manage.ManageList">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_layout_schedule_bonsai"
+        android:id="@+id/top_layout_detail"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:background="@color/colorBackground"
@@ -18,16 +18,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txtScheduleItemTitle"
+            android:id="@+id/txtDetailSettingTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:text="@string/titleScheduleItemTitle"
+            android:text="@string/titleBonsai"
             android:textColor="@color/colorItemTitle"
             android:textSize="22sp"
+            android:layout_marginBottom="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

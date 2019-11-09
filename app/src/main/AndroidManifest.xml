@@ -9,11 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullScreenThemeAndroid">
-        <activity android:name=".activity.schedule.ScheduleItemActivity"></activity>
-        <activity android:name=".activity.manage.ManageReportActivity" />
-        <activity android:name=".activity.manage.ManageSuppliesActivity" />
-        <activity android:name=".activity.manage.ManagePlaceActivity" />
-        <activity android:name=".activity.manage.ManageBonsaiActivity" />
+        <activity android:name=".activity.setting.ChangeSetting"></activity>
+        <activity android:name=".activity.manage.ManageReport" />
+        <activity android:name=".activity.manage.ManageList" />
+        <activity android:name=".activity.schedule.ScheduleItemActivity" />
         <activity android:name=".activity.schedule.ScheduleNewItemActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
