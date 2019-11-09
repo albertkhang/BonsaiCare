@@ -2,22 +2,17 @@ package com.albertkhang.bonsaicare.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
-import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.schedule.NewScheduleActivity;
 import com.albertkhang.bonsaicare.adapter.ViewPagerAdapter;
-import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
+import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         vpViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d("_onPageScrolled_o", "positionOffset: " + positionOffset);
             }
 
             @Override
@@ -86,17 +82,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                Log.d("_onPageScrollState", "onPageSelected_" + state);
             }
         });
     }
 
     private void handleAddSearchIcon(boolean wantShow) {
         if (wantShow) {
-            imgAddButton.setVisibility(View.VISIBLE);
-            imgSearchButton.setVisibility(View.VISIBLE);
+//            imgAddButton.setVisibility(View.VISIBLE);
+//            imgSearchButton.setVisibility(View.VISIBLE);
+            TopBarAnimation.showIcon(imgAddButton);
+            TopBarAnimation.showIcon(imgSearchButton);
         } else {
-            imgAddButton.setVisibility(View.INVISIBLE);
-            imgSearchButton.setVisibility(View.INVISIBLE);
+//            imgAddButton.setVisibility(View.INVISIBLE);
+//            imgSearchButton.setVisibility(View.INVISIBLE);
+            TopBarAnimation.hideIcon(imgAddButton);
+            TopBarAnimation.hideIcon(imgSearchButton);
         }
     }
 
@@ -111,7 +112,8 @@ public class MainActivity extends AppCompatActivity {
                     /* isBottomNavigationBar */
                     vpViewPager.setCurrentItem(0);
                 }
-                txtTabTitle.setText(R.string.schedule);
+                TopBarAnimation.showTitle(txtTabTitle, R.string.schedule);
+//                txtTabTitle.setText(R.string.schedule);
                 break;
 
             case 1:
@@ -123,7 +125,8 @@ public class MainActivity extends AppCompatActivity {
                     /* isBottomNavigationBar */
                     vpViewPager.setCurrentItem(1);
                 }
-                txtTabTitle.setText(R.string.manage);
+                TopBarAnimation.showTitle(txtTabTitle, R.string.manage);
+//                txtTabTitle.setText(R.string.manage);
                 break;
 
             case 2:
@@ -135,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
                     /* isBottomNavigationBar */
                     vpViewPager.setCurrentItem(2);
                 }
-                txtTabTitle.setText(R.string.setting);
+                TopBarAnimation.showTitle(txtTabTitle, R.string.setting);
+//                txtTabTitle.setText(R.string.setting);
                 break;
         }
     }

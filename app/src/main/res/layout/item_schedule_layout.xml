@@ -6,7 +6,8 @@
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
     android:layout_marginTop="12dp"
-    android:background="@drawable/item_background">
+    android:clickable="true"
+    android:background="@drawable/constraint_layout_ripple">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clItemManageBonsaiDayTime"
@@ -147,17 +148,17 @@
                 app:layout_constraintLeft_toRightOf="@id/txtItemManageBonsaiTitle"
                 app:layout_constraintBottom_toBottomOf="@id/txtItemManageBonsaiTitle"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ImageView
-            android:id="@+id/imgItemTick"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintDimensionRatio="1:1"
-            android:padding="@dimen/bonsaiTickIconPadding"
-            android:src="@drawable/ic_nottick"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imgItemTick"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintDimensionRatio="1:1"
+        android:padding="@dimen/bonsaiTickIconPadding"
+        android:src="@drawable/ic_nottick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
