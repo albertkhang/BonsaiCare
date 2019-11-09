@@ -74,8 +74,4 @@ public class TopBarAnimation {
             animatorSet.start();
         }
     }
-
-    public static void clickAnimation(View view) {
-
-    }
 }
