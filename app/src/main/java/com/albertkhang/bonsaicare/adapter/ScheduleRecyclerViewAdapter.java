@@ -33,6 +33,26 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         notifyDataSetChanged();
     }
 
+    public interface OnItemClickListener {
+        void onItemClickListener(View view, int position);
+    }
+
+    OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnTickClickListener {
+        void onTickClickListener(View view, int position);
+    }
+
+    OnTickClickListener onTickClickListener;
+
+    public void setOnTickClickListener(OnTickClickListener onTickClickListener) {
+        this.onTickClickListener = onTickClickListener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,17 +73,14 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         holder.imgItemTick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!scheduleItems.get(position).isTicked()) {
-                    scheduleItems.get(position).setTicked(true);
-                    holder.imgItemTick.setScaleX(0);
-                    holder.imgItemTick.setScaleY(0);
-                    holder.imgItemTick.setImageResource(R.drawable.ic_ticked);
-                    holder.imgItemTick.setVisibility(View.VISIBLE);
-                    TickMarkAnimation.showTickMark(holder.imgItemTick);
-                } else {
-                    scheduleItems.get(position).setTicked(false);
-                    holder.imgItemTick.setImageResource(R.drawable.ic_nottick);
-                }
+                onTickClickListener.onTickClickListener(view, position);
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(view, position);
             }
         });
     }

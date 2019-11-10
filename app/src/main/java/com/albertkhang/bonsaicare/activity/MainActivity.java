@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.database.FeedReaderDbHelper;
+import com.albertkhang.bonsaicare.activity.database.ManipulationDb;
 import com.albertkhang.bonsaicare.activity.schedule.ScheduleNewItemActivity;
 import com.albertkhang.bonsaicare.adapter.ViewPagerAdapter;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     ViewPager vpViewPager;
     ViewPagerAdapter viewPagerAdapter;
+
+    FeedReaderDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         vpViewPager.setOffscreenPageLimit(2);//load 2 fragment per time
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         vpViewPager.setAdapter(viewPagerAdapter);
+
+        dbHelper = new FeedReaderDbHelper(this);
     }
 
     private void addEvent() {
@@ -94,25 +100,17 @@ public class MainActivity extends AppCompatActivity {
         imgAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startAddActivity();
+                Intent intent = new Intent(MainActivity.this, ScheduleNewItemActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    private void startAddActivity() {
-        Intent intent = new Intent(MainActivity.this, ScheduleNewItemActivity.class);
-        startActivity(intent);
-    }
-
     private void handleAddSearchIcon(boolean wantShow) {
         if (wantShow) {
-//            imgAddButton.setVisibility(View.VISIBLE);
-//            imgSearchButton.setVisibility(View.VISIBLE);
             TopBarAnimation.showIcon(imgAddButton);
             TopBarAnimation.showIcon(imgSearchButton);
         } else {
-//            imgAddButton.setVisibility(View.INVISIBLE);
-//            imgSearchButton.setVisibility(View.INVISIBLE);
             TopBarAnimation.hideIcon(imgAddButton);
             TopBarAnimation.hideIcon(imgSearchButton);
         }

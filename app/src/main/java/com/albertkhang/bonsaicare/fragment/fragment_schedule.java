@@ -1,6 +1,7 @@
 package com.albertkhang.bonsaicare.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,10 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.albertkhang.bonsaicare.ObjectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.MainActivity;
+import com.albertkhang.bonsaicare.activity.schedule.ScheduleItemActivity;
 import com.albertkhang.bonsaicare.adapter.ScheduleRecyclerViewAdapter;
+import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
 
 import java.util.ArrayList;
 
@@ -99,7 +104,37 @@ public class fragment_schedule extends Fragment {
     }
 
     private void addEvent() {
-        for (int i = 0; i < 30; i++) {
+        createFakeData(30);
+
+        adapter.setOnTickClickListener(new ScheduleRecyclerViewAdapter.OnTickClickListener() {
+            @Override
+            public void onTickClickListener(View view, int position) {
+                ImageView imageView = (ImageView) view;
+                if (!scheduleItems.get(position).isTicked()) {
+                    scheduleItems.get(position).setTicked(true);
+                    imageView.setScaleX(0);
+                    imageView.setScaleY(0);
+                    imageView.setImageResource(R.drawable.ic_ticked);
+                    imageView.setVisibility(View.VISIBLE);
+                    TickMarkAnimation.showTickMark(imageView);
+                } else {
+                    scheduleItems.get(position).setTicked(false);
+                    imageView.setImageResource(R.drawable.ic_nottick);
+                }
+            }
+        });
+
+        adapter.setOnItemClickListener(new ScheduleRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(View view, int position) {
+                Intent intent = new Intent(getContext(), ScheduleItemActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void createFakeData(int n) {
+        for (int i = 0; i < n; i++) {
             ScheduleItem item = new ScheduleItem();
             scheduleItems.add(item);
         }

@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullScreenThemeAndroid">
-        <activity android:name=".activity.setting.ChangeSetting"></activity>
+        <activity android:name=".activity.setting.ChangeSetting"/>
         <activity android:name=".activity.manage.ManageReport" />
         <activity android:name=".activity.manage.ManageList" />
         <activity android:name=".activity.schedule.ScheduleItemActivity" />
