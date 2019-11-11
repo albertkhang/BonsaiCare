@@ -7,6 +7,8 @@
     <color name="colorMain">#2ECC71</color>
     <color name="colorBackground">#3B4254</color>
     <color name="colorRipple">#353a4b</color>
+    <color name="colorButtonRipple">#27ae60</color>
+    <color name="colorHint">#737C90</color>
 
 
     <color name="colorItemBackground">#424B5E</color>

@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.manage.ManageList;
 import com.albertkhang.bonsaicare.activity.setting.ChangeSetting;
 
 
@@ -84,7 +83,7 @@ public class fragment_setting extends Fragment {
     }
 
     private void addControl() {
-        frame_MaxBonsaiPerPlacement = getView().findViewById(R.id.frame_MaxBonsaiPerPlacement);
+        frame_MaxBonsaiPerPlacement = getView().findViewById(R.id.frame_BonsaiName);
         frame_MaxMoneyPerSupply = getView().findViewById(R.id.frame_MaxMoneyPerSupply);
     }
 

@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         txtTabTitle = findViewById(R.id.txtTabTitle);
 
-        imgAddButton = findViewById(R.id.imgAddButton);
-        imgSearchButton = findViewById(R.id.imgSearchButton);
+        imgAddButton = findViewById(R.id.imgManageListAddButton);
+        imgSearchButton = findViewById(R.id.imgManageListSearchButton);
 
         vpViewPager = findViewById(R.id.vpViewPager);
         vpViewPager.setOffscreenPageLimit(2);//load 2 fragment per time
@@ -103,20 +103,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void handleAddSearchIcon(boolean wantShow) {
-        if (wantShow) {
-            TopBarAnimation.showIcon(imgAddButton);
-            TopBarAnimation.showIcon(imgSearchButton);
-        } else {
-            TopBarAnimation.hideIcon(imgAddButton);
-            TopBarAnimation.hideIcon(imgSearchButton);
-        }
-    }
-
     private void handleUIFragmentChange(int position, boolean isViewPager) {
         switch (position) {
             case 0:
-                handleAddSearchIcon(true);
+                TopBarAnimation.handleAddSearchIcon(imgSearchButton, true, imgAddButton, true);
                 if (isViewPager) {
                     /* isViewPager */
                     bottomNavigationView.getMenu().getItem(position).setChecked(true);
@@ -125,11 +115,10 @@ public class MainActivity extends AppCompatActivity {
                     vpViewPager.setCurrentItem(0);
                 }
                 TopBarAnimation.showTitle(txtTabTitle, R.string.schedule);
-//                txtTabTitle.setText(R.string.schedule);
                 break;
 
             case 1:
-                handleAddSearchIcon(false);
+                TopBarAnimation.handleAddSearchIcon(imgSearchButton, false, imgAddButton, false);
                 if (isViewPager) {
                     /* isViewPager */
                     bottomNavigationView.getMenu().getItem(position).setChecked(true);
@@ -138,11 +127,10 @@ public class MainActivity extends AppCompatActivity {
                     vpViewPager.setCurrentItem(1);
                 }
                 TopBarAnimation.showTitle(txtTabTitle, R.string.manage);
-//                txtTabTitle.setText(R.string.manage);
                 break;
 
             case 2:
-                handleAddSearchIcon(false);
+                TopBarAnimation.handleAddSearchIcon(imgSearchButton, false, imgAddButton, false);
                 if (isViewPager) {
                     /* isViewPager */
                     bottomNavigationView.getMenu().getItem(position).setChecked(true);
@@ -151,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
                     vpViewPager.setCurrentItem(2);
                 }
                 TopBarAnimation.showTitle(txtTabTitle, R.string.setting);
-//                txtTabTitle.setText(R.string.setting);
                 break;
         }
     }

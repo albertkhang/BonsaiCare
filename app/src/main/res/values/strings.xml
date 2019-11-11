@@ -11,10 +11,11 @@
 
     <!--    manage tab-->
     <!--    titile-->
-    <string name="titleBonsai">Bonsai Management</string>
-    <string name="titlePlacement">Place Management</string>
-    <string name="titleSupplies">Supplies Management</string>
+    <string name="titleBonsai">Bonsai Manage</string>
+    <string name="titlePlacement">Place Manage</string>
+    <string name="titleSupplies">Supplies Manage</string>
     <string name="titleReport">Report Details</string>
+    <string name="addNewBonsai">Add New Bonsai</string>
     <!--    detail-->
     <string name="detailBonsai">Show the bonsais that you have.</string>
     <string name="detailPlacement">Show the placements that you have.</string>
@@ -43,4 +44,19 @@
     <string name="defaultPlacementBalcony">Balcony</string>
     <string name="defaultPlacementWindow">Window</string>
     <string name="defaultPlacementGate">Gate</string>
+
+    <!--    new bonsai-->
+    <string name="bonsaiName">Name:</string>
+    <string name="bonsaiType">Type:</string>
+    <string name="bonsaiPlace">Place:</string>
+    <string name="bonsaiDayPlanted">Day Planted:</string>
+    <string name="submit">Submit</string>
+
+    <!--    format-->
+    <string name="dateFormat">MM - dd - yyy</string>
+
+    <string-array name="dropdownBonsaiType">
+        <item>Need Light</item>
+        <item>Need Shade</item>
+    </string-array>
 </resources>

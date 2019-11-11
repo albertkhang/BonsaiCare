@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.adapter.PlacementRecyclerViewAdapter;
+import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 
@@ -26,20 +28,16 @@ public class ManageList extends AppCompatActivity {
     FeedReaderDbHelper dbHelper;
 
     ImageView btnBack;
+    ImageView imgManageListAddButton;
+    ImageView imgManageListSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_list);
 
-        getContent();
-
         addControl();
         addEvent();
-    }
-
-    private void getContent() {
-
     }
 
     private void addControl() {
@@ -55,6 +53,9 @@ public class ManageList extends AppCompatActivity {
         placementRecyclerView.setAdapter(adapter);
 
         dbHelper = new FeedReaderDbHelper(this);
+
+        imgManageListAddButton = findViewById(R.id.imgManageListAddButton);
+        imgManageListSearchButton = findViewById(R.id.imgManageListSearchButton);
     }
 
     private void addEvent() {
@@ -75,6 +76,21 @@ public class ManageList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        imgManageListAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NewBonsaiActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imgManageListSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

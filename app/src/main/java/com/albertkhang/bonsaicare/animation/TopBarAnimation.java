@@ -2,7 +2,9 @@ package com.albertkhang.bonsaicare.animation;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TopBarAnimation {
@@ -86,6 +88,20 @@ public class TopBarAnimation {
             animatorSet.playTogether(alphaAnimator, translationYAnimator);
 
             animatorSet.start();
+        }
+    }
+
+    public static void handleAddSearchIcon(ImageView searchIcon, boolean wantShowSearchIcon,ImageView addIcon, boolean wantShowAddIcon) {
+        if (wantShowSearchIcon) {
+            showIcon(searchIcon);
+        } else {
+            hideIcon(searchIcon);
+        }
+
+        if (wantShowAddIcon) {
+            showIcon(addIcon);
+        } else {
+            hideIcon(addIcon);
         }
     }
 }

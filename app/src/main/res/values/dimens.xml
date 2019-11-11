@@ -3,12 +3,12 @@
     <!--    top bar-->
     <dimen name="topBarPaddingTopButton">26dp</dimen>
     <dimen name="topBarPaddingRightAddButton">15dp</dimen>
-    <dimen name="topBarPaddingRightSearchButton">10dp</dimen>
+    <dimen name="topBarPaddingRightSearchButton">0dp</dimen>
     <dimen name="topBarPaddingBottomButton">14dp</dimen>
-    <dimen name="topBarPaddingLeftAddButton">10dp</dimen>
+    <dimen name="topBarPaddingLeftAddButton">0dp</dimen>
 
     <dimen name="topBarHeightButton">70dp</dimen>
-    <dimen name="topBarWidthButton">65dp</dimen>
+    <dimen name="topBarWidthButton">60dp</dimen>
 
     <!--    bonsai-->
     <dimen name="bonsaiNameTextSize">20sp</dimen>
@@ -31,4 +31,7 @@
 
     <!--    setting-->
     <dimen name="settingTitleSize">18sp</dimen>
+
+    <!--    button-->
+    <dimen name="buttonTextSize">18sp</dimen>
 </resources>
