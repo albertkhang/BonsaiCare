@@ -37,4 +37,10 @@
     <!--    putExtra-->
     <string name="putExtraManageTitle">manageTitle</string>
     <string name="putExtraSettingTitle">settingTitle</string>
+    <string name="putExtraManageLoadList">putExtraManageLoadList</string>
+
+    <!--    default data-->
+    <string name="defaultPlacementBalcony">Balcony</string>
+    <string name="defaultPlacementWindow">Window</string>
+    <string name="defaultPlacementGate">Gate</string>
 </resources>

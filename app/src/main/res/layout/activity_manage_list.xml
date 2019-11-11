@@ -17,6 +17,19 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:paddingTop="18dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="6dp"
+            android:paddingBottom="18dp"
+            android:src="@drawable/ic_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
         <TextView
             android:id="@+id/txtDetailSettingTitle"
             android:layout_width="wrap_content"
@@ -30,5 +43,14 @@
             app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/placementRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_layout_detail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

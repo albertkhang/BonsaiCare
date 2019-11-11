@@ -17,10 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
 import com.albertkhang.bonsaicare.ObjectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.MainActivity;
 import com.albertkhang.bonsaicare.activity.schedule.ScheduleItemActivity;
+import com.albertkhang.bonsaicare.adapter.PlacementRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.adapter.ScheduleRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
 

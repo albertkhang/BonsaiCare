@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,8 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.database.FeedReaderDbHelper;
-import com.albertkhang.bonsaicare.activity.database.ManipulationDb;
+import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.activity.schedule.ScheduleNewItemActivity;
 import com.albertkhang.bonsaicare.adapter.ViewPagerAdapter;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;

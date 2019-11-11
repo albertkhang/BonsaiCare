@@ -1,7 +1,6 @@
 package com.albertkhang.bonsaicare.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.albertkhang.bonsaicare.ObjectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.MainActivity;
-import com.albertkhang.bonsaicare.activity.schedule.ScheduleItemActivity;
-import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
 
 import java.util.ArrayList;
 
@@ -57,7 +53,7 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_schedule_layout, parent, false);
+        View view = inflater.inflate(R.layout.schedule_item, parent, false);
 
         return new ViewHolder(view);
     }
@@ -107,9 +103,9 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
             txtItemTime = itemView.findViewById(R.id.txtItemTime);
             txtItemDay = itemView.findViewById(R.id.txtItemDay);
 
-            txtItemBonsaiName = itemView.findViewById(R.id.txtItemManageBonsaiTitle);
+            txtItemBonsaiName = itemView.findViewById(R.id.txtPlacementItemPlace);
             imgItemNote = itemView.findViewById(R.id.imgItemNote);
-            txtItemLocation = itemView.findViewById(R.id.txtItemManageBonsaiDetail);
+            txtItemLocation = itemView.findViewById(R.id.txtPlacementItemId);
             txtItemSupplies = itemView.findViewById(R.id.txtItemSupplies);
 
             imgItemTick = itemView.findViewById(R.id.imgItemTick);

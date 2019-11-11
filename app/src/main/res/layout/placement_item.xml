@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/placement_item_frame"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:clickable="true"
+        android:background="@drawable/constraint_layout_ripple"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/framePlacementItemIcon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/divideLineManageBonsai"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imgPlacementIcon"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/manageIconHeight"
+                android:background="@drawable/ic_balcony"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="@string/ratioIconBonsai"
+                android:scaleType="center"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/divideLineManageBonsai"
+            android:layout_width="2dp"
+            android:layout_height="70dp"
+            android:background="@color/colorDivideLine"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/framePlacementItemIcon"
+            app:layout_constraintRight_toLeftOf="@id/framePlacementDetail"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/framePlacementDetail"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_weight="2.5"
+            app:layout_constraintLeft_toRightOf="@id/divideLineManageBonsai"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frame_textPlacementItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/txtPlacementItemPlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Balcony"
+                    android:textColor="@color/colorItemTitle"
+                    android:textSize="@dimen/manageTitleTextSize"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/txtPlacementItemId"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtPlacementItemIdText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="220dp"
+                    android:maxLines="2"
+                    android:text="id: "
+                    android:textColor="@color/colorItemInfo"
+                    android:textSize="@dimen/manageDetailTextSize"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtPlacementItemPlace" />
+
+                <TextView
+                    android:id="@+id/txtPlacementItemId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textColor="@color/colorItemInfo"
+                    android:textSize="@dimen/manageDetailTextSize"
+                    app:layout_constraintLeft_toRightOf="@id/txtPlacementItemIdText"
+                    app:layout_constraintTop_toTopOf="@id/txtPlacementItemIdText"
+                    app:layout_constraintBottom_toBottomOf="@id/txtPlacementItemIdText"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

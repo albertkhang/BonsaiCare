@@ -1,10 +1,8 @@
-package com.albertkhang.bonsaicare.activity.database;
+package com.albertkhang.bonsaicare.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import androidx.annotation.Nullable;
 
 public class FeedReaderDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
@@ -20,7 +18,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
         db.execSQL(FeedReaderContract.FeedEntry.SQL_CREATE_SCHEDULE_TABLE);
         db.execSQL(FeedReaderContract.FeedEntry.SQL_CREATE_PLACEMENT_TABLE);
         db.execSQL(FeedReaderContract.FeedEntry.SQL_CREATE_SUPPLY_TABLE);
-        db.execSQL(FeedReaderContract.FeedEntry.SQL_DELETE_SUPPLIES_BILL_TABLE);
+        db.execSQL(FeedReaderContract.FeedEntry.SQL_CREATE_SUPPLIES_BILL_TABLE);
 
         ManipulationDb.createDefaultData(db);
     }

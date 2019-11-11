@@ -1,6 +1,8 @@
-package com.albertkhang.bonsaicare.activity.database;
+package com.albertkhang.bonsaicare.database;
 
 import android.provider.BaseColumns;
+
+import com.albertkhang.bonsaicare.R;
 
 public final class FeedReaderContract {
     private FeedReaderContract() {
@@ -10,7 +12,7 @@ public final class FeedReaderContract {
         /* BONSAI TABLE */
         public static final String BONSAI_TABLE_NAME = "bonsai";
         public static final String BONSAI_NAME = "bonsai_name";
-        public static final String BONSAI_TYPE = "bonsai_type";//default: need light; need shade
+        public static final String BONSAI_TYPE = "bonsai_type";//input: need light; need shade
         public static final String BONSAI_PLACEMENT_ID = "bonsai_placement_id";
         public static final String BONSAI_DAY_PLANTED = "bonsai_day_planted";
 
@@ -32,7 +34,7 @@ public final class FeedReaderContract {
         /* SUPPLY TABLE */
         public static final String SUPPLY_TABLE_NAME = "supply";
         public static final String SUPPLY_NAME = "supply_name";//default: water; nitrogen fertilizer
-        public static final String SUPPLY_UNIT = "supply_unit";//default: liter; grams
+        public static final String SUPPLY_UNIT = "supply_unit";//default: liter; gram
         public static final String SUPPLY_TOTAL_SUPPLIES = "supply_total_supplies";
 
         /* SUPPLIES_BILL TABLE */
@@ -50,7 +52,7 @@ public final class FeedReaderContract {
                         FeedEntry._ID + " INTEGER PRIMARY KEY," +
                         FeedEntry.BONSAI_NAME + " TEXT," +
                         FeedEntry.BONSAI_TYPE + " TEXT," +
-                        FeedEntry.BONSAI_PLACEMENT_ID + " TEXT," +
+                        FeedEntry.BONSAI_PLACEMENT_ID + " INTEGER," +
                         FeedEntry.BONSAI_DAY_PLANTED + " TEXT)";
 
         /* CREATE SCHEDULE TABLE */
@@ -58,12 +60,12 @@ public final class FeedReaderContract {
                 "CREATE TABLE " + FeedEntry.SCHEDULE_TABLE_NAME + " (" +
                         FeedEntry._ID + " INTEGER PRIMARY KEY," +
                         FeedEntry.SCHEDULE_NAME + " TEXT," +
-                        FeedEntry.SCHEDULE_BONSAI_ID + " TEXT," +
+                        FeedEntry.SCHEDULE_BONSAI_ID + " INTEGER," +
                         FeedEntry.SCHEDULE_DATE_CREATED + " TEXT," +
                         FeedEntry.SCHEDULE_DATE_TAKE_CARE + " TEXT," +
-                        FeedEntry.SCHEDULE_PLACEMENT_ID + " TEXT," +
-                        FeedEntry.SCHEDULE_SUPPLY_ID + " TEXT," +
-                        FeedEntry.SCHEDULE_AMOUNT + " TEXT," +
+                        FeedEntry.SCHEDULE_PLACEMENT_ID + " INTEGER," +
+                        FeedEntry.SCHEDULE_SUPPLY_ID + " INTEGER," +
+                        FeedEntry.SCHEDULE_AMOUNT + " INTEGER," +
                         FeedEntry.SCHEDULE_NOTE + " TEXT)";
 
         /* CREATE PLACEMENT TABLE */
@@ -78,17 +80,17 @@ public final class FeedReaderContract {
                         FeedEntry._ID + " INTEGER PRIMARY KEY," +
                         FeedEntry.SUPPLY_NAME + " TEXT," +
                         FeedEntry.SUPPLY_UNIT + " TEXT," +
-                        FeedEntry.SUPPLY_TOTAL_SUPPLIES + " TEXT)";
+                        FeedEntry.SUPPLY_TOTAL_SUPPLIES + " INTEGER)";
 
         /* CREATE SUPPLIES_BILL TABLE */
         public static final String SQL_CREATE_SUPPLIES_BILL_TABLE =
                 "CREATE TABLE " + FeedEntry.SUPPLIES_BILL_TABLE_NAME + " (" +
                         FeedEntry._ID + " INTEGER PRIMARY KEY," +
-                        FeedEntry.SUPPLIES_BILL_SUPPLIES_ID + " TEXT," +
+                        FeedEntry.SUPPLIES_BILL_SUPPLIES_ID + " INTEGER," +
                         FeedEntry.SUPPLIES_BILL_ADDRESS_BROUGHT + " TEXT," +
-                        FeedEntry.SUPPLIES_BILL_SUPPLIES_AMOUNT + " TEXT," +
+                        FeedEntry.SUPPLIES_BILL_SUPPLIES_AMOUNT + " INTEGER," +
                         FeedEntry.SUPPLIES_BILL_DATE_BOUGHT + " TEXT," +
-                        FeedEntry.SUPPLIES_BILL_TOTAL_MONEY + " TEXT)";
+                        FeedEntry.SUPPLIES_BILL_TOTAL_MONEY + " INTEGER)";
 
         /* ========== DELETE ========== */
         /* DELETE BONSAI TABLE */
@@ -112,6 +114,28 @@ public final class FeedReaderContract {
                 "DROP TABLE IF EXISTS " + FeedEntry.SUPPLIES_BILL_TABLE_NAME;
 
         /* MANIPULATION */
+        //PLACEMENT
+        //INSERT
+        public static final String SQL_INSERT_PLACEMENT_BALCONY_DEFAULT_DATA =
+                "INSERT INTO " + FeedEntry.PLACEMENT_TABLE_NAME + " (" + FeedEntry.PLACEMENT_NAME + ")" +
+                        " VALUES ('Balcony')";
 
+        public static final String SQL_INSERT_PLACEMENT_WINDOW_DEFAULT_DATA =
+                "INSERT INTO " + FeedEntry.PLACEMENT_TABLE_NAME + " (" + FeedEntry.PLACEMENT_NAME + ")" +
+                        " VALUES ('Window')";
+
+        public static final String SQL_INSERT_PLACEMENT_GATE_DEFAULT_DATA =
+                "INSERT INTO " + FeedEntry.PLACEMENT_TABLE_NAME + " (" + FeedEntry.PLACEMENT_NAME + ")" +
+                        " VALUES ('Gate')";
+
+        //=================================
+        //SUPPLY
+        public static final String SQL_INSERT_SUPPLY_WATER_DEFAULT_DATA =
+                "INSERT INTO " + FeedEntry.SUPPLY_TABLE_NAME +
+                        " VALUES (" + FeedEntry._ID + ", 'Water', 'liter', '0')";
+
+        public static final String SQL_INSERT_SUPPLY_NITROGEN_FERTILIZER_DEFAULT_DATA =
+                "INSERT INTO " + FeedEntry.SUPPLY_TABLE_NAME +
+                        " VALUES ('" + FeedEntry._ID + "', 'Nitrogen fertilizer', 'gram', '0')";
     }
 }

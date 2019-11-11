@@ -134,6 +134,21 @@ public class fragment_manage extends Fragment {
         Intent intent = new Intent(getContext(), manageListClass);
         intent.putExtra(getString(R.string.putExtraManageTitle), getString(titleId));
 
+        switch (titleId) {
+            case R.string.titleBonsai:
+                intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titleBonsai));
+                break;
+            case R.string.titlePlacement:
+                intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titlePlacement));
+                break;
+            case R.string.titleSupplies:
+                intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titleSupplies));
+                break;
+            case R.string.titleReport:
+                intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titleReport));
+                break;
+        }
+
         startActivity(intent);
     }
 
