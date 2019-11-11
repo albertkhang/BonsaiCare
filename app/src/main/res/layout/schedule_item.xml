@@ -10,7 +10,7 @@
     android:background="@drawable/constraint_layout_ripple">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/framePlacementItemIcon"
+        android:id="@+id/frameSupplyItemIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -61,12 +61,12 @@
         android:layout_height="@dimen/divideHeight"
         android:background="@color/colorDivideLine"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/framePlacementItemIcon"
-        app:layout_constraintRight_toLeftOf="@id/framePlacementDetail"
+        app:layout_constraintLeft_toRightOf="@id/frameSupplyItemIcon"
+        app:layout_constraintRight_toLeftOf="@id/frameSupplyDetail"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/framePlacementDetail"
+        android:id="@+id/frameSupplyDetail"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,7 +84,7 @@
             app:layout_constraintLeft_toLeftOf="parent">
 
             <TextView
-                android:id="@+id/txtPlacementItemPlace"
+                android:id="@+id/txtSupplyItemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -101,12 +101,12 @@
                 android:layout_height="@dimen/bonsaiIconHeight"
                 app:layout_constraintDimensionRatio="1:1"
                 android:src="@drawable/ic_location_filled"
-                app:layout_constraintBottom_toBottomOf="@id/txtPlacementItemId"
-                app:layout_constraintLeft_toLeftOf="@id/txtPlacementItemPlace"
-                app:layout_constraintTop_toTopOf="@id/txtPlacementItemId" />
+                app:layout_constraintBottom_toBottomOf="@id/txtSupplyItemTotal"
+                app:layout_constraintLeft_toLeftOf="@id/txtSupplyItemName"
+                app:layout_constraintTop_toTopOf="@id/txtSupplyItemTotal" />
 
             <TextView
-                android:id="@+id/txtPlacementItemId"
+                android:id="@+id/txtSupplyItemTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
@@ -114,7 +114,7 @@
                 android:textColor="@color/colorItemInfo"
                 android:textSize="@dimen/bonsaiDetailTextSize"
                 app:layout_constraintLeft_toRightOf="@id/imgItemLocation"
-                app:layout_constraintTop_toBottomOf="@id/txtPlacementItemPlace" />
+                app:layout_constraintTop_toBottomOf="@id/txtSupplyItemName" />
 
             <ImageView
                 android:id="@+id/imgItemSupplies"
@@ -135,7 +135,7 @@
                 android:textColor="@color/colorItemInfo"
                 android:textSize="@dimen/bonsaiDetailTextSize"
                 app:layout_constraintLeft_toRightOf="@id/imgItemSupplies"
-                app:layout_constraintTop_toBottomOf="@id/txtPlacementItemId" />
+                app:layout_constraintTop_toBottomOf="@id/txtSupplyItemTotal" />
 
             <ImageView
                 android:id="@+id/imgItemNote"
@@ -144,9 +144,9 @@
                 app:layout_constraintDimensionRatio="1:1"
                 android:src="@drawable/ic_note"
                 android:layout_marginLeft="4dp"
-                app:layout_constraintTop_toTopOf="@id/txtPlacementItemPlace"
-                app:layout_constraintLeft_toRightOf="@id/txtPlacementItemPlace"
-                app:layout_constraintBottom_toBottomOf="@id/txtPlacementItemPlace"/>
+                app:layout_constraintTop_toTopOf="@id/txtSupplyItemName"
+                app:layout_constraintLeft_toRightOf="@id/txtSupplyItemName"
+                app:layout_constraintBottom_toBottomOf="@id/txtSupplyItemName"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

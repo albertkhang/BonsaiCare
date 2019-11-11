@@ -80,9 +80,9 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgPlacementIcon = itemView.findViewById(R.id.imgPlacementIcon);
-            txtPlacementItemPlace = itemView.findViewById(R.id.txtPlacementItemPlace);
-            txtPlacementItemId = itemView.findViewById(R.id.txtPlacementItemId);
+            imgPlacementIcon = itemView.findViewById(R.id.imgSupplyIcon);
+            txtPlacementItemPlace = itemView.findViewById(R.id.txtSupplyItemName);
+            txtPlacementItemId = itemView.findViewById(R.id.txtSupplyItemTotal);
         }
     }
 }

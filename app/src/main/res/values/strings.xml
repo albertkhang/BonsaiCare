@@ -59,4 +59,7 @@
         <item>Need Light</item>
         <item>Need Shade</item>
     </string-array>
+
+    <string name="supplyNameWater">Water</string>
+    <string name="supplyNameNitrogenFertilizer">Nitrogen fertilizer</string>
 </resources>

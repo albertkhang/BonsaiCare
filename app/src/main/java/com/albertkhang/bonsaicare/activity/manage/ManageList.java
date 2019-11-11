@@ -12,9 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
+import com.albertkhang.bonsaicare.ObjectClass.SupplyItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.adapter.PlacementRecyclerViewAdapter;
-import com.albertkhang.bonsaicare.animation.TopBarAnimation;
+import com.albertkhang.bonsaicare.adapter.SupplyRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 
@@ -22,9 +23,14 @@ import java.util.ArrayList;
 
 public class ManageList extends AppCompatActivity {
     TextView txtDetailTitle;
-    RecyclerView placementRecyclerView;
-    PlacementRecyclerViewAdapter adapter;
+    RecyclerView recyclerView;
+
+    PlacementRecyclerViewAdapter placementAdapter;
+    SupplyRecyclerViewAdapter supplyAdapter;
+
     ArrayList<PlacementItem> placementArrayList;
+    ArrayList<SupplyItem> supplyArrayList;
+
     FeedReaderDbHelper dbHelper;
 
     ImageView btnBack;
@@ -42,15 +48,19 @@ public class ManageList extends AppCompatActivity {
 
     private void addControl() {
         txtDetailTitle = findViewById(R.id.txtDetailSettingTitle);
-        placementRecyclerView = findViewById(R.id.placementRecyclerView);
+        recyclerView = findViewById(R.id.placementRecyclerView);
+
         placementArrayList = new ArrayList<>();
+        supplyArrayList = new ArrayList<>();
+
         btnBack = findViewById(R.id.btnBack);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.VERTICAL);
-        placementRecyclerView.setLayoutManager(manager);
-        adapter = new PlacementRecyclerViewAdapter(this);
-        placementRecyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(manager);
+
+        placementAdapter = new PlacementRecyclerViewAdapter(this);
+        supplyAdapter = new SupplyRecyclerViewAdapter(this);
 
         dbHelper = new FeedReaderDbHelper(this);
 
@@ -65,11 +75,23 @@ public class ManageList extends AppCompatActivity {
 
         /* load recycler view */
         String type = getIntent().getStringExtra(getString(R.string.putExtraManageLoadList));
+
         if (type.equals(getString(R.string.titlePlacement))) {
             Log.d("_ManageList", "loaded Placemanagement");
 
+            recyclerView.setAdapter(null);
             ManipulationDb.getAllDataPlacementTable(dbHelper, placementArrayList);
-            adapter.uppdate(placementArrayList);
+            recyclerView.setAdapter(placementAdapter);
+            placementAdapter.uppdate(placementArrayList);
+        }
+
+        if (type.equals(getString(R.string.titleSupplies))) {
+            Log.d("_ManageList", "loaded supply");
+
+            recyclerView.setAdapter(null);
+            ManipulationDb.getAllDataSupllyTable(dbHelper, supplyArrayList);
+            recyclerView.setAdapter(supplyAdapter);
+            supplyAdapter.uppdate(supplyArrayList);
         }
 
         btnBack.setOnClickListener(new View.OnClickListener() {

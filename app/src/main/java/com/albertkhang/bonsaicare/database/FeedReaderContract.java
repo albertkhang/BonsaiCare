@@ -117,25 +117,30 @@ public final class FeedReaderContract {
         //PLACEMENT
         //INSERT
         public static final String SQL_INSERT_PLACEMENT_BALCONY_DEFAULT_DATA =
-                "INSERT INTO " + FeedEntry.PLACEMENT_TABLE_NAME + " (" + FeedEntry.PLACEMENT_NAME + ")" +
+                "INSERT INTO " + FeedEntry.PLACEMENT_TABLE_NAME +
+                        " (" + FeedEntry.PLACEMENT_NAME + ")" +
                         " VALUES ('Balcony')";
 
         public static final String SQL_INSERT_PLACEMENT_WINDOW_DEFAULT_DATA =
-                "INSERT INTO " + FeedEntry.PLACEMENT_TABLE_NAME + " (" + FeedEntry.PLACEMENT_NAME + ")" +
+                "INSERT INTO " + FeedEntry.PLACEMENT_TABLE_NAME +
+                        " (" + FeedEntry.PLACEMENT_NAME + ")" +
                         " VALUES ('Window')";
 
         public static final String SQL_INSERT_PLACEMENT_GATE_DEFAULT_DATA =
-                "INSERT INTO " + FeedEntry.PLACEMENT_TABLE_NAME + " (" + FeedEntry.PLACEMENT_NAME + ")" +
+                "INSERT INTO " + FeedEntry.PLACEMENT_TABLE_NAME +
+                        " (" + FeedEntry.PLACEMENT_NAME + ")" +
                         " VALUES ('Gate')";
 
         //=================================
         //SUPPLY
         public static final String SQL_INSERT_SUPPLY_WATER_DEFAULT_DATA =
                 "INSERT INTO " + FeedEntry.SUPPLY_TABLE_NAME +
-                        " VALUES (" + FeedEntry._ID + ", 'Water', 'liter', '0')";
+                        " (" + FeedEntry.SUPPLY_NAME + ", " + FeedEntry.SUPPLY_UNIT+ ", " + FeedEntry.SUPPLY_TOTAL_SUPPLIES + ")" +
+                        " VALUES ('Water', 'liter', 0)";
 
         public static final String SQL_INSERT_SUPPLY_NITROGEN_FERTILIZER_DEFAULT_DATA =
                 "INSERT INTO " + FeedEntry.SUPPLY_TABLE_NAME +
-                        " VALUES ('" + FeedEntry._ID + "', 'Nitrogen fertilizer', 'gram', '0')";
+                        " (" + FeedEntry.SUPPLY_NAME + ", " + FeedEntry.SUPPLY_UNIT+ ", " + FeedEntry.SUPPLY_TOTAL_SUPPLIES + ")" +
+                        " VALUES ('Nitrogen fertilizer', 'gram', 0)";
     }
 }
