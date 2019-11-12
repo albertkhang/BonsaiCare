@@ -40,6 +40,7 @@
     <string name="putExtraManageTitle">manageTitle</string>
     <string name="putExtraSettingTitle">settingTitle</string>
     <string name="putExtraManageLoadList">putExtraManageLoadList</string>
+    <string name="putExtraManageShowIcon">putExtraManageShowIcon</string>
 
     <!--    default data-->
     <string name="defaultPlacementBalcony">Balcony</string>

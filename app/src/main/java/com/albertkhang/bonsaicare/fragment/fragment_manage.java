@@ -136,15 +136,19 @@ public class fragment_manage extends Fragment {
 
         switch (titleId) {
             case R.string.titleBonsai:
+                intent.putExtra(getString(R.string.putExtraManageShowIcon), "true");
                 intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titleBonsai));
                 break;
             case R.string.titlePlacement:
+                intent.putExtra(getString(R.string.putExtraManageShowIcon), "false");
                 intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titlePlacement));
                 break;
             case R.string.titleSupplies:
+                intent.putExtra(getString(R.string.putExtraManageShowIcon), "false");
                 intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titleSupplies));
                 break;
             case R.string.titleReport:
+                intent.putExtra(getString(R.string.putExtraManageShowIcon), "false");
                 intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titleReport));
                 break;
         }

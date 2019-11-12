@@ -79,6 +79,23 @@ public class ManageList extends AppCompatActivity {
 
         imgManageListAddButton = findViewById(R.id.imgManageListAddButton);
         imgManageListSearchButton = findViewById(R.id.imgManageListSearchButton);
+
+        setIcon();
+    }
+
+    private void setIcon() {
+        String s = getIntent().getStringExtra(getString(R.string.putExtraManageShowIcon));
+
+        switch (s) {
+            case "true":
+                imgManageListAddButton.setVisibility(View.VISIBLE);
+                imgManageListAddButton.setVisibility(View.VISIBLE);
+                break;
+            case "false":
+                imgManageListAddButton.setVisibility(View.GONE);
+                imgManageListSearchButton.setVisibility(View.GONE);
+                break;
+        }
     }
 
     private void addEvent() {
@@ -124,21 +141,6 @@ public class ManageList extends AppCompatActivity {
                 finish();
             }
         });
-
-        imgManageListAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NewBonsaiActivity.class);
-                startActivityForResult(intent, ADD_REQUEST_CODE);
-            }
-        });
-
-        imgManageListSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 
     private void addBonsaiManageEvent() {
@@ -153,6 +155,14 @@ public class ManageList extends AppCompatActivity {
                 intent.putExtra("dayPlanted", bonsaiArrayList.get(position).getBonsaiDayPlanted());
 
                 startActivity(intent);
+            }
+        });
+
+        imgManageListAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NewBonsaiActivity.class);
+                startActivityForResult(intent, ADD_REQUEST_CODE);
             }
         });
     }
