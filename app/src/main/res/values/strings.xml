@@ -74,4 +74,8 @@
     <string name="putExtraBonsaiItemClick">putExtraBonsaiItemClick</string>
 
     <string name="bonsaiNameError">Only letter, number, white space. No white space at first name and last name!</string>
+
+    <string name="sharedPreferencesSetting">sharedPreferencesSetting</string>
+    <string name="sharedPreferencesSettingMaxBonsai">sharedPreferencesSettingMaxBonsai</string>
+    <string name="sharedPreferencesSettingMaxMoney">sharedPreferencesSettingMaxMoney</string>
 </resources>

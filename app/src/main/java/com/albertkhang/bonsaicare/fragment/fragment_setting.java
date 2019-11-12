@@ -2,6 +2,7 @@ package com.albertkhang.bonsaicare.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -20,6 +21,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
+
+import static java.lang.String.valueOf;
 
 
 /**
@@ -110,6 +114,39 @@ public class fragment_setting extends Fragment {
 
         txtSettingMaxBonsaiTitle = getView().findViewById(R.id.txtSettingMaxBonsaiTitle);
         txtSettingMaxMoneyPerSupplyTitle = getView().findViewById(R.id.txtSettingMaxMoneyPerSupplyTitle);
+
+        getSetting();
+    }
+
+    private void getSetting() {
+        SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
+        Log.d("_SharedPreferences", String.valueOf(setting.getMaxBonsai()));
+        Log.d("_SharedPreferences", String.valueOf(setting.getMaxMoney()));
+
+        txtSettingMaxBonsaiValue.setText(String.valueOf(setting.getMaxBonsai()));
+        txtSettingMaxMoneyPerSupplyValue.setText(getMoneyFormat(setting.getMaxMoney()));
+    }
+
+    private String getMoneyFormat(int money) {
+        String s = "";
+        int countChar = 0;
+        char[] charArray = String.valueOf(money).toCharArray();
+
+        for (int i = charArray.length; i > 0; i--) {
+            s = s.concat(String.valueOf(charArray[i - 1]));
+            countChar++;
+
+            if (countChar == 3 && i != 1) {
+                s = s.concat(".");
+                countChar = 0;
+                continue;
+            }
+        }
+
+        StringBuffer reverse = new StringBuffer(s);
+        reverse.reverse().toString();
+
+        return reverse + " VND";
     }
 
     private void addEvent() {
