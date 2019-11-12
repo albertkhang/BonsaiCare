@@ -3,7 +3,9 @@ package com.albertkhang.bonsaicare.activity.manage;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +15,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.albertkhang.bonsaicare.ObjectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.MainActivity;
@@ -32,11 +36,13 @@ import java.util.Locale;
 public class NewBonsaiActivity extends AppCompatActivity {
     EditText txtBonsaiName;
     Spinner spBonsaiType;
-    ArrayList<PlacementItem> placementArrayList;
+    ArrayList<PlacementItem> placementArrayList;//show placement in add new bonsai form
     Spinner spBonsaiPlace;
     FeedReaderDbHelper dbHelper;
     TextView txtBonsaiDayPlanted;
     Button btnAddNewBonsaiSubmit;
+
+    String regex = "^[a-zA-Z0-9]+( [a-zA-Z0-9_]+)*$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +103,48 @@ public class NewBonsaiActivity extends AppCompatActivity {
         btnAddNewBonsaiSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isBonsaiNameValid(txtBonsaiName.getText().toString())) {
+                    //create item
+                    BonsaiItem item = new BonsaiItem();
+                    item.setBonsaiName(txtBonsaiName.getText().toString());
+                    item.setBonsaiType(spBonsaiType.getSelectedItem().toString());
+                    item.setBonsaiPlacementName(spBonsaiPlace.getSelectedItem().toString());
+                    item.setBonsaiDayPlanted(txtBonsaiDayPlanted.getText().toString());
 
+                    //add to database
+                    ManipulationDb.addNewBonsaiToDb(dbHelper, item);
+
+                    //return to preActivity and refresh Db
+                    Toast.makeText(NewBonsaiActivity.this, "Add success!", Toast.LENGTH_LONG).show();
+                    closeActivity(true);
+                } else {
+                    //notify error
+                    closeActivity(false);
+                }
             }
         });
+    }
+
+    private void closeActivity(boolean isSuccess) {
+        Intent intent = new Intent();
+        if (isSuccess) {
+            setResult(Activity.RESULT_OK, intent);
+        } else {
+            setResult(Activity.RESULT_CANCELED, intent);
+        }
+        finish();
+    }
+
+    private boolean isBonsaiNameValid(String text) {
+        if (text.length() < 1) {
+            return false;
+        } else {
+            if (text.matches(regex)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private String getCurrentDate() {

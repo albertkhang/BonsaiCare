@@ -103,9 +103,9 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
             txtItemTime = itemView.findViewById(R.id.txtItemTime);
             txtItemDay = itemView.findViewById(R.id.txtItemDay);
 
-            txtItemBonsaiName = itemView.findViewById(R.id.txtSupplyItemName);
+            txtItemBonsaiName = itemView.findViewById(R.id.txtBonsaiItemName);
             imgItemNote = itemView.findViewById(R.id.imgItemNote);
-            txtItemLocation = itemView.findViewById(R.id.txtSupplyItemTotal);
+            txtItemLocation = itemView.findViewById(R.id.txtDayPlanted);
             txtItemSupplies = itemView.findViewById(R.id.txtItemSupplies);
 
             imgItemTick = itemView.findViewById(R.id.imgItemTick);

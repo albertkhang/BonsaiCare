@@ -22,7 +22,7 @@ tools:context=".fragment.fragment_manage">
     app:layout_constraintBottom_toTopOf="@id/frame_placement">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameSupplyItemIcon"
+        android:id="@+id/frameBonsaiItemIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +32,7 @@ tools:context=".fragment.fragment_manage">
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imgSupplyIcon"
+            android:id="@+id/imgBonsaiIcon"
             android:layout_width="0dp"
             android:layout_height="@dimen/manageIconHeight"
             android:background="@drawable/ic_icon_bonsai"
@@ -49,12 +49,12 @@ tools:context=".fragment.fragment_manage">
         android:layout_height="70dp"
         android:background="@color/colorDivideLine"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/frameSupplyItemIcon"
-        app:layout_constraintRight_toLeftOf="@id/frameSupplyDetail"
+        app:layout_constraintLeft_toRightOf="@id/frameBonsaiItemIcon"
+        app:layout_constraintRight_toLeftOf="@id/frameBonsaiDetail"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameSupplyDetail"
+        android:id="@+id/frameBonsaiDetail"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +64,7 @@ tools:context=".fragment.fragment_manage">
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/frame_textSupplyItem"
+            android:id="@+id/frame_textBonsaiItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -73,19 +73,19 @@ tools:context=".fragment.fragment_manage">
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/txtSupplyItemName"
+                android:id="@+id/txtBonsaiItemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/titleBonsai"
                 android:textColor="@color/colorItemTitle"
                 android:textSize="@dimen/manageTitleTextSize"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/txtSupplyItemTotal"
+                app:layout_constraintBottom_toTopOf="@id/txtDayPlanted"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/txtSupplyItemTotal"
+                android:id="@+id/txtDayPlanted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="220dp"
@@ -95,7 +95,7 @@ tools:context=".fragment.fragment_manage">
                 android:textSize="@dimen/manageDetailTextSize"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtSupplyItemName" />
+                app:layout_constraintTop_toBottomOf="@id/txtBonsaiItemName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

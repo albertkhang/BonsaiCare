@@ -62,4 +62,8 @@
 
     <string name="supplyNameWater">Water</string>
     <string name="supplyNameNitrogenFertilizer">Nitrogen fertilizer</string>
+
+    <integer name="ADD_REQUEST_CODE">1</integer>
+    <string name="toastAddFail">Add Fail!</string>
+    <string name="toastAddSucess">AddSucess!</string>
 </resources>

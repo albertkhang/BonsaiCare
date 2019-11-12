@@ -52,17 +52,17 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
         Log.d("_handleDetail", "" + placementArrayList.get(position).getId());
     }
 
-    private void handleIcon(ImageView imgPlacementIcon, int position) {
+    private void handleIcon(ImageView imageView, int position) {
         if (placementArrayList.get(position).getPlaccementName().equals("Balcony")) {
-            imgPlacementIcon.setBackgroundResource(R.drawable.ic_balcony);
+            imageView.setBackgroundResource(R.drawable.ic_balcony);
         } else {
             if (placementArrayList.get(position).getPlaccementName().equals("Window")) {
-                imgPlacementIcon.setBackgroundResource(R.drawable.ic_window);
+                imageView.setBackgroundResource(R.drawable.ic_window);
             } else {
                 if (placementArrayList.get(position).getPlaccementName().equals("Gate")) {
-                    imgPlacementIcon.setBackgroundResource(R.drawable.ic_gate);
+                    imageView.setBackgroundResource(R.drawable.ic_gate);
                 } else {
-                    imgPlacementIcon.setBackgroundResource(R.drawable.ic_location_filled);
+                    imageView.setBackgroundResource(R.drawable.ic_location_filled);
                 }
             }
         }
@@ -80,9 +80,9 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgPlacementIcon = itemView.findViewById(R.id.imgSupplyIcon);
-            txtPlacementItemPlace = itemView.findViewById(R.id.txtSupplyItemName);
-            txtPlacementItemId = itemView.findViewById(R.id.txtSupplyItemTotal);
+            imgPlacementIcon = itemView.findViewById(R.id.imgBonsaiIcon);
+            txtPlacementItemPlace = itemView.findViewById(R.id.txtBonsaiItemName);
+            txtPlacementItemId = itemView.findViewById(R.id.txtDayPlanted);
         }
     }
 }

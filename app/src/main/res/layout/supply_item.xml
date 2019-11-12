@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/supply_item_frame"
+        android:id="@+id/bonsai_item_frame"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:clickable="true"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/frameSupplyItemIcon"
+            android:id="@+id/frameBonsaiItemIcon"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imgSupplyIcon"
+                android:id="@+id/imgBonsaiIcon"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/manageIconHeight"
                 android:background="@drawable/ic_water"
@@ -46,12 +46,12 @@
             android:layout_height="70dp"
             android:background="@color/colorDivideLine"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/frameSupplyItemIcon"
-            app:layout_constraintRight_toLeftOf="@id/frameSupplyDetail"
+            app:layout_constraintLeft_toRightOf="@id/frameBonsaiItemIcon"
+            app:layout_constraintRight_toLeftOf="@id/frameBonsaiDetail"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/frameSupplyDetail"
+            android:id="@+id/frameBonsaiDetail"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +61,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/frame_textSupplyItem"
+                android:id="@+id/frame_textBonsaiItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -70,19 +70,19 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/txtSupplyItemName"
+                    android:id="@+id/txtBonsaiItemName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Water"
                     android:textColor="@color/colorItemTitle"
                     android:textSize="@dimen/manageTitleTextSize"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/txtSupplyItemTotal"
+                    app:layout_constraintBottom_toTopOf="@id/txtDayPlanted"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/txtSupplyItemTotalSupplyText"
+                    android:id="@+id/txtDayPlantedText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxWidth="220dp"
@@ -92,18 +92,18 @@
                     android:textSize="@dimen/manageDetailTextSize"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtSupplyItemName" />
+                    app:layout_constraintTop_toBottomOf="@id/txtBonsaiItemName" />
 
                 <TextView
-                    android:id="@+id/txtSupplyItemTotal"
+                    android:id="@+id/txtDayPlanted"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="13"
                     android:textColor="@color/colorItemInfo"
                     android:textSize="@dimen/manageDetailTextSize"
-                    app:layout_constraintLeft_toRightOf="@id/txtSupplyItemTotalSupplyText"
-                    app:layout_constraintTop_toTopOf="@id/txtSupplyItemTotalSupplyText"
-                    app:layout_constraintBottom_toBottomOf="@id/txtSupplyItemTotalSupplyText"/>
+                    app:layout_constraintLeft_toRightOf="@id/txtDayPlantedText"
+                    app:layout_constraintTop_toTopOf="@id/txtDayPlantedText"
+                    app:layout_constraintBottom_toBottomOf="@id/txtDayPlantedText"/>
 
                 <TextView
                     android:id="@+id/txtSupplyItemUnit"
@@ -113,9 +113,9 @@
                     android:layout_marginLeft="2dp"
                     android:textColor="@color/colorItemInfo"
                     android:textSize="@dimen/manageDetailTextSize"
-                    app:layout_constraintLeft_toRightOf="@id/txtSupplyItemTotal"
-                    app:layout_constraintTop_toTopOf="@id/txtSupplyItemTotalSupplyText"
-                    app:layout_constraintBottom_toBottomOf="@id/txtSupplyItemTotalSupplyText"/>
+                    app:layout_constraintLeft_toRightOf="@id/txtDayPlanted"
+                    app:layout_constraintTop_toTopOf="@id/txtDayPlantedText"
+                    app:layout_constraintBottom_toBottomOf="@id/txtDayPlantedText"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
