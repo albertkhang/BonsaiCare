@@ -118,37 +118,6 @@ public class fragment_setting extends Fragment {
         getSetting();
     }
 
-    private void getSetting() {
-        SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
-        Log.d("_SharedPreferences", String.valueOf(setting.getMaxBonsai()));
-        Log.d("_SharedPreferences", String.valueOf(setting.getMaxMoney()));
-
-        txtSettingMaxBonsaiValue.setText(String.valueOf(setting.getMaxBonsai()));
-        txtSettingMaxMoneyPerSupplyValue.setText(getMoneyFormat(setting.getMaxMoney()));
-    }
-
-    private String getMoneyFormat(int money) {
-        String s = "";
-        int countChar = 0;
-        char[] charArray = String.valueOf(money).toCharArray();
-
-        for (int i = charArray.length; i > 0; i--) {
-            s = s.concat(String.valueOf(charArray[i - 1]));
-            countChar++;
-
-            if (countChar == 3 && i != 1) {
-                s = s.concat(".");
-                countChar = 0;
-                continue;
-            }
-        }
-
-        StringBuffer reverse = new StringBuffer(s);
-        reverse.reverse().toString();
-
-        return reverse + " VND";
-    }
-
     private void addEvent() {
         fragment_layout_setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,14 +206,48 @@ public class fragment_setting extends Fragment {
         });
     }
 
+    private void getSetting() {
+        SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
+        Log.d("_SharedPreferences", String.valueOf(setting.getMaxBonsai()));
+        Log.d("_SharedPreferences", String.valueOf(setting.getMaxMoney()));
+
+        txtSettingMaxBonsaiValue.setText(String.valueOf(setting.getMaxBonsai()));
+        txtSettingMaxMoneyPerSupplyValue.setText(getMoneyFormat(setting.getMaxMoney()));
+    }
+
+    private String getMoneyFormat(int money) {
+        String s = "";
+        int countChar = 0;
+        char[] charArray = String.valueOf(money).toCharArray();
+
+        for (int i = charArray.length; i > 0; i--) {
+            s = s.concat(String.valueOf(charArray[i - 1]));
+            countChar++;
+
+            if (countChar == 3 && i != 1) {
+                s = s.concat(".");
+                countChar = 0;
+                continue;
+            }
+        }
+
+        StringBuffer reverse = new StringBuffer(s);
+        reverse.reverse().toString();
+
+        return reverse + " VND";
+    }
+
+
     private void setPreData(ConstraintLayout layout) {
+        SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
+
         if (layout == frame_BonsaiNameDetail) {
-            txtMaxBonsaiEdit.setText(txtSettingMaxBonsaiValue.getText());
+            txtMaxBonsaiEdit.setText(String.valueOf(setting.getMaxBonsai()));
             txtMaxBonsaiEdit.setSelection(txtMaxBonsaiEdit.getText().length());
         }
 
         if (layout == frame_MaxMoneyPerSupply) {
-            txtMaxMoneyEdit.setText(txtSettingMaxMoneyPerSupplyValue.getText());
+            txtMaxMoneyEdit.setText(String.valueOf(setting.getMaxMoney()));
             txtMaxMoneyEdit.setSelection(txtMaxMoneyEdit.getText().length());
         }
     }
