@@ -1,4 +1,4 @@
-package com.albertkhang.bonsaicare.ObjectClass;
+package com.albertkhang.bonsaicare.objectClass;
 
 public class BonsaiItem {
     private int id;

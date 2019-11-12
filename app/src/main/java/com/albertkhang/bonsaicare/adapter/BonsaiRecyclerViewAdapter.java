@@ -1,7 +1,6 @@
 package com.albertkhang.bonsaicare.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.albertkhang.bonsaicare.ObjectClass.BonsaiItem;
-import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
+import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
 
 import java.util.ArrayList;
 

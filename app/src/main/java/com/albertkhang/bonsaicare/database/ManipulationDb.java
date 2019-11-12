@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.albertkhang.bonsaicare.ObjectClass.BonsaiItem;
-import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
-import com.albertkhang.bonsaicare.ObjectClass.SupplyItem;
+import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
+import com.albertkhang.bonsaicare.objectClass.PlacementItem;
+import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 
 import java.util.ArrayList;
 

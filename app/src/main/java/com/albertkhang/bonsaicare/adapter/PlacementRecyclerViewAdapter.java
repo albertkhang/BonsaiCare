@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
+import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.R;
 
 import java.util.ArrayList;

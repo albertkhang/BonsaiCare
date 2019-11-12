@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.albertkhang.bonsaicare.ObjectClass.SupplyItem;
+import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 import com.albertkhang.bonsaicare.R;
 
 import java.util.ArrayList;

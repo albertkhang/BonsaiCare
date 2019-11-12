@@ -16,8 +16,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.albertkhang.bonsaicare.ObjectClass.BonsaiItem;
-import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
+import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
+import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
@@ -57,6 +57,8 @@ public class NewBonsaiActivity extends AppCompatActivity {
         dbHelper = new FeedReaderDbHelper(this);
         txtBonsaiDayPlanted = findViewById(R.id.txtBonsaiDayPlanted);
         btnAddNewBonsaiSubmit = findViewById(R.id.btnAddNewBonsaiSubmit);
+
+        //set error icon in editText
     }
 
     private void addEvent() {
@@ -115,7 +117,9 @@ public class NewBonsaiActivity extends AppCompatActivity {
                     closeActivity(true);
                 } else {
                     //notify error
-                    closeActivity(false);
+                    txtBonsaiName.setError(getString(R.string.bonsaiNameError));
+
+//                    closeActivity(false);
                 }
             }
         });
@@ -125,9 +129,8 @@ public class NewBonsaiActivity extends AppCompatActivity {
         Intent intent = new Intent();
         if (isSuccess) {
             setResult(Activity.RESULT_OK, intent);
-        } else {
-            setResult(Activity.RESULT_CANCELED, intent);
         }
+
         finish();
     }
 

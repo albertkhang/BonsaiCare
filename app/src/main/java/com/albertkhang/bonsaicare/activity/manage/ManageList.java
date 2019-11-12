@@ -14,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.albertkhang.bonsaicare.ObjectClass.BonsaiItem;
-import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
-import com.albertkhang.bonsaicare.ObjectClass.SupplyItem;
+import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
+import com.albertkhang.bonsaicare.objectClass.PlacementItem;
+import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
 import com.albertkhang.bonsaicare.activity.manage.bonsai.NewBonsaiActivity;
@@ -96,6 +96,8 @@ public class ManageList extends AppCompatActivity {
 
             recyclerView.setAdapter(bonsaiAdapter);
             bonsaiAdapter.uppdate(bonsaiArrayList);
+
+            addBonsaiManageEvent();
         }
 
         if (type.equals(getString(R.string.titlePlacement))) {
@@ -137,7 +139,9 @@ public class ManageList extends AppCompatActivity {
 
             }
         });
+    }
 
+    private void addBonsaiManageEvent() {
         bonsaiAdapter.setOnItemClickListener(new BonsaiRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
@@ -161,8 +165,6 @@ public class ManageList extends AppCompatActivity {
 
                 ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
                 bonsaiAdapter.uppdate(bonsaiArrayList);
-            } else {
-                Toast.makeText(ManageList.this, R.string.toastAddFail, Toast.LENGTH_LONG).show();
             }
         }
     }

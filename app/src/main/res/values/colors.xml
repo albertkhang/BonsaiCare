@@ -21,4 +21,6 @@
 
     <color name="colorTabCheckedTrue">#2ECC71</color>
     <color name="colorTabCheckedFalse">#FFFFFF</color>
+
+    <color name="errorColor">#e74c3c</color>
 </resources>
