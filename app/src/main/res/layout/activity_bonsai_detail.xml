@@ -179,6 +179,15 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/imgBonsaiTypeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_light"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
         <TextView
             android:id="@+id/txtBonsaiTypeValue"
             android:layout_width="wrap_content"
@@ -219,6 +228,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgBonsaiPlacementIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_window"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
             android:id="@+id/txtBonsaiPlacementValue"

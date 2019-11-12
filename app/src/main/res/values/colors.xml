@@ -23,4 +23,6 @@
     <color name="colorTabCheckedFalse">#FFFFFF</color>
 
     <color name="errorColor">#e74c3c</color>
+
+    <color name="dropDownArrow">#737C90</color>
 </resources>

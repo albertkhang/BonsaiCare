@@ -17,6 +17,9 @@ public class BonsaiDetailActivity extends AppCompatActivity {
     TextView txtBonsaiPlacementValue;
     TextView txtBonsaiDayPlantedValue;
 
+    ImageView imgBonsaiTypeIcon;
+    ImageView imgBonsaiPlacementIcon;
+
     ImageView btnBack;
 
     @Override
@@ -34,6 +37,9 @@ public class BonsaiDetailActivity extends AppCompatActivity {
         txtBonsaiTypeValue = findViewById(R.id.txtBonsaiTypeValue);
         txtBonsaiPlacementValue = findViewById(R.id.txtBonsaiPlacementValue);
         txtBonsaiDayPlantedValue = findViewById(R.id.txtBonsaiDayPlantedValue);
+
+        imgBonsaiTypeIcon = findViewById(R.id.imgBonsaiTypeIcon);
+        imgBonsaiPlacementIcon = findViewById(R.id.imgBonsaiPlacementIcon);
 
         btnBack = findViewById(R.id.btnBack);
 
@@ -55,5 +61,33 @@ public class BonsaiDetailActivity extends AppCompatActivity {
         txtBonsaiTypeValue.setText(getIntent().getStringExtra("type"));
         txtBonsaiPlacementValue.setText(getIntent().getStringExtra("place"));
         txtBonsaiDayPlantedValue.setText(getIntent().getStringExtra("dayPlanted"));
+
+        handleIcon();
+    }
+
+    private void handleIcon() {
+        //handle BonsaiTypeIcon
+        if (txtBonsaiTypeValue.getText().equals("Need Light")) {
+            imgBonsaiTypeIcon.setImageResource(R.drawable.ic_light);
+        } else {
+            if (txtBonsaiTypeValue.getText().equals("Need Shade")) {
+                imgBonsaiTypeIcon.setImageResource(R.drawable.ic_shade);
+            }
+        }
+
+        //handle BonsaiPlacement
+        if (txtBonsaiPlacementValue.getText().equals("Balcony")) {
+            imgBonsaiPlacementIcon.setImageResource(R.drawable.ic_balcony);
+        } else {
+            if (txtBonsaiPlacementValue.getText().equals("Window")) {
+                imgBonsaiPlacementIcon.setImageResource(R.drawable.ic_window);
+            } else {
+                if (txtBonsaiPlacementValue.getText().equals("Gate")) {
+                    imgBonsaiPlacementIcon.setImageResource(R.drawable.ic_gate);
+                } else {
+                    imgBonsaiPlacementIcon.setImageResource(R.drawable.ic_location_filled);
+                }
+            }
+        }
     }
 }
