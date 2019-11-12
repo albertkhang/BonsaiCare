@@ -34,4 +34,5 @@
 
     <!--    button-->
     <dimen name="buttonTextSize">18sp</dimen>
+    <dimen name="marLeftText">2dp</dimen>
 </resources>

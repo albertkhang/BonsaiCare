@@ -8,7 +8,7 @@
     tools:context=".fragment.fragment_setting">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame_BonsaiName"
+        android:id="@+id/frame_BonsaiNameDetail"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txtBonsaiNameTitle"
+            android:id="@+id/txtBonsaiIdTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/maxBonsaiPerPlacement"
@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txtBonsaiNameTitle"
+            android:id="@+id/txtBonsaiNameValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="4"
@@ -59,7 +59,7 @@
         android:paddingRight="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frame_BonsaiName">
+        app:layout_constraintTop_toBottomOf="@id/frame_BonsaiNameDetail">
 
         <TextView
             android:id="@+id/txtSettingMaxMoneyPerSupplyTitle"

@@ -18,7 +18,8 @@ import com.albertkhang.bonsaicare.ObjectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
 import com.albertkhang.bonsaicare.ObjectClass.SupplyItem;
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.MainActivity;
+import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
+import com.albertkhang.bonsaicare.activity.manage.bonsai.NewBonsaiActivity;
 import com.albertkhang.bonsaicare.adapter.BonsaiRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.adapter.PlacementRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.adapter.SupplyRecyclerViewAdapter;
@@ -134,6 +135,20 @@ public class ManageList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+            }
+        });
+
+        bonsaiAdapter.setOnItemClickListener(new BonsaiRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(View view, int position) {
+                Intent intent = new Intent(ManageList.this, BonsaiDetailActivity.class);
+                intent.putExtra("id", String.valueOf(bonsaiArrayList.get(position).getId()));
+                intent.putExtra("name", bonsaiArrayList.get(position).getBonsaiName());
+                intent.putExtra("type", bonsaiArrayList.get(position).getBonsaiType());
+                intent.putExtra("place", bonsaiArrayList.get(position).getBonsaiPlacementName());
+                intent.putExtra("dayPlanted", bonsaiArrayList.get(position).getBonsaiDayPlanted());
+
+                startActivity(intent);
             }
         });
     }

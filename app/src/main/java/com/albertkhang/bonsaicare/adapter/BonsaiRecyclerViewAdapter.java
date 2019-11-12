@@ -1,6 +1,7 @@
 package com.albertkhang.bonsaicare.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.albertkhang.bonsaicare.ObjectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
 
 import java.util.ArrayList;
 
@@ -25,7 +28,23 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         this.context = context;
     }
 
+    public interface OnItemClickListener {
+        void onItemClickListener(View view, int position);
+    }
+
+    OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public void uppdate(ArrayList<BonsaiItem> bonsaiArrayList) {
+        this.bonsaiArrayList.clear();
+        this.bonsaiArrayList.addAll(bonsaiArrayList);
+        notifyDataSetChanged();
+    }
+
+    public void uppdate(Context context, ArrayList<BonsaiItem> bonsaiArrayList) {
         this.bonsaiArrayList.clear();
         this.bonsaiArrayList.addAll(bonsaiArrayList);
         notifyDataSetChanged();
@@ -41,10 +60,20 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         handleIcon(holder.imgBonsaiIcon, bonsaiArrayList.get(position));
         holder.txtBonsaiItemName.setText(bonsaiArrayList.get(position).getBonsaiName());
         holder.txtDayPlanted.setText(bonsaiArrayList.get(position).getBonsaiDayPlanted());
+        Log.d("_onBindViewHolder", "Loaded!");
+
+        holder.bonsai_item_frame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("_onBindViewHolder", "Clicked!");
+
+                onItemClickListener.onItemClickListener(view, position);
+            }
+        });
     }
 
     private void handleIcon(ImageView imageView, BonsaiItem item) {
@@ -69,12 +98,16 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        ConstraintLayout bonsai_item_frame;
+
         ImageView imgBonsaiIcon;
         TextView txtBonsaiItemName;
         TextView txtDayPlanted;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            bonsai_item_frame = itemView.findViewById(R.id.bonsai_item_frame);
 
             imgBonsaiIcon = itemView.findViewById(R.id.imgBonsaiIcon);
             txtBonsaiItemName = itemView.findViewById(R.id.txtBonsaiItemName);

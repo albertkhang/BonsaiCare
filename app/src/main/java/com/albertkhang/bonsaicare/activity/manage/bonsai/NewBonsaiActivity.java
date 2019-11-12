@@ -1,8 +1,7 @@
-package com.albertkhang.bonsaicare.activity.manage;
+package com.albertkhang.bonsaicare.activity.manage.bonsai;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -20,18 +19,15 @@ import android.widget.Toast;
 import com.albertkhang.bonsaicare.ObjectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.ObjectClass.PlacementItem;
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.MainActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class NewBonsaiActivity extends AppCompatActivity {
     EditText txtBonsaiName;

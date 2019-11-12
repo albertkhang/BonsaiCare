@@ -12,6 +12,7 @@
     <!--    manage tab-->
     <!--    titile-->
     <string name="titleBonsai">Bonsai Manage</string>
+    <string name="bonsaiDetailTitle">Bonsai Detail</string>
     <string name="titlePlacement">Place Manage</string>
     <string name="titleSupplies">Supplies Manage</string>
     <string name="titleReport">Report Details</string>
@@ -66,4 +67,6 @@
     <integer name="ADD_REQUEST_CODE">1</integer>
     <string name="toastAddFail">Add Fail!</string>
     <string name="toastAddSucess">AddSucess!</string>
+
+    <string name="putExtraBonsaiItemClick">putExtraBonsaiItemClick</string>
 </resources>

@@ -152,11 +152,6 @@ public class fragment_manage extends Fragment {
         startActivity(intent);
     }
 
-    private void startActivity(Class activityClass) {
-        Intent intent = new Intent(getContext(), activityClass);
-        startActivity(intent);
-    }
-
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

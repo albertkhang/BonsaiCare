@@ -83,7 +83,7 @@ public class fragment_setting extends Fragment {
     }
 
     private void addControl() {
-        frame_MaxBonsaiPerPlacement = getView().findViewById(R.id.frame_BonsaiName);
+        frame_MaxBonsaiPerPlacement = getView().findViewById(R.id.frame_BonsaiNameDetail);
         frame_MaxMoneyPerSupply = getView().findViewById(R.id.frame_MaxMoneyPerSupply);
     }
 
