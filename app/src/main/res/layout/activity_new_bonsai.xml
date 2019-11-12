@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@id/top_layout_new_bonsai">
 
         <TextView
-            android:id="@+id/txtMaxBonsaiTitle"
+            android:id="@+id/txtSettingMaxBonsaiTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bonsaiName"
@@ -79,14 +79,15 @@
             android:textColorHint="@color/colorHint"
             android:textColor="@color/colorItemTitle"
             android:maxLines="1"
+            android:inputType="text"
             android:maxLength="24"
             android:layout_marginLeft="6dp"
             android:backgroundTint="@color/colorHint"
             android:background="@null"
-            app:layout_constraintTop_toTopOf="@id/txtMaxBonsaiTitle"
-            app:layout_constraintBottom_toBottomOf="@id/txtMaxBonsaiTitle"
+            app:layout_constraintTop_toTopOf="@id/txtSettingMaxBonsaiTitle"
+            app:layout_constraintBottom_toBottomOf="@id/txtSettingMaxBonsaiTitle"
             app:layout_constraintRight_toRightOf="@id/frame_BonsaiNameDetail"
-            app:layout_constraintLeft_toRightOf="@id/txtMaxBonsaiTitle"/>
+            app:layout_constraintLeft_toRightOf="@id/txtSettingMaxBonsaiTitle"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,13 +1,18 @@
 package com.albertkhang.bonsaicare.activity.manage.bonsai;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -57,8 +62,6 @@ public class NewBonsaiActivity extends AppCompatActivity {
         dbHelper = new FeedReaderDbHelper(this);
         txtBonsaiDayPlanted = findViewById(R.id.txtBonsaiDayPlanted);
         btnAddNewBonsaiSubmit = findViewById(R.id.btnAddNewBonsaiSubmit);
-
-        //set error icon in editText
     }
 
     private void addEvent() {
@@ -118,9 +121,27 @@ public class NewBonsaiActivity extends AppCompatActivity {
                 } else {
                     //notify error
                     txtBonsaiName.setError(getString(R.string.bonsaiNameError));
-
-//                    closeActivity(false);
                 }
+            }
+        });
+
+        txtBonsaiName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    if (isBonsaiNameValid(txtBonsaiName.getText().toString())) {
+                        txtBonsaiName.clearFocus();
+
+                        InputMethodManager imm = (InputMethodManager) NewBonsaiActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(txtBonsaiName.getWindowToken(), 0);
+
+                        return true;
+                    } else {
+                        txtBonsaiName.setError(getString(R.string.bonsaiNameError));
+                        return false;
+                    }
+                }
+                return false;
             }
         });
     }

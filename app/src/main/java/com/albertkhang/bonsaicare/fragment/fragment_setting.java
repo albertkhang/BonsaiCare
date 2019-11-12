@@ -1,7 +1,7 @@
 package com.albertkhang.bonsaicare.fragment;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,12 +11,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.setting.ChangeSetting;
 
 
 /**
@@ -39,8 +42,19 @@ public class fragment_setting extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    ConstraintLayout frame_MaxBonsaiPerPlacement;
+    ConstraintLayout fragment_layout_setting;
+
+    ConstraintLayout frame_BonsaiNameDetail;
     ConstraintLayout frame_MaxMoneyPerSupply;
+
+    EditText txtMaxBonsaiEdit;
+    EditText txtMaxMoneyEdit;
+
+    TextView txtSettingMaxBonsaiValue;
+    TextView txtSettingMaxMoneyPerSupplyValue;
+
+    TextView txtSettingMaxBonsaiTitle;
+    TextView txtSettingMaxMoneyPerSupplyTitle;
 
     public fragment_setting() {
         // Required empty public constructor
@@ -83,31 +97,192 @@ public class fragment_setting extends Fragment {
     }
 
     private void addControl() {
-        frame_MaxBonsaiPerPlacement = getView().findViewById(R.id.frame_BonsaiNameDetail);
+        fragment_layout_setting = getView().findViewById(R.id.fragment_layout_setting);
+
+        frame_BonsaiNameDetail = getView().findViewById(R.id.frame_BonsaiNameDetail);
         frame_MaxMoneyPerSupply = getView().findViewById(R.id.frame_MaxMoneyPerSupply);
+
+        txtMaxBonsaiEdit = getView().findViewById(R.id.txtMaxBonsaiEdit);
+        txtMaxMoneyEdit = getView().findViewById(R.id.txtMaxMoneyEdit);
+
+        txtSettingMaxBonsaiValue = getView().findViewById(R.id.txtSettingMaxBonsaiValue);
+        txtSettingMaxMoneyPerSupplyValue = getView().findViewById(R.id.txtSettingMaxMoneyPerSupplyValue);
+
+        txtSettingMaxBonsaiTitle = getView().findViewById(R.id.txtSettingMaxBonsaiTitle);
+        txtSettingMaxMoneyPerSupplyTitle = getView().findViewById(R.id.txtSettingMaxMoneyPerSupplyTitle);
     }
 
     private void addEvent() {
-        frame_MaxBonsaiPerPlacement.setOnClickListener(new View.OnClickListener() {
+        fragment_layout_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(ChangeSetting.class, R.string.maxBonsaiPerPlacement);
+                setLongText(frame_BonsaiNameDetail);
+                setLongText(frame_MaxMoneyPerSupply);
+
+                hideEditText(frame_BonsaiNameDetail);
+                hideEditText(frame_MaxMoneyPerSupply);
+
+                hideKeyboard(frame_BonsaiNameDetail);
+                hideKeyboard(frame_MaxMoneyPerSupply);
+            }
+        });
+
+        frame_BonsaiNameDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLongText(frame_MaxMoneyPerSupply);
+                setShortText(frame_BonsaiNameDetail);
+
+                hideEditText(frame_MaxMoneyPerSupply);
+                showEditText(frame_BonsaiNameDetail);
+
+                hideKeyboard(frame_MaxMoneyPerSupply);
+                showKeyboard(frame_BonsaiNameDetail);
+
+                setPreData(frame_BonsaiNameDetail);
             }
         });
 
         frame_MaxMoneyPerSupply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(ChangeSetting.class, R.string.maxMoneyPerSupply);
+                setLongText(frame_BonsaiNameDetail);
+                setShortText(frame_MaxMoneyPerSupply);
+
+                hideEditText(frame_BonsaiNameDetail);
+                showEditText(frame_MaxMoneyPerSupply);
+
+                hideKeyboard(frame_BonsaiNameDetail);
+                showKeyboard(frame_MaxMoneyPerSupply);
+
+                setPreData(frame_MaxMoneyPerSupply);
+            }
+        });
+
+        txtMaxBonsaiEdit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    setLongText(frame_BonsaiNameDetail);
+                    setLongText(frame_MaxMoneyPerSupply);
+
+                    hideEditText(frame_BonsaiNameDetail);
+                    hideEditText(frame_MaxMoneyPerSupply);
+
+                    hideKeyboard(frame_BonsaiNameDetail);
+                    hideKeyboard(frame_MaxMoneyPerSupply);
+
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
+        txtMaxMoneyEdit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    setLongText(frame_BonsaiNameDetail);
+                    setLongText(frame_MaxMoneyPerSupply);
+
+                    hideEditText(frame_BonsaiNameDetail);
+                    hideEditText(frame_MaxMoneyPerSupply);
+
+                    hideKeyboard(frame_BonsaiNameDetail);
+                    hideKeyboard(frame_MaxMoneyPerSupply);
+
+                    return true;
+                }
+
+                return false;
             }
         });
     }
 
-    private void startActivity(Class<ChangeSetting> changeSettingClass, int titleId) {
-        Intent intent = new Intent(getContext(), changeSettingClass);
-        intent.putExtra(getString(R.string.putExtraSettingTitle), getString(titleId));
+    private void setPreData(ConstraintLayout layout) {
+        if (layout == frame_BonsaiNameDetail) {
+            txtMaxBonsaiEdit.setText(txtSettingMaxBonsaiValue.getText());
+            txtMaxBonsaiEdit.setSelection(txtMaxBonsaiEdit.getText().length());
+        }
 
-        startActivity(intent);
+        if (layout == frame_MaxMoneyPerSupply) {
+            txtMaxMoneyEdit.setText(txtSettingMaxMoneyPerSupplyValue.getText());
+            txtMaxMoneyEdit.setSelection(txtMaxMoneyEdit.getText().length());
+        }
+    }
+
+    private void showEditText(ConstraintLayout layout) {
+        if (layout == frame_BonsaiNameDetail) {
+            txtSettingMaxBonsaiValue.setVisibility(View.GONE);
+            txtMaxBonsaiEdit.setVisibility(View.VISIBLE);
+        }
+
+        if (layout == frame_MaxMoneyPerSupply) {
+            txtSettingMaxMoneyPerSupplyValue.setVisibility(View.GONE);
+            txtMaxMoneyEdit.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void hideEditText(ConstraintLayout layout) {
+        if (layout == frame_BonsaiNameDetail) {
+            txtSettingMaxBonsaiValue.setVisibility(View.VISIBLE);
+            txtMaxBonsaiEdit.setVisibility(View.GONE);
+        }
+
+        if (layout == frame_MaxMoneyPerSupply) {
+            txtSettingMaxMoneyPerSupplyValue.setVisibility(View.VISIBLE);
+            txtMaxMoneyEdit.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void setShortText(ConstraintLayout layout) {
+        if (layout == frame_BonsaiNameDetail) {
+            txtSettingMaxBonsaiTitle.setText(getString(R.string.maxBonsaiPerPlacementShort));
+        }
+
+        if (layout == frame_MaxMoneyPerSupply) {
+            txtSettingMaxMoneyPerSupplyTitle.setText(getString(R.string.maxMoneyPerSupplyShort));
+        }
+    }
+
+    private void setLongText(ConstraintLayout layout) {
+        if (layout == frame_BonsaiNameDetail) {
+            txtSettingMaxBonsaiTitle.setText(getString(R.string.maxBonsaiPerPlacement));
+        }
+
+        if (layout == frame_MaxMoneyPerSupply) {
+            txtSettingMaxMoneyPerSupplyTitle.setText(getString(R.string.maxMoneyPerSupply));
+        }
+    }
+
+    private void showKeyboard(ConstraintLayout layout) {
+        if (layout == frame_BonsaiNameDetail) {
+            txtMaxBonsaiEdit.requestFocus();
+        }
+
+        if (layout == frame_MaxMoneyPerSupply) {
+            txtMaxMoneyEdit.requestFocus();
+        }
+
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
+
+    private void hideKeyboard(ConstraintLayout layout) {
+        if (layout == frame_BonsaiNameDetail) {
+            txtMaxBonsaiEdit.clearFocus();
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(txtMaxBonsaiEdit.getWindowToken(), 0);
+        }
+
+        if (layout == frame_MaxMoneyPerSupply) {
+            txtMaxMoneyEdit.clearFocus();
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(txtMaxMoneyEdit.getWindowToken(), 0);
+        }
     }
 
     @Override

@@ -8,7 +8,7 @@
         android:id="@+id/bonsai_item_frame"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:clickable="true"
+        android:clickable="false"
         android:background="@drawable/constraint_layout_ripple"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="12dp"

@@ -31,7 +31,9 @@
 
     <!--    setting-->
     <string name="maxBonsaiPerPlacement">Max of bonsai per placement</string>
+    <string name="maxBonsaiPerPlacementShort">Max bonsai:</string>
     <string name="maxMoneyPerSupply">Max of money per supply</string>
+    <string name="maxMoneyPerSupplyShort">Max supply:</string>
 
     <!--    requestCode-->
     <string name="scheduleAddRequestCode">1</string>
