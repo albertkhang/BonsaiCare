@@ -41,12 +41,6 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         notifyDataSetChanged();
     }
 
-    public void uppdate(Context context, ArrayList<BonsaiItem> bonsaiArrayList) {
-        this.bonsaiArrayList.clear();
-        this.bonsaiArrayList.addAll(bonsaiArrayList);
-        notifyDataSetChanged();
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -59,6 +53,7 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         handleIcon(holder.imgBonsaiIcon, bonsaiArrayList.get(position));
+        holder.txtBonsaiItemPlace.setText(bonsaiArrayList.get(position).getBonsaiPlacementName());
         holder.txtBonsaiItemName.setText(bonsaiArrayList.get(position).getBonsaiName());
         holder.txtDayPlanted.setText(bonsaiArrayList.get(position).getBonsaiDayPlanted());
         Log.d("_onBindViewHolder", "Loaded!");
@@ -100,6 +95,7 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         ImageView imgBonsaiIcon;
         TextView txtBonsaiItemName;
         TextView txtDayPlanted;
+        TextView txtBonsaiItemPlace;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,6 +105,7 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
             imgBonsaiIcon = itemView.findViewById(R.id.imgBonsaiIcon);
             txtBonsaiItemName = itemView.findViewById(R.id.txtBonsaiItemName);
             txtDayPlanted = itemView.findViewById(R.id.txtDayPlanted);
+            txtBonsaiItemPlace = itemView.findViewById(R.id.txtBonsaiItemPlace);
         }
     }
 }

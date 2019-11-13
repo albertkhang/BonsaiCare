@@ -16,6 +16,7 @@
     <color name="colorItemTime">#FFFFFF</color>
     <color name="colorItemInfo">#D1D3D4</color>
     <color name="colorItemOtherDay">#737C90</color>
+    <color name="colorItemPlace">#737C90</color>
 
     <color name="colorDivideLine">#495363</color>
 
