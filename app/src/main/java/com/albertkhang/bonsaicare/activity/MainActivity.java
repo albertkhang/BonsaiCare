@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.activity.schedule.ScheduleNewItemActivity;
 import com.albertkhang.bonsaicare.adapter.ViewPagerAdapter;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;
+import com.albertkhang.bonsaicare.fragment.FragmentSetting;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -86,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 Log.d("_ViewPager", "onPageSelected_" + position);
                 handleUIFragmentChange(position, true);
+
+                FragmentSetting fragmentSetting = viewPagerAdapter.getFragmentSetting();
+                if (fragmentSetting != null && fragmentSetting.getUserVisibleHint()) {
+                    fragmentSetting.setDefaultUI();
+                }
             }
 
             @Override

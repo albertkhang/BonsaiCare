@@ -2,7 +2,6 @@ package com.albertkhang.bonsaicare.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -29,12 +28,12 @@ import static java.lang.String.valueOf;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link fragment_setting.OnFragmentInteractionListener} interface
+ * {@link FragmentSetting.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link fragment_setting#newInstance} factory method to
+ * Use the {@link FragmentSetting#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_setting extends Fragment {
+public class FragmentSetting extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,7 +59,7 @@ public class fragment_setting extends Fragment {
     TextView txtSettingMaxBonsaiTitle;
     TextView txtSettingMaxMoneyPerSupplyTitle;
 
-    public fragment_setting() {
+    public FragmentSetting() {
         // Required empty public constructor
     }
 
@@ -70,11 +69,11 @@ public class fragment_setting extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_setting.
+     * @return A new instance of fragment FragmentSetting.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_setting newInstance(String param1, String param2) {
-        fragment_setting fragment = new fragment_setting();
+    public static FragmentSetting newInstance(String param1, String param2) {
+        FragmentSetting fragment = new FragmentSetting();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -89,7 +88,6 @@ public class fragment_setting extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        Log.d("fragment_setting", "created");
     }
 
     @Override
@@ -237,7 +235,6 @@ public class fragment_setting extends Fragment {
         return reverse + " VND";
     }
 
-
     private void setPreData(ConstraintLayout layout) {
         SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
 
@@ -325,10 +322,23 @@ public class fragment_setting extends Fragment {
         }
     }
 
+    public void setDefaultUI() {
+        Log.d("_fragment", "setDefaultUI");
+        setLongText(frame_BonsaiNameDetail);
+        setLongText(frame_MaxMoneyPerSupply);
+
+        hideEditText(frame_BonsaiNameDetail);
+        hideEditText(frame_MaxMoneyPerSupply);
+
+        hideKeyboard(frame_BonsaiNameDetail);
+        hideKeyboard(frame_MaxMoneyPerSupply);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+//        Log.d("_fragment", "onCreateView");
         return inflater.inflate(R.layout.fragment_setting, container, false);
     }
 

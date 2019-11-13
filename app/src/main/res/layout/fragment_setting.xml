@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".fragment.fragment_setting">
+    tools:context=".fragment.FragmentSetting">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frame_BonsaiNameDetail"
