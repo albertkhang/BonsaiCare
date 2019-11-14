@@ -1,19 +1,28 @@
 package com.albertkhang.bonsaicare.activity.manage;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyItem;
@@ -45,6 +54,9 @@ public class ManageList extends AppCompatActivity {
     ImageView btnBack;
     ImageView imgManageListAddButton;
     ImageView imgManageListSearchButton;
+
+    EditText txt_search_frame;
+    boolean isShowSearchFrame = false;
 
     private static final int ADD_REQUEST_CODE = 1;
 
@@ -81,6 +93,8 @@ public class ManageList extends AppCompatActivity {
         imgManageListSearchButton = findViewById(R.id.imgManageListSearchButton);
 
         setIcon();
+
+        txt_search_frame = findViewById(R.id.txt_search_frame);
     }
 
     private void setIcon() {
@@ -143,6 +157,7 @@ public class ManageList extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void addBonsaiManageEvent() {
         bonsaiAdapter.setOnItemClickListener(new BonsaiRecyclerViewAdapter.OnItemClickListener() {
             @Override
@@ -155,6 +170,9 @@ public class ManageList extends AppCompatActivity {
                 intent.putExtra("dayPlanted", bonsaiArrayList.get(position).getBonsaiDayPlanted());
 
                 startActivity(intent);
+
+                TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
+                hideKeyboard();
             }
         });
 
@@ -165,6 +183,47 @@ public class ManageList extends AppCompatActivity {
                 startActivityForResult(intent, ADD_REQUEST_CODE);
             }
         });
+
+        imgManageListSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), true);
+                showKeyboard();
+                isShowSearchFrame = true;
+            }
+        });
+
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (txt_search_frame.getText().toString().equals("")) {
+                    if (isShowSearchFrame) {
+                        Log.d("_TopBarAnimation", "onTouch");
+
+                        TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
+                        txt_search_frame.setText(null);
+                        hideKeyboard();
+                        isShowSearchFrame = false;
+                    }
+                } else {
+                    hideKeyboard();
+                }
+
+                return false;
+            }
+        });
+    }
+
+    private void showKeyboard() {
+        txt_search_frame.requestFocus();
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
+
+    private void hideKeyboard() {
+        txt_search_frame.clearFocus();
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(txt_search_frame.getWindowToken(), 0);
     }
 
     @Override
@@ -178,4 +237,6 @@ public class ManageList extends AppCompatActivity {
             }
         }
     }
+
+
 }

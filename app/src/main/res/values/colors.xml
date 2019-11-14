@@ -28,4 +28,8 @@
     <color name="dropDownArrow">#737C90</color>
 
     <color name="colorErrorEditText">#e74c3c</color>
+
+    <color name="colorSearchFrame">#737C90</color>
+    <color name="colorSearchBackgroundButton">#333A4D</color>
+    <color name="colorSearchBackground">#333A4D</color>
 </resources>

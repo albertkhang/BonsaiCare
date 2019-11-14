@@ -319,8 +319,8 @@ public class FragmentSetting extends Fragment {
 
         if (layout == frame_MaxMoneyPerSupply) {
             txtMaxMoneyEdit.setText(String.valueOf(setting.getMaxMoney()));//change format when show here
-//            txtMaxMoneyEdit.setText(getMoneyFormat(setting.getMaxMoney(), false));
-
+//            int money = setting.getMaxMoney();
+//            txtMaxMoneyEdit.setText(String.valueOf(money));
             txtMaxMoneyEdit.setSelection(txtMaxMoneyEdit.getText().length());
         }
     }
