@@ -216,4 +216,78 @@ public class ManipulationDb {
 
         return placementName;
     }
+
+    private static int countBonsaiInPlacement(FeedReaderDbHelper dbHelper, String placementName) {
+        int placementId = getPlacementIdFromPlacementName(dbHelper, placementName);
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                BaseColumns._ID
+        };
+        String selection = FeedReaderContract.FeedEntry.BONSAI_PLACEMENT_ID + " = ?";
+        String[] selectionArgs = {String.valueOf(placementId)};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        int count = 0;
+        while (cursor.moveToNext()) {
+            count++;
+        }
+        cursor.close();
+        Log.d("_ManipulationDb", placementName + " count: " + count);
+
+        return count;
+    }
+
+    //return true: change setting
+    //return false: not change setting
+    private static boolean newMaxBonsaiValid(FeedReaderDbHelper dbHelper, int newMaxBonsai, String placementName) {
+        int currentMaxBonsai = countBonsaiInPlacement(dbHelper, placementName);
+
+        if (currentMaxBonsai <= newMaxBonsai) {
+            return true;//change setting
+        } else {
+            return false;
+        }
+    }
+
+    public static String getErrorText(FeedReaderDbHelper dbHelper, int newMaxBonsai) {
+        ArrayList<PlacementItem> placementArrayList = new ArrayList<>();
+        getAllDataPlacementTable(dbHelper, placementArrayList);
+
+        ArrayList<String> placeError = new ArrayList<>();
+
+        for (int i = 0; i < placementArrayList.size(); i++) {
+            if (!newMaxBonsaiValid(dbHelper, newMaxBonsai, placementArrayList.get(i).getPlaccementName())) {
+                placeError.add(placementArrayList.get(i).getPlaccementName());
+            }
+        }
+
+        String postReturn = "Remove bonsai in ";
+        if (placeError.size() != 0) {
+            for (int i = 0; i < placeError.size(); i++) {
+                postReturn = postReturn.concat("'" + placeError.get(i) + "'");
+
+                if (i != (placeError.size() - 1)) {
+                    postReturn = postReturn.concat(", ");
+                } else {
+                    postReturn = postReturn.concat(" ");
+                }
+            }
+            postReturn = postReturn.concat("before change.");
+        } else {
+            postReturn = null;
+        }
+
+        return postReturn;
+    }
 }

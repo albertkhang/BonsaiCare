@@ -1,5 +1,6 @@
 package com.albertkhang.bonsaicare.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
@@ -13,13 +14,18 @@ import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.MainActivity;
+import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
+import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
 
 import static java.lang.String.valueOf;
@@ -58,6 +64,8 @@ public class FragmentSetting extends Fragment {
 
     TextView txtSettingMaxBonsaiTitle;
     TextView txtSettingMaxMoneyPerSupplyTitle;
+
+    FeedReaderDbHelper dbHelper;
 
     public FragmentSetting() {
         // Required empty public constructor
@@ -114,8 +122,11 @@ public class FragmentSetting extends Fragment {
         txtSettingMaxMoneyPerSupplyTitle = getView().findViewById(R.id.txtSettingMaxMoneyPerSupplyTitle);
 
         getSetting();
+
+        dbHelper = new FeedReaderDbHelper(getContext());
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void addEvent() {
         fragment_layout_setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,14 +178,27 @@ public class FragmentSetting extends Fragment {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    setLongText(frame_BonsaiNameDetail);
-                    setLongText(frame_MaxMoneyPerSupply);
+                    int newMaxBonsai = Integer.parseInt(txtMaxBonsaiEdit.getText().toString());
+                    String errorText = ManipulationDb.getErrorText(dbHelper, newMaxBonsai);
 
-                    hideEditText(frame_BonsaiNameDetail);
-                    hideEditText(frame_MaxMoneyPerSupply);
+                    if (errorText != null) {
+                        txtMaxBonsaiEdit.setError(errorText);
+                    } else {
+                        setMaxBonsaiSetting(newMaxBonsai);
 
-                    hideKeyboard(frame_BonsaiNameDetail);
-                    hideKeyboard(frame_MaxMoneyPerSupply);
+                        setLongText(frame_BonsaiNameDetail);
+                        setLongText(frame_MaxMoneyPerSupply);
+
+                        hideEditText(frame_BonsaiNameDetail);
+                        hideEditText(frame_MaxMoneyPerSupply);
+
+                        hideKeyboard(frame_BonsaiNameDetail);
+                        hideKeyboard(frame_MaxMoneyPerSupply);
+
+                        getSetting();
+
+                        Toast.makeText(getContext(), "Change success!", Toast.LENGTH_LONG).show();
+                    }
 
                     return true;
                 }
@@ -202,6 +226,20 @@ public class FragmentSetting extends Fragment {
                 return false;
             }
         });
+
+        fragment_layout_setting.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                setDefaultUI();
+
+                return false;
+            }
+        });
+    }
+
+    private void setMaxBonsaiSetting(int newMaxBonsai) {
+        SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
+        setting.updateMaxBonsai(newMaxBonsai);
     }
 
     private void getSetting() {
@@ -287,10 +325,12 @@ public class FragmentSetting extends Fragment {
 
     private void setLongText(ConstraintLayout layout) {
         if (layout == frame_BonsaiNameDetail) {
+            txtMaxBonsaiEdit.setError(null);
             txtSettingMaxBonsaiTitle.setText(getString(R.string.maxBonsaiPerPlacement));
         }
 
         if (layout == frame_MaxMoneyPerSupply) {
+            txtMaxMoneyEdit.setError(null);
             txtSettingMaxMoneyPerSupplyTitle.setText(getString(R.string.maxMoneyPerSupply));
         }
     }
@@ -322,7 +362,7 @@ public class FragmentSetting extends Fragment {
         }
     }
 
-    public void setDefaultUI() {
+    private void setDefaultUI() {
         Log.d("_fragment", "setDefaultUI");
         setLongText(frame_BonsaiNameDetail);
         setLongText(frame_MaxMoneyPerSupply);

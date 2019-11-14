@@ -89,10 +89,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("_ViewPager", "onPageSelected_" + position);
                 handleUIFragmentChange(position, true);
 
-                FragmentSetting fragmentSetting = viewPagerAdapter.getFragmentSetting();
-                if (fragmentSetting != null && fragmentSetting.getUserVisibleHint()) {
-                    fragmentSetting.setDefaultUI();
-                }
+//                FragmentSetting fragmentSetting = viewPagerAdapter.getFragmentSetting();
+//                if (fragmentSetting != null && fragmentSetting.getUserVisibleHint()) {
+//                    fragmentSetting.setDefaultUI();
+//                }
             }
 
             @Override
