@@ -184,7 +184,7 @@ public class FragmentSetting extends Fragment {
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     int newMaxBonsai = Integer.parseInt(txtMaxBonsaiEdit.getText().toString());
-                    String errorText = ManipulationDb.getErrorText(dbHelper, newMaxBonsai);
+                    String errorText = ManipulationDb.getErrorText(getContext(), dbHelper, newMaxBonsai);
 
                     if (errorText != null) {
                         txtMaxBonsaiEdit.setError(errorText);

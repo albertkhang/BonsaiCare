@@ -78,4 +78,7 @@
     <string name="sharedPreferencesSetting">sharedPreferencesSetting</string>
     <string name="sharedPreferencesSettingMaxBonsai">sharedPreferencesSettingMaxBonsai</string>
     <string name="sharedPreferencesSettingMaxMoney">sharedPreferencesSettingMaxMoney</string>
+
+    <string name="preErrorText">Move bonsai in "</string>
+    <string name="postErrorText">before change.</string>
 </resources>

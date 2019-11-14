@@ -1,11 +1,13 @@
 package com.albertkhang.bonsaicare.database;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyItem;
@@ -260,7 +262,7 @@ public class ManipulationDb {
         }
     }
 
-    public static String getErrorText(FeedReaderDbHelper dbHelper, int newMaxBonsai) {
+    public static String getErrorText(Context context, FeedReaderDbHelper dbHelper, int newMaxBonsai) {
         ArrayList<PlacementItem> placementArrayList = new ArrayList<>();
         getAllDataPlacementTable(dbHelper, placementArrayList);
 
@@ -272,7 +274,8 @@ public class ManipulationDb {
             }
         }
 
-        String postReturn = "Remove bonsai in ";
+//        String postReturn = "Move bonsai in ";
+        String postReturn = context.getString(R.string.preErrorText);
         if (placeError.size() != 0) {
             for (int i = 0; i < placeError.size(); i++) {
                 postReturn = postReturn.concat("'" + placeError.get(i) + "'");
@@ -283,7 +286,7 @@ public class ManipulationDb {
                     postReturn = postReturn.concat(" ");
                 }
             }
-            postReturn = postReturn.concat("before change.");
+            postReturn = postReturn.concat(context.getString(R.string.postErrorText));
         } else {
             postReturn = null;
         }
