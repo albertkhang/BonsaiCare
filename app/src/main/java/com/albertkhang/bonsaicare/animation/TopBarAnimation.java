@@ -198,7 +198,7 @@ public class TopBarAnimation {
 
         AnimatorSet animatorSet2 = new AnimatorSet();
         animatorSet2.setStartDelay(50);
-        animatorSet2.setDuration(150);
+        animatorSet2.setDuration(100);
         animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2, scaleXAnimator22, scaleYAnimator22, scaleXAnimator222, scaleYAnimator222);
 
         animatorSet2.start();
@@ -213,7 +213,7 @@ public class TopBarAnimation {
                         searchFrameButton.setVisibility(View.GONE);
                         txt_search_frame.setVisibility(View.GONE);
                     }
-                }, 200);
+                }, 150);
             }
         }).start();
     }

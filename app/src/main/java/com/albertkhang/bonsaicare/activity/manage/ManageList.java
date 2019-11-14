@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -206,6 +207,7 @@ public class ManageList extends AppCompatActivity {
                         txt_search_frame.setText(null);
                         hideKeyboard();
                         isShowSearchFrame = false;
+                        bonsaiAdapter.uppdate(bonsaiArrayList);
                     }
                 } else {
                     hideKeyboard();
@@ -229,6 +231,23 @@ public class ManageList extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 getFilter(editable.toString());
+            }
+        });
+
+        txt_search_frame.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    if (txt_search_frame.getText().toString().equals("")) {
+                        TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
+                    } else {
+                        getFilter(txt_search_frame.getText().toString());
+                    }
+                    hideKeyboard();
+                    return true;
+                }
+
+                return false;
             }
         });
     }
@@ -258,7 +277,7 @@ public class ManageList extends AppCompatActivity {
     }
 
     private void getFilter(String text) {
-        if (!text.equals("")){
+        if (!text.equals("")) {
             ArrayList<BonsaiItem> filterArrayList = new ArrayList<>();
             for (BonsaiItem item :
                     bonsaiArrayList) {
@@ -268,7 +287,7 @@ public class ManageList extends AppCompatActivity {
             }
 
             bonsaiAdapter.uppdate(filterArrayList);
-        }else {
+        } else {
             bonsaiAdapter.uppdate(bonsaiArrayList);
         }
     }
