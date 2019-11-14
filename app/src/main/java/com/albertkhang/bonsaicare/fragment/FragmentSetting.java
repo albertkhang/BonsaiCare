@@ -183,26 +183,30 @@ public class FragmentSetting extends Fragment {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    int newMaxBonsai = Integer.parseInt(txtMaxBonsaiEdit.getText().toString());
-                    String errorText = ManipulationDb.getErrorText(getContext(), dbHelper, newMaxBonsai);
-
-                    if (errorText != null) {
-                        txtMaxBonsaiEdit.setError(errorText);
+                    if (txtMaxBonsaiEdit.getText().toString().isEmpty()) {
+                        txtMaxBonsaiEdit.setError(getString(R.string.inputHandleMaxBonsai));
                     } else {
-                        setMaxBonsaiSetting(newMaxBonsai);
+                        int newMaxBonsai = Integer.parseInt(txtMaxBonsaiEdit.getText().toString());
+                        String errorText = ManipulationDb.getErrorText(getContext(), dbHelper, newMaxBonsai);
 
-                        setLongText(frame_BonsaiNameDetail);
-                        setLongText(frame_MaxMoneyPerSupply);
+                        if (errorText != null) {
+                            txtMaxBonsaiEdit.setError(errorText);
+                        } else {
+                            setMaxBonsaiSetting(newMaxBonsai);
 
-                        hideEditText(frame_BonsaiNameDetail);
-                        hideEditText(frame_MaxMoneyPerSupply);
+                            setLongText(frame_BonsaiNameDetail);
+                            setLongText(frame_MaxMoneyPerSupply);
 
-                        hideKeyboard(frame_BonsaiNameDetail);
-                        hideKeyboard(frame_MaxMoneyPerSupply);
+                            hideEditText(frame_BonsaiNameDetail);
+                            hideEditText(frame_MaxMoneyPerSupply);
 
-                        getSetting();
+                            hideKeyboard(frame_BonsaiNameDetail);
+                            hideKeyboard(frame_MaxMoneyPerSupply);
 
-                        Toast.makeText(getContext(), "Change success!", Toast.LENGTH_LONG).show();
+                            getSetting();
+
+                            Toast.makeText(getContext(), "Change success!", Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     return true;
@@ -216,19 +220,29 @@ public class FragmentSetting extends Fragment {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
-                    setting.updateMaxMoney(Integer.parseInt(txtMaxMoneyEdit.getText().toString()));
+                    if (txtMaxMoneyEdit.getText().toString().isEmpty()) {
+                        txtMaxMoneyEdit.setError(getString(R.string.inputHandleMaxMoney));
+                    } else {
+                        int maxMoney = Integer.parseInt(txtMaxMoneyEdit.getText().toString());
 
-                    setLongText(frame_BonsaiNameDetail);
-                    setLongText(frame_MaxMoneyPerSupply);
+                        if (maxMoney > 0) {
+                            SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
+                            setting.updateMaxMoney(maxMoney);
 
-                    hideEditText(frame_BonsaiNameDetail);
-                    hideEditText(frame_MaxMoneyPerSupply);
+                            setLongText(frame_BonsaiNameDetail);
+                            setLongText(frame_MaxMoneyPerSupply);
 
-                    hideKeyboard(frame_BonsaiNameDetail);
-                    hideKeyboard(frame_MaxMoneyPerSupply);
+                            hideEditText(frame_BonsaiNameDetail);
+                            hideEditText(frame_MaxMoneyPerSupply);
 
-                    getSetting();
+                            hideKeyboard(frame_BonsaiNameDetail);
+                            hideKeyboard(frame_MaxMoneyPerSupply);
+
+                            getSetting();
+                        } else {
+                            txtMaxMoneyEdit.setError(getString(R.string.notifyErrorMaxMoney));
+                        }
+                    }
 
                     return true;
                 }

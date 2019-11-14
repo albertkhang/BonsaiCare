@@ -81,4 +81,8 @@
 
     <string name="preErrorText">Move bonsai in "</string>
     <string name="postErrorText">before change.</string>
+    <string name="notifyErrorMaxMoney">Money has to bigger than 0.</string>
+
+    <string name="inputHandleMaxBonsai">Please enter a number.</string>
+    <string name="inputHandleMaxMoney">Please enter a number.</string>
 </resources>
