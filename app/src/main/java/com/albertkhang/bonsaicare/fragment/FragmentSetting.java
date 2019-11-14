@@ -4,13 +4,19 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.MainActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
@@ -211,6 +216,9 @@ public class FragmentSetting extends Fragment {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
+                    setting.updateMaxMoney(Integer.parseInt(txtMaxMoneyEdit.getText().toString()));
+
                     setLongText(frame_BonsaiNameDetail);
                     setLongText(frame_MaxMoneyPerSupply);
 
@@ -219,6 +227,8 @@ public class FragmentSetting extends Fragment {
 
                     hideKeyboard(frame_BonsaiNameDetail);
                     hideKeyboard(frame_MaxMoneyPerSupply);
+
+                    getSetting();
 
                     return true;
                 }
@@ -237,6 +247,14 @@ public class FragmentSetting extends Fragment {
         });
     }
 
+    private int convertMoneyToInteger(String moneyString) {
+        String s = moneyString.replace(".", "");
+        int integerMoney = Integer.parseInt(s);
+        Log.d("_convertMoneyToInteger", "" + integerMoney);
+
+        return integerMoney;
+    }
+
     private void setMaxBonsaiSetting(int newMaxBonsai) {
         SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
         setting.updateMaxBonsai(newMaxBonsai);
@@ -248,10 +266,10 @@ public class FragmentSetting extends Fragment {
         Log.d("_SharedPreferences", String.valueOf(setting.getMaxMoney()));
 
         txtSettingMaxBonsaiValue.setText(String.valueOf(setting.getMaxBonsai()));
-        txtSettingMaxMoneyPerSupplyValue.setText(getMoneyFormat(setting.getMaxMoney()));
+        txtSettingMaxMoneyPerSupplyValue.setText(getMoneyFormat(setting.getMaxMoney(), true));
     }
 
-    private String getMoneyFormat(int money) {
+    private String getMoneyFormat(int money, boolean haveVND) {
         String s = "";
         int countChar = 0;
         char[] charArray = String.valueOf(money).toCharArray();
@@ -270,7 +288,11 @@ public class FragmentSetting extends Fragment {
         StringBuffer reverse = new StringBuffer(s);
         reverse.reverse().toString();
 
-        return reverse + " VND";
+        if (haveVND) {
+            return reverse + " VND";
+        } else {
+            return String.valueOf(reverse);
+        }
     }
 
     private void setPreData(ConstraintLayout layout) {
@@ -282,7 +304,9 @@ public class FragmentSetting extends Fragment {
         }
 
         if (layout == frame_MaxMoneyPerSupply) {
-            txtMaxMoneyEdit.setText(String.valueOf(setting.getMaxMoney()));
+            txtMaxMoneyEdit.setText(String.valueOf(setting.getMaxMoney()));//change format when show here
+//            txtMaxMoneyEdit.setText(getMoneyFormat(setting.getMaxMoney(), false));
+
             txtMaxMoneyEdit.setSelection(txtMaxMoneyEdit.getText().length());
         }
     }

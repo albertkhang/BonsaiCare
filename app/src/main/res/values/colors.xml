@@ -26,4 +26,6 @@
     <color name="errorColor">#e74c3c</color>
 
     <color name="dropDownArrow">#737C90</color>
+
+    <color name="colorErrorEditText">#e74c3c</color>
 </resources>
