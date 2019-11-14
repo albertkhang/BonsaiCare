@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -212,6 +214,23 @@ public class ManageList extends AppCompatActivity {
                 return false;
             }
         });
+
+        txt_search_frame.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getFilter(editable.toString());
+            }
+        });
     }
 
     private void showKeyboard() {
@@ -238,5 +257,19 @@ public class ManageList extends AppCompatActivity {
         }
     }
 
+    private void getFilter(String text) {
+        if (!text.equals("")){
+            ArrayList<BonsaiItem> filterArrayList = new ArrayList<>();
+            for (BonsaiItem item :
+                    bonsaiArrayList) {
+                if (item.getBonsaiName().toLowerCase().contains(text.toLowerCase())) {
+                    filterArrayList.add(item);
+                }
+            }
 
+            bonsaiAdapter.uppdate(filterArrayList);
+        }else {
+            bonsaiAdapter.uppdate(bonsaiArrayList);
+        }
+    }
 }
