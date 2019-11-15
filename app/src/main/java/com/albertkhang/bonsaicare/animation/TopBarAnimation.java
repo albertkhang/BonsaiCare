@@ -122,8 +122,6 @@ public class TopBarAnimation {
 
     private static void handleHideSearchFrame(View view) {
         hideSearchFrame(view);
-        scaleHideSearchIcon(view);
-//        translationXShowHideIcon(view);
         showIcon(view.findViewById(R.id.imgManageListSearchButton));
         scaleShowAddIconAndTitleTopBar(view);
     }
@@ -134,48 +132,6 @@ public class TopBarAnimation {
 
         showIcon(addIcon);
         showIcon(title);
-    }
-
-    private static void translationXShowHideIcon(View view) {
-        ImageView searchIcon = view.findViewById(R.id.imgManageListSearchButton);
-
-        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(searchIcon, "translationX", 0f);
-        translationXAnimator.setDuration(transparentShowDuration);
-
-        translationXAnimator.start();
-    }
-
-    private static void scaleHideSearchIcon(View view) {
-        ImageView searchIcon = view.findViewById(R.id.imgManageListSearchButton);
-
-        ObjectAnimator scaleXAnimator1 = ObjectAnimator.ofFloat(searchIcon, "scaleX", 0.75f);
-        ObjectAnimator scaleYAnimator1 = ObjectAnimator.ofFloat(searchIcon, "scaleY", 0.75f);
-
-        AnimatorSet animatorSet1 = new AnimatorSet();
-        animatorSet1.setDuration(50);
-        animatorSet1.playTogether(scaleXAnimator1, scaleYAnimator1);
-
-        animatorSet1.start();
-
-        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(searchIcon, "scaleX", 1.05f);
-        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(searchIcon, "scaleY", 1.05f);
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.setStartDelay(50);
-        animatorSet.setDuration(150);
-        animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
-
-        animatorSet.start();
-
-        ObjectAnimator scaleXAnimator2 = ObjectAnimator.ofFloat(searchIcon, "scaleX", 1f);
-        ObjectAnimator scaleYAnimator2 = ObjectAnimator.ofFloat(searchIcon, "scaleY", 1f);
-
-        AnimatorSet animatorSet2 = new AnimatorSet();
-        animatorSet2.setStartDelay(200);
-        animatorSet2.setDuration(50);
-        animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2);
-
-        animatorSet2.start();
     }
 
     private static void hideSearchFrame(View view) {
@@ -225,9 +181,7 @@ public class TopBarAnimation {
 
     private static void handleShowSearchFrame(View view) {
         scaleHideAddIconAndTitleTopBar(view);
-//        translationXShowSearchIcon(view);
         hideIcon(view.findViewById(R.id.imgManageListSearchButton));
-        scaleShowSearchIcon(view);
         showSearchFrame(view);
     }
 
@@ -265,53 +219,11 @@ public class TopBarAnimation {
         animatorSet2.start();
     }
 
-    private static void translationXShowSearchIcon(View view) {
-        ImageView searchIcon = view.findViewById(R.id.imgManageListSearchButton);
-
-        ObjectAnimator translationXAnimator = ObjectAnimator.ofFloat(searchIcon, "translationX", 120f);
-        translationXAnimator.setDuration(transparentShowDuration);
-
-        translationXAnimator.start();
-    }
-
     private static void scaleHideAddIconAndTitleTopBar(View view) {
         ImageView addIcon = view.findViewById(R.id.imgManageListAddButton);
         TextView title = view.findViewById(R.id.txtDetailSettingTitle);
 
         hideIcon(addIcon);
         hideIcon(title);
-    }
-
-    private static void scaleShowSearchIcon(View view) {
-        ImageView searchIcon = view.findViewById(R.id.imgManageListSearchButton);
-
-        ObjectAnimator scaleXAnimator1 = ObjectAnimator.ofFloat(searchIcon, "scaleX", 1.05f);
-        ObjectAnimator scaleYAnimator1 = ObjectAnimator.ofFloat(searchIcon, "scaleY", 1.05f);
-
-        AnimatorSet animatorSet1 = new AnimatorSet();
-        animatorSet1.setDuration(50);
-        animatorSet1.playTogether(scaleXAnimator1, scaleYAnimator1);
-
-        animatorSet1.start();
-
-        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(searchIcon, "scaleX", 0.75f);
-        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(searchIcon, "scaleY", 0.75f);
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.setStartDelay(50);
-        animatorSet.setDuration(150);
-        animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
-
-        animatorSet.start();
-
-        ObjectAnimator scaleXAnimator2 = ObjectAnimator.ofFloat(searchIcon, "scaleX", 0.8f);
-        ObjectAnimator scaleYAnimator2 = ObjectAnimator.ofFloat(searchIcon, "scaleY", 0.8f);
-
-        AnimatorSet animatorSet2 = new AnimatorSet();
-        animatorSet2.setStartDelay(200);
-        animatorSet2.setDuration(50);
-        animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2);
-
-        animatorSet2.start();
     }
 }
