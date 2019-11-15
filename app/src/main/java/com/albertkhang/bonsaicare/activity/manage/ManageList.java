@@ -1,44 +1,44 @@
 package com.albertkhang.bonsaicare.activity.manage;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+        import androidx.annotation.Nullable;
+        import androidx.annotation.RequiresApi;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.constraintlayout.widget.ConstraintLayout;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.annotation.SuppressLint;
+        import android.app.Activity;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.os.Build;
+        import android.os.Bundle;
+        import android.text.Editable;
+        import android.text.TextWatcher;
+        import android.util.Log;
+        import android.view.KeyEvent;
+        import android.view.MotionEvent;
+        import android.view.View;
+        import android.view.inputmethod.InputMethodManager;
+        import android.widget.EditText;
+        import android.widget.ImageView;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.albertkhang.bonsaicare.animation.TopBarAnimation;
-import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
-import com.albertkhang.bonsaicare.objectClass.PlacementItem;
-import com.albertkhang.bonsaicare.objectClass.SupplyItem;
-import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
-import com.albertkhang.bonsaicare.activity.manage.bonsai.NewBonsaiActivity;
-import com.albertkhang.bonsaicare.adapter.BonsaiRecyclerViewAdapter;
-import com.albertkhang.bonsaicare.adapter.PlacementRecyclerViewAdapter;
-import com.albertkhang.bonsaicare.adapter.SupplyRecyclerViewAdapter;
-import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
-import com.albertkhang.bonsaicare.database.ManipulationDb;
+        import com.albertkhang.bonsaicare.animation.TopBarAnimation;
+        import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
+        import com.albertkhang.bonsaicare.objectClass.PlacementItem;
+        import com.albertkhang.bonsaicare.objectClass.SupplyItem;
+        import com.albertkhang.bonsaicare.R;
+        import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
+        import com.albertkhang.bonsaicare.activity.manage.bonsai.NewBonsaiActivity;
+        import com.albertkhang.bonsaicare.adapter.BonsaiRecyclerViewAdapter;
+        import com.albertkhang.bonsaicare.adapter.PlacementRecyclerViewAdapter;
+        import com.albertkhang.bonsaicare.adapter.SupplyRecyclerViewAdapter;
+        import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
+        import com.albertkhang.bonsaicare.database.ManipulationDb;
 
-import java.util.ArrayList;
+        import java.util.ArrayList;
 
 public class ManageList extends AppCompatActivity {
     TextView txtDetailTitle;
@@ -155,7 +155,15 @@ public class ManageList extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                InputMethodManager imm = (InputMethodManager) getBaseContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm.isAcceptingText()) {
+                    TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
+                    hideKeyboard();
+                    txt_search_frame.setText("");
+                    getFilter(txt_search_frame.getText().toString());
+                } else {
+                    finish();
+                }
             }
         });
     }
@@ -190,9 +198,15 @@ public class ManageList extends AppCompatActivity {
         imgManageListSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), true);
-                showKeyboard();
-                isShowSearchFrame = true;
+                if (isShowSearchFrame) {
+                    if (txt_search_frame.getText().toString().equals("")) {
+                        TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
+                    }
+                    hideKeyboard();
+                } else {
+                    TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), true);
+                    showKeyboard();
+                }
             }
         });
 
@@ -253,12 +267,14 @@ public class ManageList extends AppCompatActivity {
     }
 
     private void showKeyboard() {
+        isShowSearchFrame = true;
         txt_search_frame.requestFocus();
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
     private void hideKeyboard() {
+        isShowSearchFrame = false;
         txt_search_frame.clearFocus();
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(txt_search_frame.getWindowToken(), 0);

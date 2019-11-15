@@ -111,15 +111,20 @@ public class TopBarAnimation {
     public static void handleSearchFrame(View view, boolean wantShowSearchFrame) {
         if (wantShowSearchFrame) {
             handleShowSearchFrame(view);
+            ImageView btnBack = view.findViewById(R.id.btnBack);
+            btnBack.setImageResource(R.drawable.ic_left_arrow);
         } else {
             handleHideSearchFrame(view);
+            ImageView btnBack = view.findViewById(R.id.btnBack);
+            btnBack.setImageResource(R.drawable.ic_left);
         }
     }
 
     private static void handleHideSearchFrame(View view) {
         hideSearchFrame(view);
         scaleHideSearchIcon(view);
-        translationXShowHideIcon(view);
+//        translationXShowHideIcon(view);
+        showIcon(view.findViewById(R.id.imgManageListSearchButton));
         scaleShowAddIconAndTitleTopBar(view);
     }
 
@@ -175,31 +180,31 @@ public class TopBarAnimation {
 
     private static void hideSearchFrame(View view) {
         final ImageView searchFrame = view.findViewById(R.id.searchFrame);
-        final ImageView searchFrameButton = view.findViewById(R.id.searchFrameButton);
+//        final ImageView searchFrameButton = view.findViewById(R.id.searchFrameButton);
         final EditText txt_search_frame = view.findViewById(R.id.txt_search_frame);
 
         ObjectAnimator scaleXAnimator1 = ObjectAnimator.ofFloat(searchFrame, "scaleX", 1.005f);
         ObjectAnimator scaleYAnimator1 = ObjectAnimator.ofFloat(searchFrame, "scaleY", 1.005f);
-        ObjectAnimator scaleXAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 1.005f);
-        ObjectAnimator scaleYAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 1.005f);
+//        ObjectAnimator scaleXAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 1.005f);
+//        ObjectAnimator scaleYAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 1.005f);
 
         AnimatorSet animatorSet1 = new AnimatorSet();
         animatorSet1.setDuration(50);
-        animatorSet1.playTogether(scaleXAnimator1, scaleYAnimator1, scaleXAnimator11, scaleYAnimator11);
+        animatorSet1.playTogether(scaleXAnimator1, scaleYAnimator1);
 
         animatorSet1.start();
 
         ObjectAnimator scaleXAnimator2 = ObjectAnimator.ofFloat(searchFrame, "scaleX", 0f);
         ObjectAnimator scaleYAnimator2 = ObjectAnimator.ofFloat(searchFrame, "scaleY", 0f);
-        ObjectAnimator scaleXAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 0f);
-        ObjectAnimator scaleYAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 0f);
+//        ObjectAnimator scaleXAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 0f);
+//        ObjectAnimator scaleYAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 0f);
         ObjectAnimator scaleXAnimator222 = ObjectAnimator.ofFloat(txt_search_frame, "scaleX", 0f);
         ObjectAnimator scaleYAnimator222 = ObjectAnimator.ofFloat(txt_search_frame, "scaleY", 0f);
 
         AnimatorSet animatorSet2 = new AnimatorSet();
         animatorSet2.setStartDelay(50);
         animatorSet2.setDuration(100);
-        animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2, scaleXAnimator22, scaleYAnimator22, scaleXAnimator222, scaleYAnimator222);
+        animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2, scaleXAnimator222, scaleYAnimator222);
 
         animatorSet2.start();
 
@@ -210,7 +215,7 @@ public class TopBarAnimation {
                     @Override
                     public void run() {
                         searchFrame.setVisibility(View.GONE);
-                        searchFrameButton.setVisibility(View.GONE);
+//                        searchFrameButton.setVisibility(View.GONE);
                         txt_search_frame.setVisibility(View.GONE);
                     }
                 }, 150);
@@ -220,41 +225,42 @@ public class TopBarAnimation {
 
     private static void handleShowSearchFrame(View view) {
         scaleHideAddIconAndTitleTopBar(view);
-        translationXShowSearchIcon(view);
+//        translationXShowSearchIcon(view);
+        hideIcon(view.findViewById(R.id.imgManageListSearchButton));
         scaleShowSearchIcon(view);
         showSearchFrame(view);
     }
 
     private static void showSearchFrame(View view) {
         ImageView searchFrame = view.findViewById(R.id.searchFrame);
-        ImageView searchFrameButton = view.findViewById(R.id.searchFrameButton);
+//        ImageView searchFrameButton = view.findViewById(R.id.searchFrameButton);
         EditText txt_search_frame = view.findViewById(R.id.txt_search_frame);
         searchFrame.setVisibility(View.VISIBLE);
-        searchFrameButton.setVisibility(View.VISIBLE);
+//        searchFrameButton.setVisibility(View.VISIBLE);
         txt_search_frame.setVisibility(View.VISIBLE);
 
         ObjectAnimator scaleXAnimator1 = ObjectAnimator.ofFloat(searchFrame, "scaleX", 1.005f);
         ObjectAnimator scaleYAnimator1 = ObjectAnimator.ofFloat(searchFrame, "scaleY", 1.005f);
-        ObjectAnimator scaleXAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 1.005f);
-        ObjectAnimator scaleYAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 1.005f);
+//        ObjectAnimator scaleXAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 1.005f);
+//        ObjectAnimator scaleYAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 1.005f);
 
         AnimatorSet animatorSet1 = new AnimatorSet();
         animatorSet1.setDuration(200);
-        animatorSet1.playTogether(scaleXAnimator1, scaleYAnimator1, scaleXAnimator11, scaleYAnimator11);
+        animatorSet1.playTogether(scaleXAnimator1, scaleYAnimator1);
 
         animatorSet1.start();
 
         ObjectAnimator scaleXAnimator2 = ObjectAnimator.ofFloat(searchFrame, "scaleX", 1f);
         ObjectAnimator scaleYAnimator2 = ObjectAnimator.ofFloat(searchFrame, "scaleY", 1f);
-        ObjectAnimator scaleXAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 1f);
-        ObjectAnimator scaleYAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 1f);
+//        ObjectAnimator scaleXAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 1f);
+//        ObjectAnimator scaleYAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 1f);
         ObjectAnimator scaleXAnimator222 = ObjectAnimator.ofFloat(txt_search_frame, "scaleX", 1f);
         ObjectAnimator scaleYAnimator222 = ObjectAnimator.ofFloat(txt_search_frame, "scaleY", 1f);
 
         AnimatorSet animatorSet2 = new AnimatorSet();
         animatorSet2.setStartDelay(200);
         animatorSet2.setDuration(50);
-        animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2, scaleXAnimator22, scaleYAnimator22, scaleXAnimator222, scaleYAnimator222);
+        animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2, scaleXAnimator222, scaleYAnimator222);
 
         animatorSet2.start();
     }

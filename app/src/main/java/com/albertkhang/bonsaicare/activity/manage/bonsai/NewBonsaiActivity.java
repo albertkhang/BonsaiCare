@@ -17,10 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.R;
@@ -42,6 +44,7 @@ public class NewBonsaiActivity extends AppCompatActivity {
     FeedReaderDbHelper dbHelper;
     TextView txtBonsaiDayPlanted;
     Button btnAddNewBonsaiSubmit;
+    ImageView btnBack;
 
     String regex = "^[a-zA-Z0-9]+( [a-zA-Z0-9_]+)*$";
 
@@ -62,6 +65,7 @@ public class NewBonsaiActivity extends AppCompatActivity {
         dbHelper = new FeedReaderDbHelper(this);
         txtBonsaiDayPlanted = findViewById(R.id.txtBonsaiDayPlanted);
         btnAddNewBonsaiSubmit = findViewById(R.id.btnAddNewBonsaiSubmit);
+        btnBack = findViewById(R.id.btnBack);
     }
 
     private void addEvent() {
@@ -144,6 +148,46 @@ public class NewBonsaiActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        txtBonsaiName.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    txtBonsaiName.clearFocus();
+                    hideKeyboard();
+
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager) getBaseContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm.isAcceptingText()) {
+                    Log.d("_btnBack", "true");
+                    hideKeyboard();
+                } else {
+                    Log.d("_btnBack", "false");
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void showKeyboard() {
+        txtBonsaiName.requestFocus();
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
+
+    private void hideKeyboard() {
+        txtBonsaiName.clearFocus();
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(txtBonsaiName.getWindowToken(), 0);
     }
 
     private void closeActivity(boolean isSuccess) {
