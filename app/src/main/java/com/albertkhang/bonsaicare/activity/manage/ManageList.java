@@ -265,7 +265,7 @@ public class ManageList extends AppCompatActivity {
                 builder.setItems(R.array.bonsai_item_long_click, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
+                        switch (i)  {
                             case 0://Edit
                                 Intent intent = new Intent(getApplicationContext(), NewAndEditBonsaiActivity.class);
                                 intent.putExtra("title", getString(R.string.editBonsaiTitle));
