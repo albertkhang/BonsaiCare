@@ -199,4 +199,13 @@ public class BonsaiDetailActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (needRefesh) {
+            putDataBack();
+        }
+
+        super.onBackPressed();
+    }
 }

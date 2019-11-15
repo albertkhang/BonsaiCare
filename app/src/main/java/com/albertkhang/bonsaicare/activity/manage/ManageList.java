@@ -130,7 +130,7 @@ public class ManageList extends AppCompatActivity {
             ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
 
             recyclerView.setAdapter(bonsaiAdapter);
-            bonsaiAdapter.uppdate(bonsaiArrayList);
+            bonsaiAdapter.update(bonsaiArrayList);
 
             addBonsaiManageEvent();
         }
@@ -178,7 +178,7 @@ public class ManageList extends AppCompatActivity {
                 TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
                 hideKeyboard();
                 txt_search_frame.setText(null);
-                bonsaiAdapter.uppdate(bonsaiArrayList);
+                bonsaiAdapter.update(bonsaiArrayList);
             }
         });
 
@@ -281,7 +281,7 @@ public class ManageList extends AppCompatActivity {
                                     Toast.makeText(ManageList.this, "Delete success!", Toast.LENGTH_LONG).show();
 
                                     bonsaiArrayList.remove(position);
-                                    bonsaiAdapter.uppdate(bonsaiArrayList);
+                                    bonsaiAdapter.update(bonsaiArrayList);
                                 } else {
                                     Toast.makeText(ManageList.this, "Delete failed!", Toast.LENGTH_LONG).show();
                                 }
@@ -331,7 +331,7 @@ public class ManageList extends AppCompatActivity {
                     Toast.makeText(ManageList.this, R.string.toastAddSuccess, Toast.LENGTH_LONG).show();
 
                     ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
-                    bonsaiAdapter.uppdate(bonsaiArrayList);
+                    bonsaiAdapter.update(bonsaiArrayList);
                 }
                 break;
             case EDIT_REQUEST_CODE:
@@ -339,7 +339,7 @@ public class ManageList extends AppCompatActivity {
                     Toast.makeText(ManageList.this, R.string.toastEditSuccess, Toast.LENGTH_LONG).show();
 
                     ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
-                    bonsaiAdapter.uppdate(bonsaiArrayList);
+                    bonsaiAdapter.update(bonsaiArrayList);
                 }
                 break;
 
@@ -348,7 +348,7 @@ public class ManageList extends AppCompatActivity {
                     if (data.getBooleanExtra("isChange", false)) {
                         Log.d("_onActivityResult", "EDIT_ACTIVITY_REQUEST_CODE");
                         ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
-                        bonsaiAdapter.uppdate(bonsaiArrayList);
+                        bonsaiAdapter.update(bonsaiArrayList);
                     }
                 }
                 break;
@@ -365,9 +365,9 @@ public class ManageList extends AppCompatActivity {
                 }
             }
 
-            bonsaiAdapter.uppdate(filterArrayList);
+            bonsaiAdapter.update(filterArrayList);
         } else {
-            bonsaiAdapter.uppdate(bonsaiArrayList);
+            bonsaiAdapter.update(bonsaiArrayList);
         }
     }
 }

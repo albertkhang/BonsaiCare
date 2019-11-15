@@ -47,7 +47,7 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    public void uppdate(ArrayList<BonsaiItem> bonsaiArrayList) {
+    public void update(ArrayList<BonsaiItem> bonsaiArrayList) {
         this.bonsaiArrayList.clear();
         this.bonsaiArrayList.addAll(bonsaiArrayList);
         notifyDataSetChanged();
@@ -68,6 +68,7 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         holder.txtBonsaiItemPlace.setText(bonsaiArrayList.get(position).getBonsaiPlacementName());
         holder.txtBonsaiItemName.setText(bonsaiArrayList.get(position).getBonsaiName());
         holder.txtDayPlanted.setText(bonsaiArrayList.get(position).getBonsaiDayPlanted());
+
         Log.d("_onBindViewHolder", "Loaded!");
 
         holder.bonsai_item_frame_manage.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +84,7 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
             @Override
             public boolean onLongClick(View view) {
                 onItemLongClickListener.onItemLongClickListener(view, position);
-                return false;
+                return true;
             }
         });
     }
