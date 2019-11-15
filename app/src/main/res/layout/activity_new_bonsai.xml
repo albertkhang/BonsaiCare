@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".activity.manage.bonsai.NewBonsaiActivity">
+    tools:context=".activity.manage.bonsai.NewAndEditBonsaiActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_layout_new_bonsai"
@@ -75,19 +75,19 @@
             android:id="@+id/txtBonsaiName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:background="@null"
+            android:backgroundTint="@color/colorHint"
             android:hint="Enter Bonsai Name"
-            android:textColorHint="@color/colorHint"
-            android:textColor="@color/colorItemTitle"
-            android:maxLines="1"
             android:inputType="text"
             android:maxLength="24"
-            android:layout_marginLeft="6dp"
-            android:backgroundTint="@color/colorHint"
-            android:background="@null"
-            app:layout_constraintTop_toTopOf="@id/txtSettingMaxBonsaiTitle"
+            android:maxLines="1"
+            android:textColor="@color/colorItemTitle"
+            android:textColorHint="@color/colorHint"
             app:layout_constraintBottom_toBottomOf="@id/txtSettingMaxBonsaiTitle"
+            app:layout_constraintLeft_toRightOf="@id/txtSettingMaxBonsaiTitle"
             app:layout_constraintRight_toRightOf="@id/frame_BonsaiNameDetail"
-            app:layout_constraintLeft_toRightOf="@id/txtSettingMaxBonsaiTitle"/>
+            app:layout_constraintTop_toTopOf="@id/txtSettingMaxBonsaiTitle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -122,12 +122,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="6dp"
-            android:spinnerMode="dropdown"
             android:backgroundTint="@color/dropDownArrow"
-            app:layout_constraintTop_toTopOf="parent"
+            android:spinnerMode="dropdown"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtBonsaiTypeTitle"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/txtBonsaiTypeTitle"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -163,12 +163,22 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="6dp"
-            android:spinnerMode="dropdown"
             android:backgroundTint="@color/dropDownArrow"
-            app:layout_constraintTop_toTopOf="parent"
+            android:spinnerMode="dropdown"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtBonsaiPlaceTitle"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/txtBonsaiPlaceTitle"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgPlaceErrorIcon"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:visibility="invisible"
+            android:src="@drawable/ic_error"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/spBonsaiPlace"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -203,15 +213,15 @@
             android:id="@+id/txtBonsaiDayPlanted"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="today"
-            android:textSize="@dimen/settingTitleSize"
-            android:gravity="center_vertical"
             android:layout_marginLeft="6dp"
+            android:gravity="center_vertical"
+            android:text="today"
             android:textColor="@color/colorItemTitle"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/settingTitleSize"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtBonsaiDayPlantedTitle"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/txtBonsaiDayPlantedTitle"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -222,13 +232,13 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="15dp"
-        android:text="@string/submit"
-        android:clickable="true"
-        android:textSize="@dimen/buttonTextSize"
-        android:textColor="@color/colorItemTitle"
         android:background="@drawable/button_ripple"
+        android:clickable="true"
+        android:text="@string/submit"
+        android:textColor="@color/colorItemTitle"
+        android:textSize="@dimen/buttonTextSize"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frame_BonsaiDayPlanted"/>
+        app:layout_constraintTop_toBottomOf="@id/frame_BonsaiDayPlanted" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

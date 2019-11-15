@@ -32,4 +32,6 @@
     <color name="colorSearchFrame">#737C90</color>
     <color name="colorSearchBackgroundButton">#333A4D</color>
     <color name="colorSearchBackground">#333A4D</color>
+
+    <color name="colorError">#e74c3c</color>
 </resources>

@@ -30,7 +30,7 @@ import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
-import com.albertkhang.bonsaicare.activity.manage.bonsai.NewBonsaiActivity;
+import com.albertkhang.bonsaicare.activity.manage.bonsai.NewAndEditBonsaiActivity;
 import com.albertkhang.bonsaicare.adapter.BonsaiRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.adapter.PlacementRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.adapter.SupplyRecyclerViewAdapter;
@@ -184,7 +184,7 @@ public class ManageList extends AppCompatActivity {
         imgManageListAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NewBonsaiActivity.class);
+                Intent intent = new Intent(getApplicationContext(), NewAndEditBonsaiActivity.class);
                 startActivityForResult(intent, ADD_REQUEST_CODE);
             }
         });
@@ -266,7 +266,7 @@ public class ManageList extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0://Edit
-                                Intent intent = new Intent(getApplicationContext(), NewBonsaiActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), NewAndEditBonsaiActivity.class);
                                 intent.putExtra("title", getString(R.string.editBonsaiTitle));
                                 intent.putExtra("id", bonsaiArrayList.get(position).getId());
                                 intent.putExtra("name", bonsaiArrayList.get(position).getBonsaiName());

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/FullScreenThemeAndroid">
         <activity android:name=".activity.manage.bonsai.BonsaiDetailActivity"></activity>
-        <activity android:name=".activity.manage.bonsai.NewBonsaiActivity" />
+        <activity android:name=".activity.manage.bonsai.NewAndEditBonsaiActivity" />
         <activity android:name=".activity.setting.ChangeSetting" />
         <activity android:name=".activity.manage.ManageReport" />
         <activity android:name=".activity.manage.ManageList" />

@@ -256,7 +256,7 @@ public class ManipulationDb {
         return placementName;
     }
 
-    private static int countBonsaiInPlacement(FeedReaderDbHelper dbHelper, String placementName) {
+    public static int countBonsaiInPlacement(FeedReaderDbHelper dbHelper, String placementName) {
         int placementId = getPlacementIdFromPlacementName(dbHelper, placementName);
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
