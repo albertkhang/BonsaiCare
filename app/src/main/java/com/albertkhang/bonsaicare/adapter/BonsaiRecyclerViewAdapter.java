@@ -37,6 +37,16 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         this.onItemClickListener = onItemClickListener;
     }
 
+    public interface OnItemLongClickListener {
+        void onItemLongClickListener(View view, int position);
+    }
+
+    OnItemLongClickListener onItemLongClickListener;
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
     public void uppdate(ArrayList<BonsaiItem> bonsaiArrayList) {
         this.bonsaiArrayList.clear();
         this.bonsaiArrayList.addAll(bonsaiArrayList);
@@ -60,12 +70,20 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         holder.txtDayPlanted.setText(bonsaiArrayList.get(position).getBonsaiDayPlanted());
         Log.d("_onBindViewHolder", "Loaded!");
 
-        holder.bonsai_item_frame.setOnClickListener(new View.OnClickListener() {
+        holder.bonsai_item_frame_manage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("_onBindViewHolder", "Clicked!");
 
                 onItemClickListener.onItemClickListener(view, position);
+            }
+        });
+
+        holder.bonsai_item_frame_manage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClickListener.onItemLongClickListener(view, position);
+                return false;
             }
         });
     }
@@ -92,7 +110,7 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ConstraintLayout bonsai_item_frame;
+        ConstraintLayout bonsai_item_frame_manage;
 
         ImageView imgBonsaiIcon;
         TextView txtBonsaiItemName;
@@ -102,7 +120,7 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            bonsai_item_frame = itemView.findViewById(R.id.bonsai_item_frame);
+            bonsai_item_frame_manage = itemView.findViewById(R.id.bonsai_item_frame_manage);
 
             imgBonsaiIcon = itemView.findViewById(R.id.imgBonsaiIcon);
             txtBonsaiItemName = itemView.findViewById(R.id.txtBonsaiItemName);

@@ -12,4 +12,9 @@
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
         <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
     </style>
+
+    <style name="AlertDialog" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="textColorAlertDialogListItem">@color/colorItemTitle</item>
+        <item name="android:background">@color/colorBackground</item>
+    </style>
 </resources>

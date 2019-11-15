@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bonsai_item_long_click">
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
+</resources>

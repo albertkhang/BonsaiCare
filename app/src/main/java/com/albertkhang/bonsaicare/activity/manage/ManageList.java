@@ -1,44 +1,43 @@
 package com.albertkhang.bonsaicare.activity.manage;
 
-        import androidx.annotation.Nullable;
-        import androidx.annotation.RequiresApi;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.constraintlayout.widget.ConstraintLayout;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import android.annotation.SuppressLint;
-        import android.app.Activity;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.text.Editable;
-        import android.text.TextWatcher;
-        import android.util.Log;
-        import android.view.KeyEvent;
-        import android.view.MotionEvent;
-        import android.view.View;
-        import android.view.inputmethod.InputMethodManager;
-        import android.widget.EditText;
-        import android.widget.ImageView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.albertkhang.bonsaicare.animation.TopBarAnimation;
-        import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
-        import com.albertkhang.bonsaicare.objectClass.PlacementItem;
-        import com.albertkhang.bonsaicare.objectClass.SupplyItem;
-        import com.albertkhang.bonsaicare.R;
-        import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
-        import com.albertkhang.bonsaicare.activity.manage.bonsai.NewBonsaiActivity;
-        import com.albertkhang.bonsaicare.adapter.BonsaiRecyclerViewAdapter;
-        import com.albertkhang.bonsaicare.adapter.PlacementRecyclerViewAdapter;
-        import com.albertkhang.bonsaicare.adapter.SupplyRecyclerViewAdapter;
-        import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
-        import com.albertkhang.bonsaicare.database.ManipulationDb;
+import com.albertkhang.bonsaicare.animation.TopBarAnimation;
+import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
+import com.albertkhang.bonsaicare.objectClass.PlacementItem;
+import com.albertkhang.bonsaicare.objectClass.SupplyItem;
+import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
+import com.albertkhang.bonsaicare.activity.manage.bonsai.NewBonsaiActivity;
+import com.albertkhang.bonsaicare.adapter.BonsaiRecyclerViewAdapter;
+import com.albertkhang.bonsaicare.adapter.PlacementRecyclerViewAdapter;
+import com.albertkhang.bonsaicare.adapter.SupplyRecyclerViewAdapter;
+import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
+import com.albertkhang.bonsaicare.database.ManipulationDb;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class ManageList extends AppCompatActivity {
     TextView txtDetailTitle;
@@ -59,9 +58,10 @@ public class ManageList extends AppCompatActivity {
     ImageView imgManageListSearchButton;
 
     EditText txt_search_frame;
-    boolean isShowSearchFrame = false;
+    boolean isShowKeyboard = false;
 
     private static final int ADD_REQUEST_CODE = 1;
+    private static final int EDIT_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,8 +155,7 @@ public class ManageList extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager) getBaseContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm.isAcceptingText()) {
+                if (isShowKeyboard) {
                     TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
                     hideKeyboard();
                     txt_search_frame.setText("");
@@ -173,17 +172,12 @@ public class ManageList extends AppCompatActivity {
         bonsaiAdapter.setOnItemClickListener(new BonsaiRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                Intent intent = new Intent(ManageList.this, BonsaiDetailActivity.class);
-                intent.putExtra("id", String.valueOf(bonsaiArrayList.get(position).getId()));
-                intent.putExtra("name", bonsaiArrayList.get(position).getBonsaiName());
-                intent.putExtra("type", bonsaiArrayList.get(position).getBonsaiType());
-                intent.putExtra("place", bonsaiArrayList.get(position).getBonsaiPlacementName());
-                intent.putExtra("dayPlanted", bonsaiArrayList.get(position).getBonsaiDayPlanted());
-
-                startActivity(intent);
+                startEditActivity(position);
 
                 TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
                 hideKeyboard();
+                txt_search_frame.setText(null);
+                bonsaiAdapter.uppdate(bonsaiArrayList);
             }
         });
 
@@ -198,7 +192,7 @@ public class ManageList extends AppCompatActivity {
         imgManageListSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isShowSearchFrame) {
+                if (isShowKeyboard) {
                     if (txt_search_frame.getText().toString().equals("")) {
                         TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
                     }
@@ -214,14 +208,12 @@ public class ManageList extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (txt_search_frame.getText().toString().equals("")) {
-                    if (isShowSearchFrame) {
+                    if (isShowKeyboard) {
                         Log.d("_TopBarAnimation", "onTouch");
 
                         TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout_detail), false);
                         txt_search_frame.setText(null);
                         hideKeyboard();
-                        isShowSearchFrame = false;
-                        bonsaiAdapter.uppdate(bonsaiArrayList);
                     }
                 } else {
                     hideKeyboard();
@@ -264,17 +256,67 @@ public class ManageList extends AppCompatActivity {
                 return false;
             }
         });
+
+        bonsaiAdapter.setOnItemLongClickListener(new BonsaiRecyclerViewAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClickListener(View view, final int position) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ManageList.this, R.style.AlertDialog);
+                builder.setItems(R.array.bonsai_item_long_click, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0://Edit
+                                Intent intent = new Intent(getApplicationContext(), NewBonsaiActivity.class);
+                                intent.putExtra("title", getString(R.string.editBonsaiTitle));
+                                intent.putExtra("id", bonsaiArrayList.get(position).getId());
+                                intent.putExtra("name", bonsaiArrayList.get(position).getBonsaiName());
+                                intent.putExtra("type", bonsaiArrayList.get(position).getBonsaiType());
+                                intent.putExtra("place", bonsaiArrayList.get(position).getBonsaiPlacementName());
+                                intent.putExtra("dayPlanted", bonsaiArrayList.get(position).getBonsaiDayPlanted());
+                                startActivityForResult(intent, EDIT_REQUEST_CODE);
+                                break;
+                            case 1://Delete
+                                if (ManipulationDb.deleteBonsai(dbHelper, bonsaiArrayList.get(position).getId())) {
+                                    Toast.makeText(ManageList.this, "Delete success!", Toast.LENGTH_LONG).show();
+
+                                    bonsaiArrayList.remove(position);
+                                    bonsaiAdapter.uppdate(bonsaiArrayList);
+                                } else {
+                                    Toast.makeText(ManageList.this, "Delete failed!", Toast.LENGTH_LONG).show();
+                                }
+                                break;
+                        }
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+    private void startEditActivity(int position) {
+        Intent intent = new Intent(ManageList.this, BonsaiDetailActivity.class);
+        intent.putExtra("id", String.valueOf(bonsaiArrayList.get(position).getId()));
+        intent.putExtra("name", bonsaiArrayList.get(position).getBonsaiName());
+        intent.putExtra("type", bonsaiArrayList.get(position).getBonsaiType());
+        intent.putExtra("place", bonsaiArrayList.get(position).getBonsaiPlacementName());
+        intent.putExtra("dayPlanted", bonsaiArrayList.get(position).getBonsaiDayPlanted());
+
+        startActivity(intent);
     }
 
     private void showKeyboard() {
-        isShowSearchFrame = true;
+        isShowKeyboard = true;
+        btnBack.setImageResource(R.drawable.ic_left_arrow);
         txt_search_frame.requestFocus();
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
     private void hideKeyboard() {
-        isShowSearchFrame = false;
+        isShowKeyboard = false;
+        btnBack.setImageResource(R.drawable.ic_left);
         txt_search_frame.clearFocus();
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(txt_search_frame.getWindowToken(), 0);
@@ -282,13 +324,23 @@ public class ManageList extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == ADD_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(ManageList.this, R.string.toastAddSucess, Toast.LENGTH_LONG).show();
+        switch (requestCode) {
+            case ADD_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(ManageList.this, R.string.toastAddSuccess, Toast.LENGTH_LONG).show();
 
-                ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
-                bonsaiAdapter.uppdate(bonsaiArrayList);
-            }
+                    ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
+                    bonsaiAdapter.uppdate(bonsaiArrayList);
+                }
+                break;
+            case EDIT_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(ManageList.this, R.string.toastEditSuccess, Toast.LENGTH_LONG).show();
+
+                    ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
+                    bonsaiAdapter.uppdate(bonsaiArrayList);
+                }
+                break;
         }
     }
 

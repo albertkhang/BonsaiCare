@@ -69,7 +69,10 @@
 
     <integer name="ADD_REQUEST_CODE">1</integer>
     <string name="toastAddFail">Add Fail!</string>
-    <string name="toastAddSucess">AddSucess!</string>
+    <string name="toastEditFail">Edit Fail!</string>
+    <string name="toastAddSuccess">Add Success!</string>
+    <string name="toastEditSuccess">Edit Success!</string>
+    <string name="editBonsaiTitle">Edit Bonsai</string>
 
     <string name="putExtraBonsaiItemClick">putExtraBonsaiItemClick</string>
 

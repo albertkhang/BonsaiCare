@@ -1,7 +1,6 @@
 package com.albertkhang.bonsaicare.activity.manage.bonsai;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,7 +20,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.R;
@@ -32,6 +29,7 @@ import com.albertkhang.bonsaicare.database.ManipulationDb;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +43,10 @@ public class NewBonsaiActivity extends AppCompatActivity {
     TextView txtBonsaiDayPlanted;
     Button btnAddNewBonsaiSubmit;
     ImageView btnBack;
+    boolean isShowKeyboard = false;
+    TextView txtDetailSettingTitle;
+
+    BonsaiItem editItem;
 
     String regex = "^[a-zA-Z0-9]+( [a-zA-Z0-9_]+)*$";
 
@@ -66,15 +68,19 @@ public class NewBonsaiActivity extends AppCompatActivity {
         txtBonsaiDayPlanted = findViewById(R.id.txtBonsaiDayPlanted);
         btnAddNewBonsaiSubmit = findViewById(R.id.btnAddNewBonsaiSubmit);
         btnBack = findViewById(R.id.btnBack);
+        txtDetailSettingTitle = findViewById(R.id.txtDetailSettingTitle);
+
+        setDataForBonsaiTypeSpinner(spBonsaiType, R.array.dropdownBonsaiType);
+
+        ManipulationDb.getAllDataPlacementTable(dbHelper, placementArrayList);
+        setDataForBonsaiPlaceSpinner(spBonsaiPlace, placementArrayList);
+
+        setCurrentDate(txtBonsaiDayPlanted);
+
+        setEditData();
     }
 
     private void addEvent() {
-        setDataForSpinner(spBonsaiType, R.array.dropdownBonsaiType);
-
-        ManipulationDb.getAllDataPlacementTable(dbHelper, placementArrayList);
-        setDataForSpinner(spBonsaiPlace, placementArrayList);
-
-        setCurrentDate(txtBonsaiDayPlanted);
         txtBonsaiDayPlanted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,11 +122,18 @@ public class NewBonsaiActivity extends AppCompatActivity {
                     item.setBonsaiPlacementName(spBonsaiPlace.getSelectedItem().toString());
                     item.setBonsaiDayPlanted(txtBonsaiDayPlanted.getText().toString());
 
-                    //add to database
-                    ManipulationDb.addNewBonsaiToDb(dbHelper, item);
+                    if (txtDetailSettingTitle.getText().toString().equals(getIntent().getStringExtra("title"))) {
+                        //update
+                        item.setId(editItem.getId());
+                        ManipulationDb.updateBonsai(dbHelper, item);
+                        Toast.makeText(NewBonsaiActivity.this, "Edit success!", Toast.LENGTH_LONG).show();
+                    } else {
+                        //add
+                        ManipulationDb.addNewBonsai(dbHelper, item);
+                        Toast.makeText(NewBonsaiActivity.this, "Add success!", Toast.LENGTH_LONG).show();
+                    }
 
                     //return to preActivity and refresh Db
-                    Toast.makeText(NewBonsaiActivity.this, "Add success!", Toast.LENGTH_LONG).show();
                     closeActivity(true);
                 } else {
                     //notify error
@@ -129,23 +142,10 @@ public class NewBonsaiActivity extends AppCompatActivity {
             }
         });
 
-        txtBonsaiName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        txtBonsaiName.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    if (isBonsaiNameValid(txtBonsaiName.getText().toString())) {
-                        txtBonsaiName.clearFocus();
-
-                        InputMethodManager imm = (InputMethodManager) NewBonsaiActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(txtBonsaiName.getWindowToken(), 0);
-
-                        return true;
-                    } else {
-                        txtBonsaiName.setError(getString(R.string.bonsaiNameError));
-                        return false;
-                    }
-                }
-                return false;
+            public void onClick(View view) {
+                isShowKeyboard = true;
             }
         });
 
@@ -153,8 +153,11 @@ public class NewBonsaiActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    txtBonsaiName.clearFocus();
-                    hideKeyboard();
+                    if (isBonsaiNameValid(txtBonsaiName.getText().toString())) {
+                        hideKeyboard();
+                    } else {
+                        txtBonsaiName.setError(getString(R.string.bonsaiNameError));
+                    }
 
                     return true;
                 }
@@ -162,29 +165,70 @@ public class NewBonsaiActivity extends AppCompatActivity {
                 return false;
             }
         });
-
+//
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager imm = (InputMethodManager) getBaseContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (imm.isAcceptingText()) {
-                    Log.d("_btnBack", "true");
+                if (isShowKeyboard) {
                     hideKeyboard();
                 } else {
-                    Log.d("_btnBack", "false");
                     finish();
                 }
             }
         });
     }
 
+    private void setEditData() {
+        String title = getIntent().getStringExtra("title");
+        if (title != null) {
+            editItem = new BonsaiItem();
+            txtDetailSettingTitle.setText(getString(R.string.editBonsaiTitle));
+
+            //id
+            editItem.setId(getIntent().getIntExtra("id", -1));
+
+            //name
+            txtBonsaiName.setText(getIntent().getStringExtra("name"));
+            editItem.setBonsaiName(getIntent().getStringExtra("name"));
+            txtBonsaiName.setSelection(txtBonsaiName.getText().length());
+
+            //type
+            String type = getIntent().getStringExtra("type");
+            editItem.setBonsaiType(getIntent().getStringExtra("type"));
+            String[] bonsaiTypeArray = getResources().getStringArray(R.array.dropdownBonsaiType);
+            ArrayList<String> bonsaiTypeArrayList = new ArrayList<>(Arrays.asList(bonsaiTypeArray));
+
+            for (int i = 0; i < bonsaiTypeArrayList.size(); i++) {
+                if (bonsaiTypeArrayList.get(i).equals(type)) {
+                    spBonsaiType.setSelection(i);
+                    break;
+                }
+            }
+
+            //place
+            String place = getIntent().getStringExtra("place");
+            editItem.setBonsaiPlacementName(getIntent().getStringExtra("place"));
+            for (int i = 0; i < placementArrayList.size(); i++) {
+                if (placementArrayList.get(i).getPlaccementName().equals(place)) {
+                    spBonsaiPlace.setSelection(i);
+                    break;
+                }
+            }
+
+            txtBonsaiDayPlanted.setText(getIntent().getStringExtra("dayPlanted"));
+            editItem.setBonsaiDayPlanted(getIntent().getStringExtra("dayPlanted"));
+        }
+    }
+
     private void showKeyboard() {
+        isShowKeyboard = true;
         txtBonsaiName.requestFocus();
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
     private void hideKeyboard() {
+        isShowKeyboard = false;
         txtBonsaiName.clearFocus();
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(txtBonsaiName.getWindowToken(), 0);
@@ -276,13 +320,13 @@ public class NewBonsaiActivity extends AppCompatActivity {
         textView.setText(formattedDate);
     }
 
-    private void setDataForSpinner(Spinner spBonsaiType, int arrayId) {
-        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this, arrayId, R.layout.spinner_item);
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        spBonsaiType.setAdapter(arrayAdapter);
+    private void setDataForBonsaiTypeSpinner(Spinner spBonsaiType, int arrayId) {
+        ArrayAdapter<CharSequence> bonsaiTypeAdapter = ArrayAdapter.createFromResource(this, arrayId, R.layout.spinner_item);
+        bonsaiTypeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        spBonsaiType.setAdapter(bonsaiTypeAdapter);
     }
 
-    private void setDataForSpinner(Spinner spBonsaiPlace, ArrayList<PlacementItem> placementArrayList) {
+    private void setDataForBonsaiPlaceSpinner(Spinner spBonsaiPlace, ArrayList<PlacementItem> placementArrayList) {
         List<String> stringList = new ArrayList<>();
         for (int i = 0; i < placementArrayList.size(); i++) {
             stringList.add(placementArrayList.get(i).getPlaccementName());

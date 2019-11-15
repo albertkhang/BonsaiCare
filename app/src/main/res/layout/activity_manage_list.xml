@@ -55,16 +55,6 @@
             app:layout_constraintLeft_toRightOf="@id/btnBack"
             app:layout_constraintRight_toRightOf="parent"/>
 
-<!--        <ImageView-->
-<!--            android:id="@+id/searchFrameButton"-->
-<!--            android:layout_width="54dp"-->
-<!--            android:layout_height="36dp"-->
-<!--            android:visibility="visible"-->
-<!--            android:src="@drawable/frame_search_button"-->
-<!--            app:layout_constraintTop_toTopOf="@id/searchFrame"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/searchFrame"-->
-<!--            app:layout_constraintRight_toRightOf="@id/searchFrame"/>-->
-
         <EditText
             android:id="@+id/txt_search_frame"
             android:layout_width="0dp"

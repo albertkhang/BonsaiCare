@@ -143,7 +143,7 @@ public class ManipulationDb {
         cursor.close();
     }
 
-    public static void addNewBonsaiToDb(FeedReaderDbHelper dbHelper, BonsaiItem bonsaiItem) {
+    public static void addNewBonsai(FeedReaderDbHelper dbHelper, BonsaiItem bonsaiItem) {
         //get placementId from placementName
         //insert to Db
 
@@ -159,6 +159,43 @@ public class ManipulationDb {
         values.put(FeedReaderContract.FeedEntry.BONSAI_DAY_PLANTED, bonsaiItem.getBonsaiDayPlanted());
 
         db.insert(FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME, null, values);
+    }
+
+    public static void updateBonsai(FeedReaderDbHelper dbHelper, BonsaiItem bonsaiItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.BONSAI_NAME, bonsaiItem.getBonsaiName());
+        values.put(FeedReaderContract.FeedEntry.BONSAI_TYPE, bonsaiItem.getBonsaiType());
+
+        int placementId = getPlacementIdFromPlacementName(dbHelper, bonsaiItem.getBonsaiPlacementName());
+        values.put(FeedReaderContract.FeedEntry.BONSAI_PLACEMENT_ID, placementId);
+
+        values.put(FeedReaderContract.FeedEntry.BONSAI_DAY_PLANTED, bonsaiItem.getBonsaiDayPlanted());
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(bonsaiItem.getId())};
+
+        db.update(
+                FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
+    public static boolean deleteBonsai(FeedReaderDbHelper dbHelper, int bonsai_id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(bonsai_id)};
+
+        int deletedRows = db.delete(FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME, selection, selectionArgs);
+
+        if (deletedRows == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private static int getPlacementIdFromPlacementName(FeedReaderDbHelper dbHelper, String placementName) {
