@@ -143,6 +143,39 @@ public class ManipulationDb {
         cursor.close();
     }
 
+    public static void getBonsai(FeedReaderDbHelper dbHelper, BonsaiItem bonsaiItem) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.BONSAI_NAME,
+                FeedReaderContract.FeedEntry.BONSAI_TYPE,
+                FeedReaderContract.FeedEntry.BONSAI_PLACEMENT_ID,
+                FeedReaderContract.FeedEntry.BONSAI_DAY_PLANTED
+        };
+
+        String selection = FeedReaderContract.FeedEntry._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(bonsaiItem.getId())};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            bonsaiItem.setBonsaiName(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_NAME)));
+            bonsaiItem.setBonsaiType(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_TYPE)));
+            int placeId = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_TYPE));
+            bonsaiItem.setBonsaiPlacementName(getPlacementNameFromPlacementId(dbHelper, placeId));
+            bonsaiItem.setBonsaiDayPlanted(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_DAY_PLANTED)));
+        }
+        cursor.close();
+    }
+
     public static void addNewBonsai(FeedReaderDbHelper dbHelper, BonsaiItem bonsaiItem) {
         //get placementId from placementName
         //insert to Db
@@ -264,6 +297,7 @@ public class ManipulationDb {
         String[] projection = {
                 BaseColumns._ID
         };
+
         String selection = FeedReaderContract.FeedEntry.BONSAI_PLACEMENT_ID + " = ?";
         String[] selectionArgs = {String.valueOf(placementId)};
 
@@ -330,4 +364,5 @@ public class ManipulationDb {
 
         return postReturn;
     }
+
 }

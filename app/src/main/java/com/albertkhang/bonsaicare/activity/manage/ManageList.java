@@ -62,6 +62,7 @@ public class ManageList extends AppCompatActivity {
 
     private static final int ADD_REQUEST_CODE = 1;
     private static final int EDIT_REQUEST_CODE = 2;
+    private static final int EDIT_ACTIVITY_REQUEST_CODE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,7 +304,7 @@ public class ManageList extends AppCompatActivity {
         intent.putExtra("place", bonsaiArrayList.get(position).getBonsaiPlacementName());
         intent.putExtra("dayPlanted", bonsaiArrayList.get(position).getBonsaiDayPlanted());
 
-        startActivity(intent);
+        startActivityForResult(intent, EDIT_ACTIVITY_REQUEST_CODE);
     }
 
     private void showKeyboard() {
@@ -339,6 +340,16 @@ public class ManageList extends AppCompatActivity {
 
                     ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
                     bonsaiAdapter.uppdate(bonsaiArrayList);
+                }
+                break;
+
+            case EDIT_ACTIVITY_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data.getBooleanExtra("isChange", false)) {
+                        Log.d("_onActivityResult", "EDIT_ACTIVITY_REQUEST_CODE");
+                        ManipulationDb.getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
+                        bonsaiAdapter.uppdate(bonsaiArrayList);
+                    }
                 }
                 break;
         }

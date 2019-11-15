@@ -55,6 +55,7 @@
     <string name="bonsaiPlace">Place:</string>
     <string name="bonsaiDayPlanted">Day Planted:</string>
     <string name="submit">Submit</string>
+    <string name="delete">Delete</string>
 
     <!--    format-->
     <string name="dateFormat">MM - dd - yyy</string>

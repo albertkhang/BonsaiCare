@@ -12,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.albertkhang.bonsaicare.activity.manage.ManageList;
 import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
@@ -70,7 +70,7 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
         spBonsaiPlace = findViewById(R.id.spBonsaiPlace);
         dbHelper = new FeedReaderDbHelper(this);
         txtBonsaiDayPlanted = findViewById(R.id.txtBonsaiDayPlanted);
-        btnAddNewBonsaiSubmit = findViewById(R.id.btnAddNewBonsaiSubmit);
+        btnAddNewBonsaiSubmit = findViewById(R.id.btnDeleteBonsaiSubmit);
         btnBack = findViewById(R.id.btnBack);
         txtDetailSettingTitle = findViewById(R.id.txtDetailSettingTitle);
         imgPlaceErrorIcon = findViewById(R.id.imgPlaceErrorIcon);
@@ -121,49 +121,34 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isBonsaiNameValid(txtBonsaiName.getText().toString())) {
                     //create item
-                    BonsaiItem item = new BonsaiItem();
-                    item.setBonsaiName(txtBonsaiName.getText().toString());
-                    item.setBonsaiType(spBonsaiType.getSelectedItem().toString());
-                    item.setBonsaiPlacementName(spBonsaiPlace.getSelectedItem().toString());
-                    item.setBonsaiDayPlanted(txtBonsaiDayPlanted.getText().toString());
+                    editItem.setBonsaiName(txtBonsaiName.getText().toString());
+                    editItem.setBonsaiType(spBonsaiType.getSelectedItem().toString());
+                    editItem.setBonsaiPlacementName(spBonsaiPlace.getSelectedItem().toString());
+                    editItem.setBonsaiDayPlanted(txtBonsaiDayPlanted.getText().toString());
 
-                    if (haveEmptyPlace(item.getBonsaiPlacementName())) {
+                    if (haveEmptyPlace(txtBonsaiName.getText().toString())) {
                         if (txtDetailSettingTitle.getText().toString().equals(getIntent().getStringExtra("title"))) {
+                            Log.d("_btnAddNewBonsaiSubmit", "update");
                             //update
-                            item.setId(editItem.getId());
-                            ManipulationDb.updateBonsai(dbHelper, item);
-                            closeActivity(true);//return to preActivity and refresh Db
+
+                            ManipulationDb.updateBonsai(dbHelper, editItem);
                             Toast.makeText(NewAndEditBonsaiActivity.this, "Edit success!", Toast.LENGTH_LONG).show();
                         } else {
+                            Log.d("_btnAddNewBonsaiSubmit", "add");
                             //add
-                            ManipulationDb.addNewBonsai(dbHelper, item);
+                            ManipulationDb.addNewBonsai(dbHelper, editItem);
                             Toast.makeText(NewAndEditBonsaiActivity.this, "Add success!", Toast.LENGTH_LONG).show();
-                            closeActivity(true);//return to preActivity and refresh Db
                         }
                     } else {
-                        String notify = "'" + item.getBonsaiPlacementName() + "' was full. Please choose other place.";
+                        String notify = "'" + spBonsaiPlace.getSelectedItem().toString() + "' was full. Please choose other place.";
                         Toast.makeText(NewAndEditBonsaiActivity.this, notify, Toast.LENGTH_LONG).show();
                         imgPlaceErrorIcon.setVisibility(View.VISIBLE);
                     }
 
-//                    if (txtDetailSettingTitle.getText().toString().equals(getIntent().getStringExtra("title"))) {
-//                        //update
-//                        item.setId(editItem.getId());
-//                        ManipulationDb.updateBonsai(dbHelper, item);
-//                        closeActivity(true);//return to preActivity and refresh Db
-//                        Toast.makeText(NewAndEditBonsaiActivity.this, "Edit success!", Toast.LENGTH_LONG).show();
-//                    } else {
-//                        //add
-//                        if (haveEmptyPlace(item.getBonsaiPlacementName())) {
-//                            ManipulationDb.addNewBonsai(dbHelper, item);
-//                            Toast.makeText(NewAndEditBonsaiActivity.this, "Add success!", Toast.LENGTH_LONG).show();
-//                            closeActivity(true);//return to preActivity and refresh Db
-//                        } else {
-//                            String notify = "'" + item.getBonsaiPlacementName() + "' was full. Please choose other place.";
-//                            Toast.makeText(NewAndEditBonsaiActivity.this, notify, Toast.LENGTH_LONG).show();
-//                            imgPlaceErrorIcon.setVisibility(View.VISIBLE);
-//                        }
-//                    }
+                    Log.d("_btnAddNewBonsaiSubmit", "name: " + editItem.getBonsaiName());
+
+                    //put data back to preActivity
+                    putDataToPreActivity(editItem);
                 } else {
                     //notify error
                     txtBonsaiName.setError(getString(R.string.bonsaiNameError));
@@ -213,6 +198,29 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void putDataToPreActivity(BonsaiItem item) {
+//        Log.d("_btnAddNewBonsaiSubmit", "putDataToPreActivity");
+        Intent intent = new Intent(this, BonsaiDetailActivity.class);
+
+//        Log.d("putDataToPreActivity", "id: " + item.getId());
+
+        intent.putExtra("name", item.getBonsaiName());
+//        Log.d("putDataToPreActivity", "name: " + item.getBonsaiName());
+
+        intent.putExtra("type", item.getBonsaiType());
+//        Log.d("putDataToPreActivity", "type: " + item.getBonsaiType());
+
+        intent.putExtra("place", item.getBonsaiPlacementName());
+//        Log.d("putDataToPreActivity", "place: " + item.getBonsaiPlacementName());
+
+        intent.putExtra("dayPlanted", item.getBonsaiDayPlanted());
+//        Log.d("putDataToPreActivity", "dayPlanted: " + item.getBonsaiDayPlanted());
+
+        setResult(Activity.RESULT_OK, intent);
+
+        finish();
     }
 
     private boolean haveEmptyPlace(String bonsaiPlacementName) {

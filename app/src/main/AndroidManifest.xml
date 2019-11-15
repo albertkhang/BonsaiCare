@@ -13,7 +13,7 @@
         <activity android:name=".activity.manage.bonsai.NewAndEditBonsaiActivity" />
         <activity android:name=".activity.setting.ChangeSetting" />
         <activity android:name=".activity.manage.ManageReport" />
-        <activity android:name=".activity.manage.ManageList" />
+        <activity android:name=".activity.manage.ManageList"  />
         <activity android:name=".activity.schedule.ScheduleItemActivity" />
         <activity android:name=".activity.schedule.ScheduleNewItemActivity" />
         <activity android:name=".activity.MainActivity">
