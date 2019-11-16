@@ -1,2 +1,2 @@
 # BonsaiCare
-A personal project when learning Android apps development.
+View more detail here: https://github.com/albertkhang/BonsaiCareProjectDirectory
