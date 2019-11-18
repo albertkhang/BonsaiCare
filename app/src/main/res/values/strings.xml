@@ -82,6 +82,7 @@
 
     <string name="editBonsaiTitle">Edit Bonsai</string>
     <string name="editPlaceTitle">Edit Place</string>
+    <string name="editSupplyTitle">Edit Supply</string>
 
     <string name="putExtraBonsaiItemClick">putExtraBonsaiItemClick</string>
 

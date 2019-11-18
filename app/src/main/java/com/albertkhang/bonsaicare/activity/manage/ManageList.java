@@ -28,6 +28,7 @@ import com.albertkhang.bonsaicare.activity.MainActivity;
 import com.albertkhang.bonsaicare.activity.manage.place.NewAndEditPlaceActivity;
 import com.albertkhang.bonsaicare.activity.manage.place.PlaceDetailActivity;
 import com.albertkhang.bonsaicare.activity.manage.supply.NewAndEditSupplyActivity;
+import com.albertkhang.bonsaicare.activity.manage.supply.SupplyDetailActivity;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
@@ -384,7 +385,6 @@ public class ManageList extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0://Edit
-                                Toast.makeText(ManageList.this, "Edit", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(ManageList.this, NewAndEditPlaceActivity.class);
                                 intent.putExtra("title", getString(R.string.editPlaceTitle));
                                 intent.putExtra("id", placementArrayList.get(position).getId());
@@ -478,7 +478,7 @@ public class ManageList extends AppCompatActivity {
         supplyAdapter.setOnItemClickListener(new SupplyRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-
+                startSupplyDetailActivity(position);
             }
         });
 
@@ -491,7 +491,14 @@ public class ManageList extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0://Edit
-                                Toast.makeText(ManageList.this, "Edit", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(ManageList.this, NewAndEditSupplyActivity.class);
+                                intent.putExtra("title", getString(R.string.editPlaceTitle));
+                                intent.putExtra("id", supplyArrayList.get(position).getId());
+                                intent.putExtra("name", supplyArrayList.get(position).getSupplyName());
+                                intent.putExtra("unit", supplyArrayList.get(position).getSupplyUnit());
+                                intent.putExtra("total", supplyArrayList.get(position).getTotal());
+
+                                startActivityForResult(intent, EDIT_SUPPLY_REQUEST_CODE);
 
                                 break;
                             case 1://Delete
@@ -548,6 +555,17 @@ public class ManageList extends AppCompatActivity {
         intent.putExtra("total", placementArrayList.get(position).getTotalBonsai());
 
         startActivityForResult(intent, EDIT_PLACE_REQUEST_CODE);
+    }
+
+    private void startSupplyDetailActivity(int position) {
+        Intent intent = new Intent(ManageList.this, SupplyDetailActivity.class);
+        intent.putExtra("title", getString(R.string.editSupplyTitle));
+        intent.putExtra("id", supplyArrayList.get(position).getId());
+        intent.putExtra("name", supplyArrayList.get(position).getSupplyName());
+        intent.putExtra("unit", supplyArrayList.get(position).getSupplyUnit());
+        intent.putExtra("total", supplyArrayList.get(position).getTotal());
+
+        startActivityForResult(intent, DETAIL_SUPPLY_REQUEST_CODE);
     }
 
     private void showKeyboard() {
@@ -623,6 +641,21 @@ public class ManageList extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     Toast.makeText(ManageList.this, R.string.toastAddSuccess, Toast.LENGTH_LONG).show();
 
+                    ManipulationDb.getAllDataSupplyTable(dbHelper, supplyArrayList);
+                    supplyAdapter.update(supplyArrayList);
+                }
+                break;
+
+            case EDIT_SUPPLY_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(ManageList.this, R.string.toastEditSuccess, Toast.LENGTH_LONG).show();
+
+                    ManipulationDb.getAllDataSupplyTable(dbHelper, supplyArrayList);
+                    supplyAdapter.update(supplyArrayList);
+                }
+                break;
+            case DETAIL_SUPPLY_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
                     ManipulationDb.getAllDataSupplyTable(dbHelper, supplyArrayList);
                     supplyAdapter.update(supplyArrayList);
                 }

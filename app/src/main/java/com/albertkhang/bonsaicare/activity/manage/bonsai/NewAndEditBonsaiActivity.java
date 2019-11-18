@@ -126,7 +126,7 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
                     editItem.setBonsaiPlacementName(spBonsaiPlace.getSelectedItem().toString());
                     editItem.setBonsaiDayPlanted(txtBonsaiDayPlanted.getText().toString());
 
-                    if (haveEmptyPlace(txtBonsaiName.getText().toString())) {
+                    if (haveEmptyPlace(spBonsaiPlace.getSelectedItem().toString())) {
                         if (txtDetailSettingTitle.getText().toString().equals(getIntent().getStringExtra("title"))) {
                             Log.d("_btnAddNewBonsaiSubmit", "update");
                             //update
@@ -139,6 +139,9 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
                             ManipulationDb.addNewBonsai(dbHelper, editItem);
                             Toast.makeText(NewAndEditBonsaiActivity.this, "Add success!", Toast.LENGTH_LONG).show();
                         }
+
+                        //put data back to preActivity
+                        putDataToPreActivity(editItem);
                     } else {
                         String notify = "'" + spBonsaiPlace.getSelectedItem().toString() + "' was full. Please choose other place.";
                         Toast.makeText(NewAndEditBonsaiActivity.this, notify, Toast.LENGTH_LONG).show();
@@ -146,9 +149,6 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
                     }
 
                     Log.d("_btnAddNewBonsaiSubmit", "name: " + editItem.getBonsaiName());
-
-                    //put data back to preActivity
-                    putDataToPreActivity(editItem);
                 } else {
                     //notify error
                     txtBonsaiName.setError(getString(R.string.nameError));
@@ -167,7 +167,6 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
         txtBonsaiName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                showKeyboard();
                 isShowKeyboard = true;
             }
         });
@@ -188,7 +187,6 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
                 return false;
             }
         });
-//
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
