@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.albertkhang.bonsaicare.R;
 
-import java.util.logging.Handler;
-
 public class TopBarAnimation {
     private static long transparentShowDuration = 150;
     private static long transparentHideDuration = 100;
@@ -129,7 +127,7 @@ public class TopBarAnimation {
 
     private static void scaleShowAddIconAndTitleTopBar(View view) {
         ImageView addIcon = view.findViewById(R.id.imgManageListAddButton);
-        TextView title = view.findViewById(R.id.txtDetailSettingTitle);
+        TextView title = view.findViewById(R.id.txtDetailTitle);
 
         showIcon(addIcon);
         showIcon(title);
@@ -222,7 +220,7 @@ public class TopBarAnimation {
 
     private static void scaleHideAddIconAndTitleTopBar(View view) {
         ImageView addIcon = view.findViewById(R.id.imgManageListAddButton);
-        TextView title = view.findViewById(R.id.txtDetailSettingTitle);
+        TextView title = view.findViewById(R.id.txtDetailTitle);
 
         hideIcon(addIcon);
         hideIcon(title);

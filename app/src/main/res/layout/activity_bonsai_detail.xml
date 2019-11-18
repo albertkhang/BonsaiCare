@@ -8,7 +8,7 @@
     tools:context=".activity.manage.bonsai.BonsaiDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_layout_detail"
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:background="@color/colorBackground"
@@ -31,7 +31,7 @@
             app:layout_constraintLeft_toLeftOf="parent"/>
 
         <TextView
-            android:id="@+id/txtDetailSettingTitle"
+            android:id="@+id/txtDetailTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bonsaiDetailTitle"
@@ -43,7 +43,7 @@
             app:layout_constraintRight_toRightOf="parent" />
 
         <ImageView
-            android:id="@+id/imgEditDetailButton"
+            android:id="@+id/imgEditButton"
             android:layout_width="@dimen/topBarWidthButton"
             android:layout_height="@dimen/topBarHeightButton"
             android:src="@drawable/ic_edit"
@@ -57,7 +57,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame_BonsaiId"
+        android:id="@+id/frame_Id"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
@@ -69,10 +69,10 @@
         android:paddingRight="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_layout_detail">
+        app:layout_constraintTop_toBottomOf="@+id/top_layout">
 
         <TextView
-            android:id="@+id/txtSettingMaxBonsaiTitle"
+            android:id="@+id/txtIdTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Id: "
@@ -84,7 +84,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txtBonsaiIdValue"
+            android:id="@+id/txtIdValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="4"
@@ -93,12 +93,12 @@
             android:textSize="@dimen/settingTitleSize"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/txtSettingMaxBonsaiTitle"/>
+            app:layout_constraintLeft_toRightOf="@id/txtIdTitle"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame_BonsaiName"
+        android:id="@+id/frame_Name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
@@ -110,7 +110,7 @@
         android:paddingRight="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frame_BonsaiId">
+        app:layout_constraintTop_toBottomOf="@+id/frame_Id">
 
         <TextView
             android:id="@+id/txtBonsaiNameTitle"
@@ -125,7 +125,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txtBonsaiNameValue"
+            android:id="@+id/txtNameValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name of bonsai"
@@ -151,7 +151,7 @@
         android:paddingRight="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frame_BonsaiName">
+        app:layout_constraintTop_toBottomOf="@+id/frame_Name">
 
         <TextView
             android:id="@+id/txtBonsaiTypeTitle"
@@ -216,7 +216,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imgBonsaiPlacementIcon"
+            android:id="@+id/imgPlacementIcon"
             android:layout_width="wrap_content"
             android:layout_height="26dp"
             android:src="@drawable/ic_window"
@@ -280,7 +280,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnDeleteBonsaiSubmit"
+        android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"

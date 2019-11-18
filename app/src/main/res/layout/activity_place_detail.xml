@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".activity.manage.bonsai.NewAndEditBonsaiActivity">
+    tools:context=".activity.manage.bonsai.BonsaiDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top_layout_new_bonsai"
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:background="@color/colorBackground"
@@ -21,49 +21,61 @@
             android:id="@+id/btnBack"
             android:layout_width="50dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="30dp"
             android:paddingTop="18dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="6dp"
             android:paddingBottom="18dp"
             android:src="@drawable/ic_left"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
         <TextView
             android:id="@+id/txtDetailTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:text="@string/addNewBonsai"
+            android:text="@string/titlePlacement"
             android:textColor="@color/colorItemTitle"
             android:textSize="22sp"
+            android:layout_marginBottom="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgEditButton"
+            android:layout_width="@dimen/topBarWidthButton"
+            android:layout_height="@dimen/topBarHeightButton"
+            android:src="@drawable/ic_edit"
+            android:paddingRight="@dimen/topBarPaddingRightAddButton"
+            android:paddingBottom="@dimen/topBarPaddingBottomButton"
+            android:paddingTop="@dimen/topBarPaddingTopButton"
+            android:paddingLeft="@dimen/topBarPaddingLeftAddButton"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame_BonsaiNameDetail"
+        android:id="@+id/frame_Id"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/constraint_layout_ripple"
         android:clickable="false"
+        android:background="@drawable/constraint_layout_ripple"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_layout_new_bonsai">
+        app:layout_constraintTop_toBottomOf="@+id/top_layout">
 
         <TextView
             android:id="@+id/txtIdTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bonsaiName"
+            android:text="Id: "
             android:textColor="@color/colorItemTitle"
             android:textSize="@dimen/settingTitleSize"
             android:textStyle="italic|bold"
@@ -71,45 +83,40 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/txtPlaceName"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="6dp"
-            android:background="@null"
-            android:backgroundTint="@color/colorHint"
-            android:hint="Enter Bonsai Name"
-            android:inputType="text"
-            android:maxLength="24"
-            android:maxLines="1"
-            android:textColor="@color/colorItemTitle"
-            android:textColorHint="@color/colorHint"
-            app:layout_constraintBottom_toBottomOf="@id/txtIdTitle"
-            app:layout_constraintLeft_toRightOf="@id/txtIdTitle"
-            app:layout_constraintRight_toRightOf="@id/frame_BonsaiNameDetail"
-            app:layout_constraintTop_toTopOf="@id/txtIdTitle" />
+        <TextView
+            android:id="@+id/txtIdValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:layout_marginLeft="@dimen/marLeftText"
+            android:textColor="@color/colorItemInfo"
+            android:textSize="@dimen/settingTitleSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtIdTitle"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame_BonsaiType"
+        android:id="@+id/frame_Name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/constraint_layout_ripple"
         android:clickable="false"
+        android:background="@drawable/constraint_layout_ripple"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frame_BonsaiNameDetail">
+        app:layout_constraintTop_toBottomOf="@+id/frame_Id">
 
         <TextView
-            android:id="@+id/txtBonsaiTypeTitle"
+            android:id="@+id/txtBonsaiNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bonsaiType"
+            android:text="Place name: "
             android:textColor="@color/colorItemTitle"
             android:textSize="@dimen/settingTitleSize"
             android:textStyle="italic|bold"
@@ -117,91 +124,48 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Spinner
-            android:id="@+id/spBonsaiType"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="6dp"
-            android:backgroundTint="@color/dropDownArrow"
-            android:spinnerMode="dropdown"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/txtBonsaiTypeTitle"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame_BonsaiPlace"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/constraint_layout_ripple"
-        android:clickable="false"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frame_BonsaiType">
-
         <TextView
-            android:id="@+id/txtBonsaiPlaceTitle"
+            android:id="@+id/txtNameValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bonsaiPlace"
-            android:textColor="@color/colorItemTitle"
+            android:text="Window"
+            android:layout_marginLeft="@dimen/marLeftText"
+            android:textColor="@color/colorItemInfo"
             android:textSize="@dimen/settingTitleSize"
-            android:textStyle="italic|bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Spinner
-            android:id="@+id/spBonsaiPlace"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="6dp"
-            android:backgroundTint="@color/dropDownArrow"
-            android:spinnerMode="dropdown"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/txtBonsaiPlaceTitle"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtBonsaiNameTitle"/>
 
         <ImageView
-            android:id="@+id/imgPlaceErrorIcon"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:visibility="invisible"
-            android:src="@drawable/ic_error"
-            android:layout_marginBottom="12dp"
+            android:id="@+id/imgPlacementIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_window"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/spBonsaiPlace"/>
-
+            app:layout_constraintRight_toRightOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame_BonsaiDayPlanted"
+        android:id="@+id/frame_Total"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/constraint_layout_ripple"
         android:clickable="false"
+        android:background="@drawable/constraint_layout_ripple"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frame_BonsaiPlace">
+        app:layout_constraintTop_toBottomOf="@+id/frame_Name">
 
         <TextView
-            android:id="@+id/txtBonsaiDayPlantedTitle"
+            android:id="@+id/txtTotalTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bonsaiDayPlanted"
+            android:text="Total bonsai: "
             android:textColor="@color/colorItemTitle"
             android:textSize="@dimen/settingTitleSize"
             android:textStyle="italic|bold"
@@ -210,35 +174,33 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txtBonsaiDayPlanted"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="6dp"
-            android:gravity="center_vertical"
-            android:text="today"
-            android:textColor="@color/colorItemTitle"
+            android:id="@+id/txtTotalValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:layout_marginLeft="@dimen/marLeftText"
+            android:textColor="@color/colorItemInfo"
             android:textSize="@dimen/settingTitleSize"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/txtBonsaiDayPlantedTitle"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtTotalTitle"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnSubmit"
+        android:id="@+id/btnDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/button_ripple"
+        android:background="@drawable/button_ripple_delete"
         android:clickable="true"
-        android:text="@string/submit"
+        android:text="@string/delete"
         android:textColor="@color/colorItemTitle"
         android:textSize="@dimen/buttonTextSize"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frame_BonsaiDayPlanted" />
+        app:layout_constraintTop_toBottomOf="@id/frame_Total" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

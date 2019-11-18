@@ -2,14 +2,15 @@ package com.albertkhang.bonsaicare.objectClass;
 
 public class PlacementItem {
     int id;
-    String placcementName;
+    String placementName;
+    int totalBonsai;
 
     public PlacementItem() {
     }
 
-    public PlacementItem(int id, String placcementName) {
+    public PlacementItem(int id, String placementName) {
         this.id = id;
-        this.placcementName = placcementName;
+        this.placementName = placementName;
     }
 
     public int getId() {
@@ -20,11 +21,19 @@ public class PlacementItem {
         this.id = id;
     }
 
-    public String getPlaccementName() {
-        return placcementName;
+    public String getPlacementName() {
+        return placementName;
     }
 
-    public void setPlaccementName(String placcementName) {
-        this.placcementName = placcementName;
+    public void setPlacementName(String placementName) {
+        this.placementName = placementName;
+    }
+
+    public int getTotalBonsai() {
+        return totalBonsai;
+    }
+
+    public void setTotalBonsai(int totalBonsai) {
+        this.totalBonsai = totalBonsai;
     }
 }

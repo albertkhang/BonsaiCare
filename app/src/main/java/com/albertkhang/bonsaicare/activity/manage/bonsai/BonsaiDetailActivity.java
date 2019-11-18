@@ -16,10 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.manage.ManageList;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
-import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 
 public class BonsaiDetailActivity extends AppCompatActivity {
     TextView txtBonsaiIdValue;
@@ -38,7 +36,7 @@ public class BonsaiDetailActivity extends AppCompatActivity {
 
     FeedReaderDbHelper dbHelper;
 
-    boolean needRefesh = false;
+    boolean needRefresh = false;
 
     private static final int EDIT_REQUEST_CODE = 1;
 
@@ -52,19 +50,19 @@ public class BonsaiDetailActivity extends AppCompatActivity {
     }
 
     private void addControl() {
-        txtBonsaiIdValue = findViewById(R.id.txtBonsaiIdValue);
-        txtBonsaiNameValue = findViewById(R.id.txtBonsaiNameValue);
+        txtBonsaiIdValue = findViewById(R.id.txtIdValue);
+        txtBonsaiNameValue = findViewById(R.id.txtNameValue);
         txtBonsaiTypeValue = findViewById(R.id.txtBonsaiTypeValue);
         txtBonsaiPlacementValue = findViewById(R.id.txtBonsaiPlacementValue);
         txtBonsaiDayPlantedValue = findViewById(R.id.txtBonsaiDayPlantedValue);
 
         imgBonsaiTypeIcon = findViewById(R.id.imgBonsaiTypeIcon);
-        imgBonsaiPlacementIcon = findViewById(R.id.imgBonsaiPlacementIcon);
+        imgBonsaiPlacementIcon = findViewById(R.id.imgPlacementIcon);
 
         btnBack = findViewById(R.id.btnBack);
 
-        btnDeleteBonsaiSubmit = findViewById(R.id.btnDeleteBonsaiSubmit);
-        imgEditDetailButton = findViewById(R.id.imgEditDetailButton);
+        btnDeleteBonsaiSubmit = findViewById(R.id.btnSubmit);
+        imgEditDetailButton = findViewById(R.id.imgEditButton);
 
         dbHelper = new FeedReaderDbHelper(this);
 
@@ -121,7 +119,7 @@ public class BonsaiDetailActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (needRefesh) {
+                if (needRefresh) {
                     putDataBack();
                 } else {
                     finish();
@@ -132,8 +130,6 @@ public class BonsaiDetailActivity extends AppCompatActivity {
 
     private void putDataBack() {
         Intent intent = new Intent();
-        intent.putExtra("isChange", true);
-
         setResult(Activity.RESULT_OK, intent);
 
         finish();
@@ -158,7 +154,7 @@ public class BonsaiDetailActivity extends AppCompatActivity {
                     txtBonsaiPlacementValue.setText(place);
                     txtBonsaiDayPlantedValue.setText(dayPlanted);
 
-                    needRefesh = true;
+                    needRefresh = true;
                 }
                 break;
         }
@@ -202,7 +198,7 @@ public class BonsaiDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (needRefesh) {
+        if (needRefresh) {
             putDataBack();
         }
 

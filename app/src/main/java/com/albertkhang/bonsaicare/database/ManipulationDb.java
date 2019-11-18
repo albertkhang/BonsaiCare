@@ -93,7 +93,8 @@ public class ManipulationDb {
 
             PlacementItem item = new PlacementItem();
             item.setId(placementId);
-            item.setPlaccementName(placementName);
+            item.setPlacementName(placementName);
+            item.setTotalBonsai(countBonsaiInPlacement(dbHelper, placementName));
             placementArrayList.add(item);
 
             Log.d("_ManipulationDb", "placementId: " + placementId);
@@ -177,9 +178,6 @@ public class ManipulationDb {
     }
 
     public static void addNewBonsai(FeedReaderDbHelper dbHelper, BonsaiItem bonsaiItem) {
-        //get placementId from placementName
-        //insert to Db
-
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -223,6 +221,46 @@ public class ManipulationDb {
         String[] selectionArgs = {String.valueOf(bonsai_id)};
 
         int deletedRows = db.delete(FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME, selection, selectionArgs);
+
+        if (deletedRows == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void addNewPlace(FeedReaderDbHelper dbHelper, PlacementItem placeItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.PLACEMENT_NAME, placeItem.getPlacementName());
+
+        db.insert(FeedReaderContract.FeedEntry.PLACEMENT_TABLE_NAME, null, values);
+    }
+
+    public static void updatePlace(FeedReaderDbHelper dbHelper, PlacementItem placeItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.PLACEMENT_NAME, placeItem.getPlacementName());
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(placeItem.getId())};
+
+        db.update(
+                FeedReaderContract.FeedEntry.PLACEMENT_TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
+    public static boolean deletePlace(FeedReaderDbHelper dbHelper, int place_id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(place_id)};
+
+        int deletedRows = db.delete(FeedReaderContract.FeedEntry.PLACEMENT_TABLE_NAME, selection, selectionArgs);
 
         if (deletedRows == 1) {
             return true;
@@ -340,8 +378,8 @@ public class ManipulationDb {
         ArrayList<String> placeError = new ArrayList<>();
 
         for (int i = 0; i < placementArrayList.size(); i++) {
-            if (!newMaxBonsaiValid(dbHelper, newMaxBonsai, placementArrayList.get(i).getPlaccementName())) {
-                placeError.add(placementArrayList.get(i).getPlaccementName());
+            if (!newMaxBonsaiValid(dbHelper, newMaxBonsai, placementArrayList.get(i).getPlacementName())) {
+                placeError.add(placementArrayList.get(i).getPlacementName());
             }
         }
 

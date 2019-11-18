@@ -4,19 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
-import android.text.SpannableStringBuilder;
-import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -123,7 +117,7 @@ public class FragmentSetting extends Fragment {
         txtSettingMaxBonsaiValue = getView().findViewById(R.id.txtSettingMaxBonsaiValue);
         txtSettingMaxMoneyPerSupplyValue = getView().findViewById(R.id.txtSettingMaxMoneyPerSupplyValue);
 
-        txtSettingMaxBonsaiTitle = getView().findViewById(R.id.txtSettingMaxBonsaiTitle);
+        txtSettingMaxBonsaiTitle = getView().findViewById(R.id.txtIdTitle);
         txtSettingMaxMoneyPerSupplyTitle = getView().findViewById(R.id.txtSettingMaxMoneyPerSupplyTitle);
 
         getSetting();

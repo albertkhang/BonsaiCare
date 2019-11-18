@@ -21,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.albertkhang.bonsaicare.activity.manage.ManageList;
 import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
@@ -64,16 +63,17 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
     }
 
     private void addControl() {
-        txtBonsaiName = findViewById(R.id.txtBonsaiName);
+        txtBonsaiName = findViewById(R.id.txtPlaceName);
         spBonsaiType = findViewById(R.id.spBonsaiType);
         placementArrayList = new ArrayList<>();
         spBonsaiPlace = findViewById(R.id.spBonsaiPlace);
         dbHelper = new FeedReaderDbHelper(this);
         txtBonsaiDayPlanted = findViewById(R.id.txtBonsaiDayPlanted);
-        btnAddNewBonsaiSubmit = findViewById(R.id.btnDeleteBonsaiSubmit);
+        btnAddNewBonsaiSubmit = findViewById(R.id.btnSubmit);
         btnBack = findViewById(R.id.btnBack);
-        txtDetailSettingTitle = findViewById(R.id.txtDetailSettingTitle);
+        txtDetailSettingTitle = findViewById(R.id.txtDetailTitle);
         imgPlaceErrorIcon = findViewById(R.id.imgPlaceErrorIcon);
+        editItem = new BonsaiItem();
 
         setDataForBonsaiTypeSpinner(spBonsaiType, R.array.dropdownBonsaiType);
 
@@ -151,7 +151,7 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
                     putDataToPreActivity(editItem);
                 } else {
                     //notify error
-                    txtBonsaiName.setError(getString(R.string.bonsaiNameError));
+                    txtBonsaiName.setError(getString(R.string.nameError));
                 }
             }
         });
@@ -167,6 +167,7 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
         txtBonsaiName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                showKeyboard();
                 isShowKeyboard = true;
             }
         });
@@ -178,7 +179,7 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
                     if (isBonsaiNameValid(txtBonsaiName.getText().toString())) {
                         hideKeyboard();
                     } else {
-                        txtBonsaiName.setError(getString(R.string.bonsaiNameError));
+                        txtBonsaiName.setError(getString(R.string.nameError));
                     }
 
                     return true;
@@ -270,7 +271,7 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
             String place = getIntent().getStringExtra("place");
             editItem.setBonsaiPlacementName(getIntent().getStringExtra("place"));
             for (int i = 0; i < placementArrayList.size(); i++) {
-                if (placementArrayList.get(i).getPlaccementName().equals(place)) {
+                if (placementArrayList.get(i).getPlacementName().equals(place)) {
                     spBonsaiPlace.setSelection(i);
                     break;
                 }
@@ -390,7 +391,7 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
     private void setDataForBonsaiPlaceSpinner(Spinner spBonsaiPlace, ArrayList<PlacementItem> placementArrayList) {
         List<String> stringList = new ArrayList<>();
         for (int i = 0; i < placementArrayList.size(); i++) {
-            stringList.add(placementArrayList.get(i).getPlaccementName());
+            stringList.add(placementArrayList.get(i).getPlacementName());
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, stringList);
         arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);

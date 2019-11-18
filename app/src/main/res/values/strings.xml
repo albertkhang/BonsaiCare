@@ -17,6 +17,7 @@
     <string name="titleSupplies">Supplies Manage</string>
     <string name="titleReport">Report Details</string>
     <string name="addNewBonsai">Add New Bonsai</string>
+    <string name="addNewPlace">Add New Place</string>
     <!--    detail-->
     <string name="detailBonsai">Show the bonsais that you have.</string>
     <string name="detailPlacement">Show the placements that you have.</string>
@@ -71,13 +72,20 @@
     <integer name="ADD_REQUEST_CODE">1</integer>
     <string name="toastAddFail">Add Fail!</string>
     <string name="toastEditFail">Edit Fail!</string>
+    <string name="toastDeleteFail">Delete Fail!</string>
+
     <string name="toastAddSuccess">Add Success!</string>
     <string name="toastEditSuccess">Edit Success!</string>
+    <string name="toastDeleteSuccess">Delete Success!</string>
+
+
     <string name="editBonsaiTitle">Edit Bonsai</string>
+    <string name="editPlaceTitle">Edit Place</string>
 
     <string name="putExtraBonsaiItemClick">putExtraBonsaiItemClick</string>
 
-    <string name="bonsaiNameError">Only letter, number, white space. No white space at first name and last name!</string>
+    <string name="nameError">Only letter, number, white space. No white space at first name and last name!</string>
+    <string name="notEmptyPlaceError">Please remove all bonsai in this place before delete!</string>
 
     <string name="sharedPreferencesSetting">sharedPreferencesSetting</string>
     <string name="sharedPreferencesSettingMaxBonsai">sharedPreferencesSettingMaxBonsai</string>

@@ -81,9 +81,9 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgSupplyIcon = itemView.findViewById(R.id.imgBonsaiIcon);
-            txtSupplyItemName = itemView.findViewById(R.id.txtBonsaiItemName);
-            txtSupplyItemTotal = itemView.findViewById(R.id.txtDayPlanted);
+            imgSupplyIcon = itemView.findViewById(R.id.imgPlacementIcon);
+            txtSupplyItemName = itemView.findViewById(R.id.txtPlacementName);
+            txtSupplyItemTotal = itemView.findViewById(R.id.txtTotalBonsaiValue);
             txtSupplyItemUnit = itemView.findViewById(R.id.txtSupplyItemUnit);
         }
     }

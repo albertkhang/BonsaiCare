@@ -1,23 +1,21 @@
 package com.albertkhang.bonsaicare.adapter;
 
-        import android.content.Context;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.Filter;
-        import android.widget.Filterable;
-        import android.widget.ImageView;
-        import android.widget.TextView;
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-        import androidx.annotation.NonNull;
-        import androidx.constraintlayout.widget.ConstraintLayout;
-        import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
-        import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
+import com.albertkhang.bonsaicare.R;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecyclerViewAdapter.ViewHolder> {
     Context context;
@@ -71,12 +69,27 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
 
         Log.d("_onBindViewHolder", "Loaded!");
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(view, position);
+            }
+        });
+
         holder.bonsai_item_frame_manage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("_onBindViewHolder", "Clicked!");
 
                 onItemClickListener.onItemClickListener(view, position);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClickListener.onItemLongClickListener(view, position);
+                return true;
             }
         });
 
@@ -123,10 +136,26 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
 
             bonsai_item_frame_manage = itemView.findViewById(R.id.bonsai_item_frame_manage);
 
-            imgBonsaiIcon = itemView.findViewById(R.id.imgBonsaiIcon);
-            txtBonsaiItemName = itemView.findViewById(R.id.txtBonsaiItemName);
-            txtDayPlanted = itemView.findViewById(R.id.txtDayPlanted);
+            imgBonsaiIcon = itemView.findViewById(R.id.imgPlacementIcon);
+            txtBonsaiItemName = itemView.findViewById(R.id.txtPlacementName);
+            txtDayPlanted = itemView.findViewById(R.id.txtTotalBonsaiValue);
             txtBonsaiItemPlace = itemView.findViewById(R.id.txtBonsaiItemPlace);
+        }
+    }
+
+    public void Filter(String text, ArrayList<BonsaiItem> bonsaiArrayList) {
+        if (!text.equals("")) {
+            ArrayList<BonsaiItem> filterArrayList = new ArrayList<>();
+            for (BonsaiItem item :
+                    bonsaiArrayList) {
+                if (item.getBonsaiName().toLowerCase().contains(text.toLowerCase())) {
+                    filterArrayList.add(item);
+                }
+            }
+
+            update(filterArrayList);
+        } else {
+            update(bonsaiArrayList);
         }
     }
 }

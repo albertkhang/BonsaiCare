@@ -139,7 +139,7 @@ public class FragmentManage extends Fragment {
                 intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titleBonsai));
                 break;
             case R.string.titlePlacement:
-                intent.putExtra(getString(R.string.putExtraManageShowIcon), "false");
+                intent.putExtra(getString(R.string.putExtraManageShowIcon), "true");
                 intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titlePlacement));
                 break;
             case R.string.titleSupplies:

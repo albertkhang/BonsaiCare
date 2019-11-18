@@ -22,7 +22,7 @@ tools:context=".fragment.FragmentManage">
     app:layout_constraintBottom_toTopOf="@id/frame_placement">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frameBonsaiItemIcon"
+        android:id="@+id/frameItemIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +32,7 @@ tools:context=".fragment.FragmentManage">
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imgBonsaiIcon"
+            android:id="@+id/imgPlacementIcon"
             android:layout_width="0dp"
             android:layout_height="@dimen/manageIconHeight"
             android:background="@drawable/ic_icon_bonsai"
@@ -49,7 +49,7 @@ tools:context=".fragment.FragmentManage">
         android:layout_height="70dp"
         android:background="@color/colorDivideLine"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/frameBonsaiItemIcon"
+        app:layout_constraintLeft_toRightOf="@id/frameItemIcon"
         app:layout_constraintRight_toLeftOf="@id/frameBonsaiDetail"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,19 +73,19 @@ tools:context=".fragment.FragmentManage">
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/txtBonsaiItemName"
+                android:id="@+id/txtPlacementName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/titleBonsai"
                 android:textColor="@color/colorItemTitle"
                 android:textSize="@dimen/manageTitleTextSize"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/txtDayPlanted"
+                app:layout_constraintBottom_toTopOf="@id/txtTotalBonsaiValue"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/txtDayPlanted"
+                android:id="@+id/txtTotalBonsaiValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="220dp"
@@ -95,7 +95,7 @@ tools:context=".fragment.FragmentManage">
                 android:textSize="@dimen/manageDetailTextSize"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtBonsaiItemName" />
+                app:layout_constraintTop_toBottomOf="@id/txtPlacementName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

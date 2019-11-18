@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.R;
 
@@ -20,11 +22,34 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
     Context context;
     ArrayList<PlacementItem> placementArrayList = new ArrayList<>();
 
-    public PlacementRecyclerViewAdapter(Context context) {
-        this.context = context;
+    FeedReaderDbHelper dbHelper;
+
+    public interface OnItemClickListener {
+        void onItemClickListener(View view, int position);
     }
 
-    public void uppdate(ArrayList<PlacementItem> placementArrayList) {
+    OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemLongClickListener {
+        void onItemLongClickListener(View view, int position);
+    }
+
+    OnItemLongClickListener onItemLongClickListener;
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
+    public PlacementRecyclerViewAdapter(Context context) {
+        this.context = context;
+        dbHelper = new FeedReaderDbHelper(context);
+    }
+
+    public void update(ArrayList<PlacementItem> placementArrayList) {
         this.placementArrayList.clear();
         this.placementArrayList.addAll(placementArrayList);
         notifyDataSetChanged();
@@ -40,26 +65,60 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         handleIcon(holder.imgPlacementIcon, position);
         handleDetail(holder, position);
+
+        holder.txtPlacementName.setText(placementArrayList.get(position).getPlacementName());
+
+        holder.txtTotalBonsaiValue.setText(String.valueOf(placementArrayList.get(position).getTotalBonsai()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(view, position);
+            }
+        });
+
+        holder.bonsai_item_frame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(view, position);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClickListener.onItemLongClickListener(view, position);
+                return true;
+            }
+        });
+
+        holder.bonsai_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClickListener.onItemLongClickListener(view, position);
+                return true;
+            }
+        });
     }
 
     private void handleDetail(ViewHolder holder, int position) {
-        holder.txtPlacementItemPlace.setText(placementArrayList.get(position).getPlaccementName());
-        holder.txtPlacementItemId.setText(String.valueOf(placementArrayList.get(position).getId()));
+        holder.txtTotalBonsaiValue.setText(placementArrayList.get(position).getPlacementName());
+        holder.txtTotalBonsaiValue.setText(String.valueOf(placementArrayList.get(position).getId()));
 
         Log.d("_handleDetail", "" + placementArrayList.get(position).getId());
     }
 
     private void handleIcon(ImageView imageView, int position) {
-        if (placementArrayList.get(position).getPlaccementName().equals("Balcony")) {
+        if (placementArrayList.get(position).getPlacementName().equals("Balcony")) {
             imageView.setBackgroundResource(R.drawable.ic_balcony);
         } else {
-            if (placementArrayList.get(position).getPlaccementName().equals("Window")) {
+            if (placementArrayList.get(position).getPlacementName().equals("Window")) {
                 imageView.setBackgroundResource(R.drawable.ic_window);
             } else {
-                if (placementArrayList.get(position).getPlaccementName().equals("Gate")) {
+                if (placementArrayList.get(position).getPlacementName().equals("Gate")) {
                     imageView.setBackgroundResource(R.drawable.ic_gate);
                 } else {
                     imageView.setBackgroundResource(R.drawable.ic_location_filled);
@@ -74,15 +133,36 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        ConstraintLayout bonsai_item_frame;
+
         ImageView imgPlacementIcon;
-        TextView txtPlacementItemPlace;
-        TextView txtPlacementItemId;
+        TextView txtPlacementName;
+        TextView txtTotalBonsaiValue;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgPlacementIcon = itemView.findViewById(R.id.imgBonsaiIcon);
-            txtPlacementItemPlace = itemView.findViewById(R.id.txtBonsaiItemName);
-            txtPlacementItemId = itemView.findViewById(R.id.txtDayPlanted);
+
+            bonsai_item_frame = itemView.findViewById(R.id.bonsai_item_frame);
+
+            imgPlacementIcon = itemView.findViewById(R.id.imgPlacementIcon);
+            txtPlacementName = itemView.findViewById(R.id.txtPlacementName);
+            txtTotalBonsaiValue = itemView.findViewById(R.id.txtTotalBonsaiValue);
+        }
+    }
+
+    public void Filter(String text, ArrayList<PlacementItem> placeArrayList) {
+        if (!text.equals("")) {
+            ArrayList<PlacementItem> filterArrayList = new ArrayList<>();
+            for (PlacementItem item :
+                    placeArrayList) {
+                if (item.getPlacementName().toLowerCase().contains(text.toLowerCase())) {
+                    filterArrayList.add(item);
+                }
+            }
+
+            update(filterArrayList);
+        } else {
+            update(placeArrayList);
         }
     }
 }

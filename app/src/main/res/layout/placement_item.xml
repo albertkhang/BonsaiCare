@@ -1,112 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+android:layout_width="match_parent"
+android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/bonsai_item_frame"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:clickable="false"
-        android:background="@drawable/constraint_layout_ripple"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginRight="15dp"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bonsai_item_frame"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:clickable="true"
+    android:background="@drawable/constraint_layout_ripple"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginRight="15dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameItemIcon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/divideLineManageBonsai"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgPlacementIcon"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/manageIconHeight"
+            android:background="@drawable/ic_balcony"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="@string/ratioIconBonsai"
+            android:scaleType="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/divideLineManageBonsai"
+        android:layout_width="2dp"
+        android:layout_height="70dp"
+        android:background="@color/colorDivideLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/frameItemIcon"
+        app:layout_constraintRight_toLeftOf="@id/frameBonsaiDetail"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameBonsaiDetail"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="2.5"
+        app:layout_constraintLeft_toRightOf="@id/divideLineManageBonsai"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/frameBonsaiItemIcon"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:id="@+id/frame_textBonsaiItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/divideLineManageBonsai"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imgBonsaiIcon"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/manageIconHeight"
-                android:background="@drawable/ic_balcony"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="@string/ratioIconBonsai"
-                android:scaleType="center"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/divideLineManageBonsai"
-            android:layout_width="2dp"
-            android:layout_height="70dp"
-            android:background="@color/colorDivideLine"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/frameBonsaiItemIcon"
-            app:layout_constraintRight_toLeftOf="@id/frameBonsaiDetail"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/frameBonsaiDetail"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_weight="2.5"
-            app:layout_constraintLeft_toRightOf="@id/divideLineManageBonsai"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/frame_textBonsaiItem"
+            <TextView
+                android:id="@+id/txtPlacementName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:text="Balcony"
+                android:textColor="@color/colorItemTitle"
+                android:textSize="@dimen/manageTitleTextSize"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/txtTotalBonsaiValue"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtTotalBonsaiTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="220dp"
+                android:maxLines="2"
+                android:text="Total bonsai: "
+                android:textColor="@color/colorItemInfo"
+                android:textSize="@dimen/manageDetailTextSize"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/txtPlacementName" />
 
-                <TextView
-                    android:id="@+id/txtBonsaiItemName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Balcony"
-                    android:textColor="@color/colorItemTitle"
-                    android:textSize="@dimen/manageTitleTextSize"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/txtDayPlanted"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/txtDayPlantedText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxWidth="220dp"
-                    android:maxLines="2"
-                    android:text="id: "
-                    android:textColor="@color/colorItemInfo"
-                    android:textSize="@dimen/manageDetailTextSize"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtBonsaiItemName" />
-
-                <TextView
-                    android:id="@+id/txtDayPlanted"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textColor="@color/colorItemInfo"
-                    android:textSize="@dimen/manageDetailTextSize"
-                    app:layout_constraintLeft_toRightOf="@id/txtDayPlantedText"
-                    app:layout_constraintTop_toTopOf="@id/txtDayPlantedText"
-                    app:layout_constraintBottom_toBottomOf="@id/txtDayPlantedText"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            <TextView
+                android:id="@+id/txtTotalBonsaiValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/colorItemInfo"
+                android:textSize="@dimen/manageDetailTextSize"
+                app:layout_constraintLeft_toRightOf="@id/txtTotalBonsaiTitle"
+                app:layout_constraintTop_toTopOf="@id/txtTotalBonsaiTitle"
+                app:layout_constraintBottom_toBottomOf="@id/txtTotalBonsaiTitle"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
