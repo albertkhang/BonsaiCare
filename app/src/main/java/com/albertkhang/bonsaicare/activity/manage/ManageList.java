@@ -492,7 +492,7 @@ public class ManageList extends AppCompatActivity {
                         switch (i) {
                             case 0://Edit
                                 Intent intent = new Intent(ManageList.this, NewAndEditSupplyActivity.class);
-                                intent.putExtra("title", getString(R.string.editPlaceTitle));
+                                intent.putExtra("title", getString(R.string.editSupplyTitle));
                                 intent.putExtra("id", supplyArrayList.get(position).getId());
                                 intent.putExtra("name", supplyArrayList.get(position).getSupplyName());
                                 intent.putExtra("unit", supplyArrayList.get(position).getSupplyUnit());
@@ -559,7 +559,7 @@ public class ManageList extends AppCompatActivity {
 
     private void startSupplyDetailActivity(int position) {
         Intent intent = new Intent(ManageList.this, SupplyDetailActivity.class);
-        intent.putExtra("title", getString(R.string.editSupplyTitle));
+
         intent.putExtra("id", supplyArrayList.get(position).getId());
         intent.putExtra("name", supplyArrayList.get(position).getSupplyName());
         intent.putExtra("unit", supplyArrayList.get(position).getSupplyUnit());

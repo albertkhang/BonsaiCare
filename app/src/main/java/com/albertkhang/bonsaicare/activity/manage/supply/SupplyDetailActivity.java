@@ -147,8 +147,6 @@ public class SupplyDetailActivity extends AppCompatActivity {
     }
 
     private void setDataFromIntent() {
-        txtDetailTitle.setText(getIntent().getStringExtra("title"));
-
         supplyItem.setId(getIntent().getIntExtra("id", 0));
         supplyItem.setSupplyName(getIntent().getStringExtra("name"));
         supplyItem.setSupplyUnit(getIntent().getStringExtra("unit"));

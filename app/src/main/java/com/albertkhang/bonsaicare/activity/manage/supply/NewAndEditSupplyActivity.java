@@ -52,6 +52,20 @@ public class NewAndEditSupplyActivity extends AppCompatActivity {
 
         supplyItem = new SupplyItem();
         dbHelper = new FeedReaderDbHelper(this);
+
+        setDataFromIntent();
+    }
+
+    private void setDataFromIntent() {
+        String title = getIntent().getStringExtra("title");
+        if (title != null) {
+            txtDetailTitle.setText(title);
+
+            supplyItem.setId(getIntent().getIntExtra("id", -1));
+            supplyItem.setSupplyName(getIntent().getStringExtra("name"));
+            supplyItem.setSupplyUnit(getIntent().getStringExtra("unit"));
+            supplyItem.setTotal(getIntent().getIntExtra("total", 0));
+        }
     }
 
     private void addEvent() {

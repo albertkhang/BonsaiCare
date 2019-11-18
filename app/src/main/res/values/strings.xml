@@ -12,8 +12,12 @@
     <!--    manage tab-->
     <!--    titile-->
     <string name="titleBonsai">Bonsai Manage</string>
-    <string name="bonsaiDetailTitle">Bonsai Detail</string>
     <string name="titlePlacement">Place Manage</string>
+
+    <string name="bonsaiDetailTitle">Bonsai Detail</string>
+    <string name="titlePlacementDetail">Place Detail</string>
+    <string name="titleSupplyDetail">Supply Detail</string>
+
     <string name="titleSupplies">Supply Manage</string>
     <string name="titleReport">Report Details</string>
     <string name="addNewBonsai">Add New Bonsai</string>
