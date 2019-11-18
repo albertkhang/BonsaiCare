@@ -31,6 +31,7 @@ public class TopBarAnimation {
             ObjectAnimator translationYAnimator = ObjectAnimator.ofFloat(view, "translationY", 0);
 
             AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.setStartDelay(hideTitleDuration);
             animatorSet.setDuration(transparentShowDuration);
             animatorSet.playTogether(alphaAnimator, translationYAnimator);
 
