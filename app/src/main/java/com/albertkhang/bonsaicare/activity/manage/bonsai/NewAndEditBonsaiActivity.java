@@ -49,7 +49,8 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
     TextView txtDetailSettingTitle;
     ImageView imgPlaceErrorIcon;
 
-    BonsaiItem editItem;
+    BonsaiItem item;
+    String preBonsaiPlace = "";
 
     String regex = "^[a-zA-Z0-9]+( [a-zA-Z0-9_]+)*$";
 
@@ -73,7 +74,7 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         txtDetailSettingTitle = findViewById(R.id.txtDetailTitle);
         imgPlaceErrorIcon = findViewById(R.id.imgPlaceErrorIcon);
-        editItem = new BonsaiItem();
+        item = new BonsaiItem();
 
         setDataForBonsaiTypeSpinner(spBonsaiType, R.array.dropdownBonsaiType);
 
@@ -121,34 +122,39 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isBonsaiNameValid(txtBonsaiName.getText().toString())) {
                     //create item
-                    editItem.setBonsaiName(txtBonsaiName.getText().toString());
-                    editItem.setBonsaiType(spBonsaiType.getSelectedItem().toString());
-                    editItem.setBonsaiPlacementName(spBonsaiPlace.getSelectedItem().toString());
-                    editItem.setBonsaiDayPlanted(txtBonsaiDayPlanted.getText().toString());
+                    item.setBonsaiName(txtBonsaiName.getText().toString());
+                    item.setBonsaiType(spBonsaiType.getSelectedItem().toString());
+                    item.setBonsaiPlacementName(spBonsaiPlace.getSelectedItem().toString());
+                    item.setBonsaiDayPlanted(txtBonsaiDayPlanted.getText().toString());
 
-                    if (haveEmptyPlace(spBonsaiPlace.getSelectedItem().toString())) {
-                        if (txtDetailSettingTitle.getText().toString().equals(getIntent().getStringExtra("title"))) {
-                            Log.d("_btnAddNewBonsaiSubmit", "update");
-                            //update
+                    if (!preBonsaiPlace.equals(item.getBonsaiPlacementName())) {
+                        if (haveEmptyPlace(spBonsaiPlace.getSelectedItem().toString())) {
+                            if (txtDetailSettingTitle.getText().toString().equals(getString(R.string.editBonsaiTitle))) {
+                                Log.d("_btnAddNewBonsaiSubmit", "update");
+                                //update
 
-                            ManipulationDb.updateBonsai(dbHelper, editItem);
-                            Toast.makeText(NewAndEditBonsaiActivity.this, "Edit success!", Toast.LENGTH_LONG).show();
+                                ManipulationDb.updateBonsai(dbHelper, item);
+                                Toast.makeText(NewAndEditBonsaiActivity.this, "Edit success!", Toast.LENGTH_LONG).show();
+                            } else {
+                                Log.d("_btnAddNewBonsaiSubmit", "add");
+                                //add
+                                ManipulationDb.addNewBonsai(dbHelper, item);
+                                Toast.makeText(NewAndEditBonsaiActivity.this, "Add success!", Toast.LENGTH_LONG).show();
+                            }
+
+                            //put data back to preActivity
+                            putDataToPreActivity(item);
                         } else {
-                            Log.d("_btnAddNewBonsaiSubmit", "add");
-                            //add
-                            ManipulationDb.addNewBonsai(dbHelper, editItem);
-                            Toast.makeText(NewAndEditBonsaiActivity.this, "Add success!", Toast.LENGTH_LONG).show();
+                            String notify = "'" + spBonsaiPlace.getSelectedItem().toString() + "' was full. Please choose other place.";
+                            Toast.makeText(NewAndEditBonsaiActivity.this, notify, Toast.LENGTH_LONG).show();
+                            imgPlaceErrorIcon.setVisibility(View.VISIBLE);
                         }
-
-                        //put data back to preActivity
-                        putDataToPreActivity(editItem);
                     } else {
-                        String notify = "'" + spBonsaiPlace.getSelectedItem().toString() + "' was full. Please choose other place.";
-                        Toast.makeText(NewAndEditBonsaiActivity.this, notify, Toast.LENGTH_LONG).show();
-                        imgPlaceErrorIcon.setVisibility(View.VISIBLE);
+                        ManipulationDb.addNewBonsai(dbHelper, item);
+                        Toast.makeText(NewAndEditBonsaiActivity.this, "Add success!", Toast.LENGTH_LONG).show();
                     }
 
-                    Log.d("_btnAddNewBonsaiSubmit", "name: " + editItem.getBonsaiName());
+                    Log.d("_btnAddNewBonsaiSubmit", "name: " + item.getBonsaiName());
                 } else {
                     //notify error
                     txtBonsaiName.setError(getString(R.string.nameError));
@@ -241,20 +247,20 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
     private void setEditData() {
         String title = getIntent().getStringExtra("title");
         if (title != null) {
-            editItem = new BonsaiItem();
+            item = new BonsaiItem();
             txtDetailSettingTitle.setText(getString(R.string.editBonsaiTitle));
 
             //id
-            editItem.setId(getIntent().getIntExtra("id", -1));
+            item.setId(getIntent().getIntExtra("id", -1));
 
             //name
             txtBonsaiName.setText(getIntent().getStringExtra("name"));
-            editItem.setBonsaiName(getIntent().getStringExtra("name"));
+            item.setBonsaiName(getIntent().getStringExtra("name"));
             txtBonsaiName.setSelection(txtBonsaiName.getText().length());
 
             //type
             String type = getIntent().getStringExtra("type");
-            editItem.setBonsaiType(getIntent().getStringExtra("type"));
+            item.setBonsaiType(getIntent().getStringExtra("type"));
             String[] bonsaiTypeArray = getResources().getStringArray(R.array.dropdownBonsaiType);
             ArrayList<String> bonsaiTypeArrayList = new ArrayList<>(Arrays.asList(bonsaiTypeArray));
 
@@ -267,16 +273,17 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
 
             //place
             String place = getIntent().getStringExtra("place");
-            editItem.setBonsaiPlacementName(getIntent().getStringExtra("place"));
+            item.setBonsaiPlacementName(getIntent().getStringExtra("place"));
             for (int i = 0; i < placementArrayList.size(); i++) {
                 if (placementArrayList.get(i).getPlacementName().equals(place)) {
                     spBonsaiPlace.setSelection(i);
+                    preBonsaiPlace = place;
                     break;
                 }
             }
 
             txtBonsaiDayPlanted.setText(getIntent().getStringExtra("dayPlanted"));
-            editItem.setBonsaiDayPlanted(getIntent().getStringExtra("dayPlanted"));
+            item.setBonsaiDayPlanted(getIntent().getStringExtra("dayPlanted"));
         }
     }
 

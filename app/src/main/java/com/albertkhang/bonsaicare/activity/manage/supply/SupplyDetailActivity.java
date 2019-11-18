@@ -157,10 +157,14 @@ public class SupplyDetailActivity extends AppCompatActivity {
         txtUnitValue.setText(supplyItem.getSupplyUnit());
         txtTotalValue.setText(String.valueOf(supplyItem.getTotal()));
 
-        if (supplyItem.getSupplyName().equals("Water")) {
+        handleIcon(supplyItem.getSupplyName());
+    }
+
+    private void handleIcon(String name){
+        if (name.equals("Water")) {
             imgSupplyIcon.setImageResource(R.drawable.ic_water);
         } else {
-            if (supplyItem.getSupplyName().equals("Nitrogen fertilizer")) {
+            if (name.equals("Nitrogen fertilizer")) {
                 imgSupplyIcon.setImageResource(R.drawable.ic_nitrogen_fertilizer);
             } else {
                 imgSupplyIcon.setImageResource(R.drawable.ic_supplies_filled);

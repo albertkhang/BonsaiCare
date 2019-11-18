@@ -124,6 +124,10 @@ public class PlaceDetailActivity extends AppCompatActivity {
         txtNameValue.setText(name);
         txtTotalValue.setText(String.valueOf(total));
 
+        handleIcon(name);
+    }
+
+    private void handleIcon(String name) {
         if (name.equals("Balcony")) {
             imgPlacementIcon.setImageResource(R.drawable.ic_balcony);
         } else {
@@ -155,6 +159,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                     needRefresh = true;
                     String placeName = data.getStringExtra("name");
                     txtNameValue.setText(placeName);
+                    handleIcon(placeName);
                 }
                 break;
         }

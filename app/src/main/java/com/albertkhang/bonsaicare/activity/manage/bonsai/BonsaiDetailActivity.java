@@ -153,6 +153,7 @@ public class BonsaiDetailActivity extends AppCompatActivity {
                     txtBonsaiTypeValue.setText(type);
                     txtBonsaiPlacementValue.setText(place);
                     txtBonsaiDayPlantedValue.setText(dayPlanted);
+                    handleIcon();
 
                     needRefresh = true;
                 }
