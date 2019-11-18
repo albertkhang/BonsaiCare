@@ -56,18 +56,6 @@ public class NewAndEditSupplyActivity extends AppCompatActivity {
         setDataFromIntent();
     }
 
-    private void setDataFromIntent() {
-        String title = getIntent().getStringExtra("title");
-        if (title != null) {
-            txtDetailTitle.setText(title);
-
-            supplyItem.setId(getIntent().getIntExtra("id", -1));
-            supplyItem.setSupplyName(getIntent().getStringExtra("name"));
-            supplyItem.setSupplyUnit(getIntent().getStringExtra("unit"));
-            supplyItem.setTotal(getIntent().getIntExtra("total", 0));
-        }
-    }
-
     private void addEvent() {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +89,22 @@ public class NewAndEditSupplyActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setDataFromIntent() {
+        String title = getIntent().getStringExtra("title");
+        if (title != null) {
+            txtDetailTitle.setText(title);
+
+            supplyItem.setId(getIntent().getIntExtra("id", -1));
+            supplyItem.setSupplyName(getIntent().getStringExtra("name"));
+            supplyItem.setSupplyUnit(getIntent().getStringExtra("unit"));
+            supplyItem.setTotal(getIntent().getIntExtra("total", 0));
+
+            txtNameValue.setText(supplyItem.getSupplyName());
+            txtNameValue.setSelection(txtNameValue.getText().toString().length());
+            txtUnitValue.setText(supplyItem.getSupplyUnit());
+        }
     }
 
     private void putDataBack(SupplyItem item) {

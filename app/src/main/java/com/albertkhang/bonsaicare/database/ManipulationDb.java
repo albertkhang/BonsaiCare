@@ -257,7 +257,7 @@ public class ManipulationDb {
         String[] selectionArgs = {String.valueOf(supplyItem.getId())};
 
         db.update(
-                FeedReaderContract.FeedEntry.PLACEMENT_TABLE_NAME,
+                FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME,
                 values,
                 selection,
                 selectionArgs);
