@@ -1,4 +1,4 @@
-package com.albertkhang.bonsaicare.activity.manage.manage;
+package com.albertkhang.bonsaicare.activity.manage.place;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -43,7 +43,7 @@ public class NewAndEditPlaceActivity extends AppCompatActivity {
 
     private void addControl() {
         txtDetailTitle = findViewById(R.id.txtDetailTitle);
-        txtPlaceName = findViewById(R.id.txtPlaceName);
+        txtPlaceName = findViewById(R.id.txtUnitValue);
         btnSubmit = findViewById(R.id.btnSubmit);
         btnBack = findViewById(R.id.btnBack);
 
@@ -72,7 +72,6 @@ public class NewAndEditPlaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isShowKeyboard = true;
-//                showKeyboard();
             }
         });
 

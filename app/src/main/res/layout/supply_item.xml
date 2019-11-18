@@ -5,10 +5,10 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/bonsai_item_frame"
+        android:id="@+id/supply_item_frame"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:clickable="false"
+        android:clickable="true"
         android:background="@drawable/constraint_layout_ripple"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="12dp"

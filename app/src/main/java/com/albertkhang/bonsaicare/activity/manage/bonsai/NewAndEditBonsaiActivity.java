@@ -56,14 +56,14 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_bonsai);
+        setContentView(R.layout.activity_new_and_edit_bonsai);
 
         addControl();
         addEvent();
     }
 
     private void addControl() {
-        txtBonsaiName = findViewById(R.id.txtPlaceName);
+        txtBonsaiName = findViewById(R.id.txtUnitValue);
         spBonsaiType = findViewById(R.id.spBonsaiType);
         placementArrayList = new ArrayList<>();
         spBonsaiPlace = findViewById(R.id.spBonsaiPlace);

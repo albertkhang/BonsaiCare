@@ -108,7 +108,7 @@ public class FragmentSetting extends Fragment {
     private void addControl() {
         fragment_layout_setting = getView().findViewById(R.id.fragment_layout_setting);
 
-        frame_BonsaiNameDetail = getView().findViewById(R.id.frame_BonsaiNameDetail);
+        frame_BonsaiNameDetail = getView().findViewById(R.id.frame_NameDetail);
         frame_MaxMoneyPerSupply = getView().findViewById(R.id.frame_MaxMoneyPerSupply);
 
         txtMaxBonsaiEdit = getView().findViewById(R.id.txtMaxBonsaiEdit);

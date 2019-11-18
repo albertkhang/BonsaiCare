@@ -142,7 +142,7 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            bonsai_item_frame = itemView.findViewById(R.id.bonsai_item_frame);
+            bonsai_item_frame = itemView.findViewById(R.id.supply_item_frame);
 
             imgPlacementIcon = itemView.findViewById(R.id.imgPlacementIcon);
             txtPlacementName = itemView.findViewById(R.id.txtPlacementName);

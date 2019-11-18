@@ -24,8 +24,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.albertkhang.bonsaicare.activity.manage.manage.NewAndEditPlaceActivity;
-import com.albertkhang.bonsaicare.activity.manage.manage.PlaceDetailActivity;
+import com.albertkhang.bonsaicare.activity.MainActivity;
+import com.albertkhang.bonsaicare.activity.manage.place.NewAndEditPlaceActivity;
+import com.albertkhang.bonsaicare.activity.manage.place.PlaceDetailActivity;
+import com.albertkhang.bonsaicare.activity.manage.supply.NewAndEditSupplyActivity;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
@@ -70,6 +72,10 @@ public class ManageList extends AppCompatActivity {
     private static final int EDIT_PLACE_REQUEST_CODE = 5;
     private static final int DETAIL_PLACE_REQUEST_CODE = 6;
 
+    private static final int ADD_SUPPLY_REQUEST_CODE = 7;
+    private static final int EDIT_SUPPLY_REQUEST_CODE = 8;
+    private static final int DETAIL_SUPPLY_REQUEST_CODE = 9;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,21 +111,6 @@ public class ManageList extends AppCompatActivity {
         setIcon();
 
         txt_search_frame = findViewById(R.id.txt_search_frame);
-    }
-
-    private void setIcon() {
-        String s = getIntent().getStringExtra(getString(R.string.putExtraManageShowIcon));
-
-        switch (s) {
-            case "true":
-                imgManageListAddButton.setVisibility(View.VISIBLE);
-                imgManageListAddButton.setVisibility(View.VISIBLE);
-                break;
-            case "false":
-                imgManageListAddButton.setVisibility(View.GONE);
-                imgManageListSearchButton.setVisibility(View.GONE);
-                break;
-        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -159,7 +150,9 @@ public class ManageList extends AppCompatActivity {
             ManipulationDb.getAllDataSupplyTable(dbHelper, supplyArrayList);
 
             recyclerView.setAdapter(supplyAdapter);
-            supplyAdapter.uppdate(supplyArrayList);
+            supplyAdapter.update(supplyArrayList);
+
+            addSupplyManageEvent();
         }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +187,21 @@ public class ManageList extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void setIcon() {
+        String s = getIntent().getStringExtra(getString(R.string.putExtraManageShowIcon));
+
+        switch (s) {
+            case "true":
+                imgManageListAddButton.setVisibility(View.VISIBLE);
+                imgManageListAddButton.setVisibility(View.VISIBLE);
+                break;
+            case "false":
+                imgManageListAddButton.setVisibility(View.GONE);
+                imgManageListSearchButton.setVisibility(View.GONE);
+                break;
+        }
     }
 
     private void addBonsaiManageEvent() {
@@ -285,14 +293,28 @@ public class ManageList extends AppCompatActivity {
                                 startActivityForResult(intent, EDIT_BONSAI_REQUEST_CODE);
                                 break;
                             case 1://Delete
-                                if (ManipulationDb.deleteBonsai(dbHelper, bonsaiArrayList.get(position).getId())) {
-                                    Toast.makeText(ManageList.this, "Delete success!", Toast.LENGTH_LONG).show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ManageList.this);
+                                builder.setTitle("Confirm");
+                                builder.setMessage("Are you sure?");
+                                builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        if (ManipulationDb.deleteBonsai(dbHelper, bonsaiArrayList.get(position).getId())) {
+                                            Toast.makeText(ManageList.this, "Delete success!", Toast.LENGTH_LONG).show();
 
-                                    bonsaiArrayList.remove(position);
-                                    bonsaiAdapter.update(bonsaiArrayList);
-                                } else {
-                                    Toast.makeText(ManageList.this, "Delete failed!", Toast.LENGTH_LONG).show();
-                                }
+                                            bonsaiArrayList.remove(position);
+                                            bonsaiAdapter.update(bonsaiArrayList);
+                                        }
+                                    }
+                                });
+                                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                                builder.show();
                                 break;
                         }
                     }
@@ -372,18 +394,129 @@ public class ManageList extends AppCompatActivity {
 
                                 break;
                             case 1://Delete
-                                String placeName = placementArrayList.get(position).getPlacementName();
-                                if (ManipulationDb.countBonsaiInPlacement(dbHelper, placeName) > 0) {
-                                    Toast.makeText(ManageList.this, getString(R.string.notEmptyPlaceError), Toast.LENGTH_LONG).show();
-                                } else {
-                                    if (ManipulationDb.deletePlace(dbHelper, placementArrayList.get(position).getId())) {
-                                        placementArrayList.remove(position);
-                                        placementAdapter.update(placementArrayList);
-                                        Toast.makeText(ManageList.this, R.string.toastDeleteSuccess, Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(ManageList.this, R.string.toastDeleteFail, Toast.LENGTH_LONG).show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ManageList.this);
+                                builder.setTitle("Confirm");
+                                builder.setMessage("Are you sure?");
+                                builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        String placeName = placementArrayList.get(position).getPlacementName();
+                                        if (ManipulationDb.countBonsaiInPlacement(dbHelper, placeName) > 0) {
+                                            Toast.makeText(ManageList.this, getString(R.string.notEmptyPlaceError), Toast.LENGTH_LONG).show();
+                                        } else {
+                                            if (ManipulationDb.deletePlace(dbHelper, placementArrayList.get(position).getId())) {
+                                                placementArrayList.remove(position);
+                                                placementAdapter.update(placementArrayList);
+                                                Toast.makeText(ManageList.this, R.string.toastDeleteSuccess, Toast.LENGTH_LONG).show();
+                                            } else {
+                                                Toast.makeText(ManageList.this, R.string.toastDeleteFail, Toast.LENGTH_LONG).show();
+                                            }
+                                        }
                                     }
-                                }
+                                });
+                                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                                builder.show();
+                                break;
+                        }
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+    private void addSupplyManageEvent() {
+        imgManageListSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isShowKeyboard) {
+                    if (txt_search_frame.getText().toString().equals("")) {
+                        TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout), false);
+                    }
+                    hideKeyboard();
+                } else {
+                    TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout), true);
+                    showKeyboard();
+                }
+            }
+        });
+
+        txt_search_frame.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                supplyAdapter.Filter(editable.toString(), supplyArrayList);
+            }
+        });
+
+        imgManageListAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NewAndEditSupplyActivity.class);
+
+                startActivityForResult(intent, ADD_SUPPLY_REQUEST_CODE);
+            }
+        });
+
+        supplyAdapter.setOnItemClickListener(new SupplyRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(View view, int position) {
+
+            }
+        });
+
+        supplyAdapter.setOnItemLongClickListener(new SupplyRecyclerViewAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClickListener(View view, final int position) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ManageList.this, R.style.AlertDialog);
+                builder.setItems(R.array.item_long_click, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0://Edit
+                                Toast.makeText(ManageList.this, "Edit", Toast.LENGTH_LONG).show();
+
+                                break;
+                            case 1://Delete
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ManageList.this);
+                                builder.setTitle("Confirm");
+                                builder.setMessage("Are you sure?");
+                                builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(ManageList.this, R.string.toastDeleteSuccess, Toast.LENGTH_LONG).show();
+                                        ManipulationDb.deleteSupply(dbHelper, supplyArrayList.get(position).getId());
+
+                                        supplyArrayList.remove(position);
+                                        supplyAdapter.update(supplyArrayList);
+                                    }
+                                });
+                                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                                builder.show();
+
                                 break;
                         }
                     }
@@ -482,6 +615,16 @@ public class ManageList extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     ManipulationDb.getAllDataPlacementTable(dbHelper, placementArrayList);
                     placementAdapter.update(placementArrayList);
+                }
+                break;
+
+            /* SUPPLY */
+            case ADD_SUPPLY_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Toast.makeText(ManageList.this, R.string.toastAddSuccess, Toast.LENGTH_LONG).show();
+
+                    ManipulationDb.getAllDataSupplyTable(dbHelper, supplyArrayList);
+                    supplyAdapter.update(supplyArrayList);
                 }
                 break;
         }

@@ -144,39 +144,6 @@ public class ManipulationDb {
         cursor.close();
     }
 
-    public static void getBonsai(FeedReaderDbHelper dbHelper, BonsaiItem bonsaiItem) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        String[] projection = {
-                FeedReaderContract.FeedEntry.BONSAI_NAME,
-                FeedReaderContract.FeedEntry.BONSAI_TYPE,
-                FeedReaderContract.FeedEntry.BONSAI_PLACEMENT_ID,
-                FeedReaderContract.FeedEntry.BONSAI_DAY_PLANTED
-        };
-
-        String selection = FeedReaderContract.FeedEntry._ID + " = ?";
-        String[] selectionArgs = {String.valueOf(bonsaiItem.getId())};
-
-        Cursor cursor = db.query(
-                FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-
-        while (cursor.moveToNext()) {
-            bonsaiItem.setBonsaiName(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_NAME)));
-            bonsaiItem.setBonsaiType(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_TYPE)));
-            int placeId = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_TYPE));
-            bonsaiItem.setBonsaiPlacementName(getPlacementNameFromPlacementId(dbHelper, placeId));
-            bonsaiItem.setBonsaiDayPlanted(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_DAY_PLANTED)));
-        }
-        cursor.close();
-    }
-
     public static void addNewBonsai(FeedReaderDbHelper dbHelper, BonsaiItem bonsaiItem) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -261,6 +228,48 @@ public class ManipulationDb {
         String[] selectionArgs = {String.valueOf(place_id)};
 
         int deletedRows = db.delete(FeedReaderContract.FeedEntry.PLACEMENT_TABLE_NAME, selection, selectionArgs);
+
+        if (deletedRows == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static void addNewSupply(FeedReaderDbHelper dbHelper, SupplyItem supplyItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.SUPPLY_NAME, supplyItem.getSupplyName());
+        values.put(FeedReaderContract.FeedEntry.SUPPLY_UNIT, supplyItem.getSupplyUnit());
+
+        db.insert(FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME, null, values);
+    }
+
+    public static void updateSupply(FeedReaderDbHelper dbHelper, SupplyItem supplyItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.SUPPLY_NAME, supplyItem.getSupplyName());
+        values.put(FeedReaderContract.FeedEntry.SUPPLY_UNIT, supplyItem.getSupplyUnit());
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(supplyItem.getId())};
+
+        db.update(
+                FeedReaderContract.FeedEntry.PLACEMENT_TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
+    public static boolean deleteSupply(FeedReaderDbHelper dbHelper, int supply_id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(supply_id)};
+
+        int deletedRows = db.delete(FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME, selection, selectionArgs);
 
         if (deletedRows == 1) {
             return true;

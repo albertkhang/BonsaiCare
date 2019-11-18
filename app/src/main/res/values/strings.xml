@@ -14,10 +14,11 @@
     <string name="titleBonsai">Bonsai Manage</string>
     <string name="bonsaiDetailTitle">Bonsai Detail</string>
     <string name="titlePlacement">Place Manage</string>
-    <string name="titleSupplies">Supplies Manage</string>
+    <string name="titleSupplies">Supply Manage</string>
     <string name="titleReport">Report Details</string>
     <string name="addNewBonsai">Add New Bonsai</string>
     <string name="addNewPlace">Add New Place</string>
+    <string name="addNewSupply">Add New Supply</string>
     <!--    detail-->
     <string name="detailBonsai">Show the bonsais that you have.</string>
     <string name="detailPlacement">Show the placements that you have.</string>
@@ -97,4 +98,6 @@
 
     <string name="inputHandleMaxBonsai">Please enter a number.</string>
     <string name="inputHandleMaxMoney">Please enter a number.</string>
+    <string name="newSupplyUnit">Unit:</string>
+    <string name="newSupplyName">Name:</string>
 </resources>

@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 import com.albertkhang.bonsaicare.R;
 
@@ -23,10 +25,30 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
         this.context = context;
     }
 
-    public void uppdate(ArrayList<SupplyItem> supplyArrayList) {
+    public void update(ArrayList<SupplyItem> supplyArrayList) {
         this.supplyArrayList.clear();
         this.supplyArrayList.addAll(supplyArrayList);
         notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClickListener(View view, int position);
+    }
+
+    OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemLongClickListener {
+        void onItemLongClickListener(View view, int position);
+    }
+
+    OnItemLongClickListener onItemLongClickListener;
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
     }
 
     @NonNull
@@ -39,16 +61,46 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         handleIcon(holder.imgSupplyIcon, position);
         holder.txtSupplyItemName.setText(supplyArrayList.get(position).getSupplyName());
         holder.txtSupplyItemTotal.setText(String.valueOf(supplyArrayList.get(position).getTotal()));
         handleUnit(holder.txtSupplyItemUnit, position);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(view, position);
+            }
+        });
+        holder.supply_item_frame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(view, position);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClickListener.onItemLongClickListener(view, position);
+
+                return true;
+            }
+        });
+
+        holder.supply_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClickListener.onItemLongClickListener(view, position);
+                return true;
+            }
+        });
     }
 
     private void handleUnit(TextView textView, int position) {
         if (supplyArrayList.get(position).getTotal() > 1) {
-            textView.setText(supplyArrayList.get(position).getSupplyUnit() + "s");
+            textView.setText(supplyArrayList.get(position).getSupplyUnit().concat("s"));
         } else {
             textView.setText(supplyArrayList.get(position).getSupplyUnit());
         }
@@ -66,7 +118,6 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
         }
     }
 
-
     @Override
     public int getItemCount() {
         return supplyArrayList.size();
@@ -78,6 +129,8 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
         TextView txtSupplyItemTotal;
         TextView txtSupplyItemUnit;
 
+        ConstraintLayout supply_item_frame;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -85,6 +138,24 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
             txtSupplyItemName = itemView.findViewById(R.id.txtPlacementName);
             txtSupplyItemTotal = itemView.findViewById(R.id.txtTotalBonsaiValue);
             txtSupplyItemUnit = itemView.findViewById(R.id.txtSupplyItemUnit);
+
+            supply_item_frame = itemView.findViewById(R.id.supply_item_frame);
+        }
+    }
+
+    public void Filter(String text, ArrayList<SupplyItem> supplyArrayList) {
+        if (!text.equals("")) {
+            ArrayList<SupplyItem> filterArrayList = new ArrayList<>();
+            for (SupplyItem item :
+                    supplyArrayList) {
+                if (item.getSupplyName().toLowerCase().contains(text.toLowerCase())) {
+                    filterArrayList.add(item);
+                }
+            }
+
+            update(filterArrayList);
+        } else {
+            update(supplyArrayList);
         }
     }
 }

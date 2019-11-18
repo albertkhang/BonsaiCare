@@ -45,7 +45,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/frame_BonsaiNameDetail"
+        android:id="@+id/frame_NameDetail"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"
@@ -72,7 +72,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/txtPlaceName"
+            android:id="@+id/txtUnitValue"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="6dp"
@@ -86,7 +86,7 @@
             android:textColorHint="@color/colorHint"
             app:layout_constraintBottom_toBottomOf="@id/txtIdTitle"
             app:layout_constraintLeft_toRightOf="@id/txtIdTitle"
-            app:layout_constraintRight_toRightOf="@id/frame_BonsaiNameDetail"
+            app:layout_constraintRight_toRightOf="@id/frame_NameDetail"
             app:layout_constraintTop_toTopOf="@id/txtIdTitle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -103,7 +103,7 @@
         android:paddingRight="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frame_BonsaiNameDetail">
+        app:layout_constraintTop_toBottomOf="@id/frame_NameDetail">
 
         <TextView
             android:id="@+id/txtBonsaiTypeTitle"

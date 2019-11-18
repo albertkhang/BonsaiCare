@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullScreenThemeAndroid">
-        <activity android:name=".activity.manage.manage.NewAndEditPlaceActivity"></activity>
-        <activity android:name=".activity.manage.manage.PlaceDetailActivity" />
+        <activity android:name=".activity.manage.supply.SupplyDetailActivity"></activity>
+        <activity android:name=".activity.manage.supply.NewAndEditSupplyActivity" />
+        <activity android:name=".activity.manage.place.NewAndEditPlaceActivity" />
+        <activity android:name=".activity.manage.place.PlaceDetailActivity" />
         <activity android:name=".activity.manage.bonsai.BonsaiDetailActivity" />
         <activity android:name=".activity.manage.bonsai.NewAndEditBonsaiActivity" />
         <activity android:name=".activity.setting.ChangeSetting" />

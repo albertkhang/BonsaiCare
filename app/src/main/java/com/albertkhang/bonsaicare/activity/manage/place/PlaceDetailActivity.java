@@ -1,4 +1,4 @@
-package com.albertkhang.bonsaicare.activity.manage.manage;
+package com.albertkhang.bonsaicare.activity.manage.place;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -15,10 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.MainActivity;
-import com.albertkhang.bonsaicare.activity.manage.ManageList;
-import com.albertkhang.bonsaicare.activity.manage.bonsai.BonsaiDetailActivity;
-import com.albertkhang.bonsaicare.activity.manage.bonsai.NewAndEditBonsaiActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 
