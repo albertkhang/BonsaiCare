@@ -412,4 +412,34 @@ public class ManipulationDb {
         return postReturn;
     }
 
+    public int getTotalSupply(FeedReaderDbHelper dbHelper, String supplyName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.SUPPLY_TOTAL_SUPPLIES
+        };
+
+        String selection = FeedReaderContract.FeedEntry.SUPPLY_NAME + " LIKE ?";
+        String[] selectionArgs = {supplyName};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        int total = 0;
+
+        while (cursor.moveToNext()) {
+            total = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLY_TOTAL_SUPPLIES));
+        }
+
+        cursor.close();
+
+        return total;
+    }
+
 }

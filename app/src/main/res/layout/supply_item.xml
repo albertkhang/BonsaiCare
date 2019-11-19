@@ -120,19 +120,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/imgAddBill"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:paddingTop="22dp"
-            android:paddingBottom="22dp"
-            android:paddingLeft="22dp"
-            android:paddingRight="16dp"
-            android:src="@drawable/ic_add_bill_stroke"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

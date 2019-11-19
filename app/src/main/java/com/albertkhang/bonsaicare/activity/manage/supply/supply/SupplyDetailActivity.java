@@ -1,4 +1,4 @@
-package com.albertkhang.bonsaicare.activity.manage.supply;
+package com.albertkhang.bonsaicare.activity.manage.supply.supply;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -78,7 +78,8 @@ public class SupplyDetailActivity extends AppCompatActivity {
                         Toast.makeText(SupplyDetailActivity.this, R.string.toastDeleteSuccess, Toast.LENGTH_LONG).show();
                         ManipulationDb.deleteSupply(dbHelper, supplyItem.getId());
 
-                        putDataBack();
+                        putDataBackClose();
+//                        finish();
                     }
                 });
                 builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
@@ -140,6 +141,16 @@ public class SupplyDetailActivity extends AppCompatActivity {
 
     private void putDataBack() {
         Intent intent = new Intent();
+        if (needRefresh) {
+            intent.putExtra("name", txtNameValue.getText().toString().concat(" Bills"));
+        }
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
+
+    private void putDataBackClose() {
+        Intent intent = new Intent();
+        intent.putExtra("close", 1);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }
@@ -158,7 +169,7 @@ public class SupplyDetailActivity extends AppCompatActivity {
         handleIcon(supplyItem.getSupplyName());
     }
 
-    private void handleIcon(String name){
+    private void handleIcon(String name) {
         if (name.equals("Water")) {
             imgSupplyIcon.setImageResource(R.drawable.ic_water);
         } else {

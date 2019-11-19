@@ -237,7 +237,6 @@ public class FragmentSetting extends Fragment {
                             txtMaxMoneyEdit.setError(getString(R.string.notifyErrorMaxMoney));
                         }
                     }
-
                     return true;
                 }
 

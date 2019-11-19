@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".activity.manage.supply.NewAndEditSupplyActivity">
+    tools:context=".activity.manage.supply.supply.NewAndEditSupplyActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_layout_new_bonsai"

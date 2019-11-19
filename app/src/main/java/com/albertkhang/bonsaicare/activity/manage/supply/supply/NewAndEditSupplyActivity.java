@@ -1,4 +1,4 @@
-package com.albertkhang.bonsaicare.activity.manage.supply;
+package com.albertkhang.bonsaicare.activity.manage.supply.supply;
 
 import androidx.appcompat.app.AppCompatActivity;
 

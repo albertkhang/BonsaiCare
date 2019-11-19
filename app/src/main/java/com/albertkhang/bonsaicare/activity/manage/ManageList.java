@@ -26,9 +26,9 @@ import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.activity.manage.place.NewAndEditPlaceActivity;
 import com.albertkhang.bonsaicare.activity.manage.place.PlaceDetailActivity;
-import com.albertkhang.bonsaicare.activity.manage.supply.NewAndEditSupplyActivity;
-import com.albertkhang.bonsaicare.activity.manage.supply.SupplyDetailActivity;
-import com.albertkhang.bonsaicare.activity.manage.supply.supply_bill.SupplyItemBillListActivity;
+import com.albertkhang.bonsaicare.activity.manage.supply.supply.NewAndEditSupplyActivity;
+import com.albertkhang.bonsaicare.activity.manage.supply.supply.SupplyDetailActivity;
+import com.albertkhang.bonsaicare.activity.manage.supply.supplyBill.SupplyItemBillListActivity;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
@@ -569,13 +569,6 @@ public class ManageList extends AppCompatActivity {
                 dialog.show();
             }
         });
-
-        supplyAdapter.setOnAddBillClickListener(new SupplyRecyclerViewAdapter.OnAddBillClickListener() {
-            @Override
-            public void onAddBillClickListener(View view, int position) {
-                //show add bill activity
-            }
-        });
     }
 
     private void handleClearButton(String text) {
@@ -719,7 +712,9 @@ public class ManageList extends AppCompatActivity {
                     supplyAdapter.update(supplyArrayList);
                 }
                 break;
+
             case DETAIL_SUPPLY_REQUEST_CODE:
+            case SUPPLY_BILL_LIST_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
                     ManipulationDb.getAllDataSupplyTable(dbHelper, supplyArrayList);
                     supplyAdapter.update(supplyArrayList);

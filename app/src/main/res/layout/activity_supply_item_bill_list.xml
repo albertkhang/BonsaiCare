@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".activity.manage.supply.supply_bill.SupplyItemBillListActivity">
+    tools:context=".activity.manage.supply.supplyBill.SupplyItemBillListActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_layout"
@@ -134,7 +134,7 @@
         app:layout_constraintRight_toRightOf="parent">
 
         <TextView
-            android:id="@+id/txtTotalSupplyTitle"
+            android:id="@+id/txtSupplyBoughtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -147,7 +147,7 @@
             app:layout_constraintTop_toTopOf="@id/bottom_layout" />
 
         <TextView
-            android:id="@+id/txtTotalSupplyValue"
+            android:id="@+id/txtSupplyBoughtValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="13"
@@ -155,7 +155,20 @@
             android:textSize="16sp"
 
             app:layout_constraintBottom_toBottomOf="@id/bottom_layout"
-            app:layout_constraintLeft_toRightOf="@id/txtTotalSupplyTitle"
+            app:layout_constraintLeft_toRightOf="@id/txtSupplyBoughtTitle"
+            app:layout_constraintTop_toTopOf="@id/bottom_layout" />
+
+        <TextView
+            android:id="@+id/txtUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="unit"
+            android:textColor="@color/colorItemTitle"
+            android:textSize="16sp"
+            android:layout_marginLeft="2dp"
+
+            app:layout_constraintBottom_toBottomOf="@id/bottom_layout"
+            app:layout_constraintLeft_toRightOf="@id/txtSupplyBoughtValue"
             app:layout_constraintTop_toTopOf="@id/bottom_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
