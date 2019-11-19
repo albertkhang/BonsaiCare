@@ -42,7 +42,7 @@ public class NewAndEditPlaceActivity extends AppCompatActivity {
     }
 
     private void addControl() {
-        txtDetailTitle = findViewById(R.id.txtDetailTitle);
+        txtDetailTitle = findViewById(R.id.txtTitle);
         txtPlaceName = findViewById(R.id.txtUnitValue);
         btnSubmit = findViewById(R.id.btnSubmit);
         btnBack = findViewById(R.id.btnBack);

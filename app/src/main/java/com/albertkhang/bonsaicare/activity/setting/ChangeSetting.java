@@ -20,7 +20,7 @@ public class ChangeSetting extends AppCompatActivity {
     }
 
     private void addControl() {
-        txtDetailSettingTitle = findViewById(R.id.txtDetailTitle);
+        txtDetailSettingTitle = findViewById(R.id.txtTitle);
     }
 
     private void addEvent() {

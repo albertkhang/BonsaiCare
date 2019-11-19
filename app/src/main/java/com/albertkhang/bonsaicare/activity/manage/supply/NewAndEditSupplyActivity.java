@@ -13,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.manage.place.NewAndEditPlaceActivity;
-import com.albertkhang.bonsaicare.activity.manage.place.PlaceDetailActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.objectClass.SupplyItem;
@@ -43,7 +41,7 @@ public class NewAndEditSupplyActivity extends AppCompatActivity {
 
     private void addControl() {
         btnBack = findViewById(R.id.btnBack);
-        txtDetailTitle = findViewById(R.id.txtDetailTitle);
+        txtDetailTitle = findViewById(R.id.txtTitle);
 
         txtNameValue = findViewById(R.id.txtNameValue);
         txtUnitValue = findViewById(R.id.txtUnitValue);

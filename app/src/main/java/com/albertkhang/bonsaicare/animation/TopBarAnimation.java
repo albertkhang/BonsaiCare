@@ -127,7 +127,7 @@ public class TopBarAnimation {
 
     private static void scaleShowAddIconAndTitleTopBar(View view) {
         ImageView addIcon = view.findViewById(R.id.imgManageListAddButton);
-        TextView title = view.findViewById(R.id.txtDetailTitle);
+        TextView title = view.findViewById(R.id.txtTitle);
 
         showIcon(addIcon);
         showIcon(title);
@@ -220,7 +220,7 @@ public class TopBarAnimation {
 
     private static void scaleHideAddIconAndTitleTopBar(View view) {
         ImageView addIcon = view.findViewById(R.id.imgManageListAddButton);
-        TextView title = view.findViewById(R.id.txtDetailTitle);
+        TextView title = view.findViewById(R.id.txtTitle);
 
         hideIcon(addIcon);
         hideIcon(title);

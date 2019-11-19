@@ -24,11 +24,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.albertkhang.bonsaicare.activity.MainActivity;
 import com.albertkhang.bonsaicare.activity.manage.place.NewAndEditPlaceActivity;
 import com.albertkhang.bonsaicare.activity.manage.place.PlaceDetailActivity;
 import com.albertkhang.bonsaicare.activity.manage.supply.NewAndEditSupplyActivity;
 import com.albertkhang.bonsaicare.activity.manage.supply.SupplyDetailActivity;
+import com.albertkhang.bonsaicare.activity.manage.supply.supply_bill.SupplyItemBillListActivity;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
@@ -62,6 +62,8 @@ public class ManageList extends AppCompatActivity {
     ImageView imgManageListAddButton;
     ImageView imgManageListSearchButton;
 
+    ImageView imgClearText;
+
     EditText txt_search_frame;
     boolean isShowKeyboard = false;
 
@@ -77,6 +79,8 @@ public class ManageList extends AppCompatActivity {
     private static final int EDIT_SUPPLY_REQUEST_CODE = 8;
     private static final int DETAIL_SUPPLY_REQUEST_CODE = 9;
 
+    private static final int SUPPLY_BILL_LIST_REQUEST_CODE = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +91,7 @@ public class ManageList extends AppCompatActivity {
     }
 
     private void addControl() {
-        txtDetailTitle = findViewById(R.id.txtDetailTitle);
+        txtDetailTitle = findViewById(R.id.txtTitle);
         recyclerView = findViewById(R.id.placementRecyclerView);
 
         bonsaiArrayList = new ArrayList<>();
@@ -109,9 +113,10 @@ public class ManageList extends AppCompatActivity {
         imgManageListAddButton = findViewById(R.id.imgManageListAddButton);
         imgManageListSearchButton = findViewById(R.id.imgManageListSearchButton);
 
-        setIcon();
-
         txt_search_frame = findViewById(R.id.txt_search_frame);
+        imgClearText = findViewById(R.id.imgClearText);
+
+        setIcon();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -162,8 +167,8 @@ public class ManageList extends AppCompatActivity {
                 if (isShowKeyboard) {
                     TopBarAnimation.handleSearchFrame(findViewById(R.id.top_layout), false);
                     hideKeyboard();
+
                     txt_search_frame.setText("");
-                    bonsaiAdapter.Filter(txt_search_frame.getText().toString(), bonsaiArrayList);
                 } else {
                     finish();
                 }
@@ -206,6 +211,16 @@ public class ManageList extends AppCompatActivity {
     }
 
     private void addBonsaiManageEvent() {
+        imgClearText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("_imgClearText", "clicked!");
+
+                txt_search_frame.setText("");
+                bonsaiAdapter.update(bonsaiArrayList);
+            }
+        });
+
         bonsaiAdapter.setOnItemClickListener(new BonsaiRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
@@ -254,6 +269,8 @@ public class ManageList extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                handleClearButton(editable.toString());
+
                 bonsaiAdapter.Filter(editable.toString(), bonsaiArrayList);
             }
         });
@@ -328,6 +345,14 @@ public class ManageList extends AppCompatActivity {
     }
 
     private void addPlaceManageEvent() {
+        imgClearText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txt_search_frame.setText("");
+                placementAdapter.update(placementArrayList);
+            }
+        });
+
         imgManageListSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -356,6 +381,7 @@ public class ManageList extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                handleClearButton(editable.toString());
                 placementAdapter.Filter(editable.toString(), placementArrayList);
             }
         });
@@ -434,6 +460,14 @@ public class ManageList extends AppCompatActivity {
     }
 
     private void addSupplyManageEvent() {
+        imgClearText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txt_search_frame.setText("");
+                supplyAdapter.update(supplyArrayList);
+            }
+        });
+
         imgManageListSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -462,6 +496,7 @@ public class ManageList extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                handleClearButton(editable.toString());
                 supplyAdapter.Filter(editable.toString(), supplyArrayList);
             }
         });
@@ -478,7 +513,8 @@ public class ManageList extends AppCompatActivity {
         supplyAdapter.setOnItemClickListener(new SupplyRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                startSupplyDetailActivity(position);
+//                startSupplyDetailActivity(position);
+                startSupplyBillListActivity(position);
             }
         });
 
@@ -533,6 +569,21 @@ public class ManageList extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        supplyAdapter.setOnAddBillClickListener(new SupplyRecyclerViewAdapter.OnAddBillClickListener() {
+            @Override
+            public void onAddBillClickListener(View view, int position) {
+                //show add bill activity
+            }
+        });
+    }
+
+    private void handleClearButton(String text) {
+        if (text.equals("")) {
+            imgClearText.setVisibility(View.GONE);
+        } else {
+            imgClearText.setVisibility(View.VISIBLE);
+        }
     }
 
     private void startBonsaiDetailActivity(int position) {
@@ -566,6 +617,20 @@ public class ManageList extends AppCompatActivity {
         intent.putExtra("total", supplyArrayList.get(position).getTotal());
 
         startActivityForResult(intent, DETAIL_SUPPLY_REQUEST_CODE);
+    }
+
+    private void startSupplyBillListActivity(int position) {
+        Intent intent = new Intent(ManageList.this, SupplyItemBillListActivity.class);
+
+        String title = supplyArrayList.get(position).getSupplyName().concat(" Bills");
+        intent.putExtra("title", title);
+
+        intent.putExtra("id", supplyArrayList.get(position).getId());
+        intent.putExtra("name", supplyArrayList.get(position).getSupplyName());
+        intent.putExtra("unit", supplyArrayList.get(position).getSupplyUnit());
+        intent.putExtra("total", supplyArrayList.get(position).getTotal());
+
+        startActivityForResult(intent, SUPPLY_BILL_LIST_REQUEST_CODE);
     }
 
     private void showKeyboard() {

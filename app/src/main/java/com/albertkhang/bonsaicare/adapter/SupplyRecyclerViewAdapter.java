@@ -51,6 +51,16 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
+    public interface OnAddBillClickListener {
+        void onAddBillClickListener(View view, int position);
+    }
+
+    OnAddBillClickListener onAddBillClickListener;
+
+    public void setOnAddBillClickListener(OnAddBillClickListener onAddBillClickListener) {
+        this.onAddBillClickListener = onAddBillClickListener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -96,6 +106,13 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
                 return true;
             }
         });
+
+        holder.imgAddBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAddBillClickListener.onAddBillClickListener(view, position);
+            }
+        });
     }
 
     private void handleUnit(TextView textView, int position) {
@@ -128,6 +145,7 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
         TextView txtSupplyItemName;
         TextView txtSupplyItemTotal;
         TextView txtSupplyItemUnit;
+        ImageView imgAddBill;
 
         ConstraintLayout supply_item_frame;
 
@@ -138,6 +156,7 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
             txtSupplyItemName = itemView.findViewById(R.id.txtPlacementName);
             txtSupplyItemTotal = itemView.findViewById(R.id.txtTotalBonsaiValue);
             txtSupplyItemUnit = itemView.findViewById(R.id.txtSupplyItemUnit);
+            imgAddBill = itemView.findViewById(R.id.imgAddBill);
 
             supply_item_frame = itemView.findViewById(R.id.supply_item_frame);
         }

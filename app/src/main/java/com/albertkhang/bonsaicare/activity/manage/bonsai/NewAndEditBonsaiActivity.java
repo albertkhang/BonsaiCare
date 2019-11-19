@@ -72,7 +72,7 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
         txtBonsaiDayPlanted = findViewById(R.id.txtBonsaiDayPlanted);
         btnAddNewBonsaiSubmit = findViewById(R.id.btnSubmit);
         btnBack = findViewById(R.id.btnBack);
-        txtDetailSettingTitle = findViewById(R.id.txtDetailTitle);
+        txtDetailSettingTitle = findViewById(R.id.txtTitle);
         imgPlaceErrorIcon = findViewById(R.id.imgPlaceErrorIcon);
         item = new BonsaiItem();
 
