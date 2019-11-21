@@ -42,6 +42,7 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
     SupplyBilRecyclerViewAdapter supplyBillAdapter;
 
     SupplyItem supplyItem;
+    SupplyBillItem supplyBillItem;
 
     boolean isShowKeyboard = false;
     boolean needRefresh = false;
@@ -50,6 +51,7 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
 
     private static final int DETAIL_SUPPLY_REQUEST_CODE = 9;
     private static final int ADD_SUPPLY_BILL_REQUEST_CODE = 11;
+    private static final int DETAIL_SUPPLY_BILL_REQUEST_CODE = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +112,7 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
         supplyBillAdapter.setOnItemClickListener(new SupplyBilRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                //view detail
+                startSupplyBillDetailActivity(position);
             }
         });
 
@@ -123,6 +125,16 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0://Edit
+//                                supplyBillItem = new SupplyBillItem();
+//
+//                                supplyBillItem.setId(supplyBillArrayList.get(position).getId());
+//                                supplyBillItem.setSupplyName(supplyBillArrayList.get(position).getSupplyName());
+//                                supplyBillItem.setAddressBought(supplyBillArrayList.get(position).getAddressBought());
+//                                supplyBillItem.setDayBought(supplyBillArrayList.get(position).getDayBought());
+//                                supplyBillItem.setTotalSupplies(supplyBillArrayList.get(position).getTotalSupplies());
+//                                supplyBillItem.setTotalMoney(supplyBillArrayList.get(position).getTotalMoney());
+//
+//                                startSupplyBillDetailActivity();
                                 break;
                             case 1://Delete
                                 AlertDialog.Builder builder = new AlertDialog.Builder(SupplyItemBillListActivity.this);
@@ -157,6 +169,19 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+    }
+
+    private void startSupplyBillDetailActivity(int position) {
+        Intent intent = new Intent(SupplyItemBillListActivity.this, SupplyBillDetailActivity.class);
+
+        intent.putExtra("id", supplyBillArrayList.get(position).getId());
+        intent.putExtra("name", supplyBillArrayList.get(position).getSupplyName());
+        intent.putExtra("address", supplyBillArrayList.get(position).getAddressBought());
+        intent.putExtra("dayBought", supplyBillArrayList.get(position).getDayBought());
+        intent.putExtra("supplyBought", supplyBillArrayList.get(position).getTotalSupplies());
+        intent.putExtra("moneyBought", supplyBillArrayList.get(position).getTotalMoney());
+
+        startActivityForResult(intent, DETAIL_SUPPLY_BILL_REQUEST_CODE);
     }
 
     private void startSupplyDetailActivity() {
@@ -202,6 +227,7 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case DETAIL_SUPPLY_REQUEST_CODE:
+            case DETAIL_SUPPLY_BILL_REQUEST_CODE:
             case ADD_SUPPLY_BILL_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
                     needRefresh = true;

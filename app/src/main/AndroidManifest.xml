@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/FullScreenThemeAndroid">
-        <activity android:name=".activity.manage.supply.supplyBill.NewAndEditSupplyBillActivity"></activity>
+        <activity android:name=".activity.manage.supply.supplyBill.SupplyBillDetailActivity"></activity>
+        <activity android:name=".activity.manage.supply.supplyBill.NewAndEditSupplyBillActivity" />
         <activity android:name=".activity.manage.supply.supplyBill.SupplyItemBillListActivity" />
         <activity android:name=".activity.manage.supply.supply.SupplyDetailActivity" />
         <activity android:name=".activity.manage.supply.supply.NewAndEditSupplyActivity" />
@@ -19,7 +20,9 @@
         <activity android:name=".activity.manage.bonsai.NewAndEditBonsaiActivity" />
         <activity android:name=".activity.setting.ChangeSetting" />
         <activity android:name=".activity.manage.ManageReport" />
-        <activity android:name=".activity.manage.ManageList" android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.manage.ManageList"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.schedule.ScheduleItemActivity" />
         <activity android:name=".activity.schedule.ScheduleNewItemActivity" />
         <activity android:name=".activity.MainActivity">

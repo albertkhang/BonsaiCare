@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activity.manage.supply.supplyBill.SupplyBillDetailActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@color/colorBackground"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:paddingTop="18dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="6dp"
+            android:paddingBottom="18dp"
+            android:src="@drawable/ic_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Supply Bill Detail"
+            android:textColor="@color/colorItemTitle"
+            android:textSize="22sp"
+            android:layout_marginBottom="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgEditButton"
+            android:layout_width="@dimen/topBarWidthButton"
+            android:layout_height="@dimen/topBarHeightButton"
+            android:src="@drawable/ic_edit"
+            android:paddingRight="@dimen/topBarPaddingRightAddButton"
+            android:paddingBottom="@dimen/topBarPaddingBottomButton"
+            android:paddingTop="@dimen/topBarPaddingTopButton"
+            android:paddingLeft="@dimen/topBarPaddingLeftAddButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frame_Id"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:clickable="false"
+        android:background="@drawable/constraint_layout_ripple"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_layout">
+
+        <TextView
+            android:id="@+id/txtIdTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Id: "
+            android:textColor="@color/colorItemTitle"
+            android:textSize="@dimen/settingTitleSize"
+            android:textStyle="italic|bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtIdValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:layout_marginLeft="@dimen/marLeftText"
+            android:textColor="@color/colorItemInfo"
+            android:textSize="@dimen/settingTitleSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtIdTitle"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frame_Name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:clickable="false"
+        android:background="@drawable/constraint_layout_ripple"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_Id">
+
+        <TextView
+            android:id="@+id/txtNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Supply Name: "
+            android:textColor="@color/colorItemTitle"
+            android:textSize="@dimen/settingTitleSize"
+            android:textStyle="italic|bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtNameValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Water"
+            android:layout_marginLeft="@dimen/marLeftText"
+            android:textColor="@color/colorItemInfo"
+            android:textSize="@dimen/settingTitleSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtNameTitle"/>
+
+        <ImageView
+            android:id="@+id/imgSupplyIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_water"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frame_address"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:clickable="false"
+        android:background="@drawable/constraint_layout_ripple"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_Name">
+
+        <TextView
+            android:id="@+id/txtAddressTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address: "
+            android:textColor="@color/colorItemTitle"
+            android:textSize="@dimen/settingTitleSize"
+            android:textStyle="italic|bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtAddressValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="address"
+            android:layout_marginLeft="@dimen/marLeftText"
+            android:textColor="@color/colorItemInfo"
+            android:textSize="@dimen/settingTitleSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtAddressTitle"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/frame_dayBought"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginRight="15dp"
+    android:clickable="false"
+    android:background="@drawable/constraint_layout_ripple"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/frame_address">
+
+    <TextView
+        android:id="@+id/txtDayBoughtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Day Bought: "
+        android:textColor="@color/colorItemTitle"
+        android:textSize="@dimen/settingTitleSize"
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtDayBoughtValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="13 - 05 - 2001"
+        android:layout_marginLeft="@dimen/marLeftText"
+        android:textColor="@color/colorItemInfo"
+        android:textSize="@dimen/settingTitleSize"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/txtDayBoughtTitle"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frame_supplyBought"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:clickable="false"
+        android:background="@drawable/constraint_layout_ripple"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_dayBought">
+
+        <TextView
+            android:id="@+id/txtSupplyBoughtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Supply Bought: "
+            android:textColor="@color/colorItemTitle"
+            android:textSize="@dimen/settingTitleSize"
+            android:textStyle="italic|bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtSupplyBoughtValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13"
+            android:layout_marginLeft="@dimen/marLeftText"
+            android:textColor="@color/colorItemInfo"
+            android:textSize="@dimen/settingTitleSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtSupplyBoughtTitle"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frame_moneyBought"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:clickable="false"
+        android:background="@drawable/constraint_layout_ripple"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_supplyBought">
+
+        <TextView
+            android:id="@+id/txtMoneyBoughtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Money Bought: "
+            android:textColor="@color/colorItemTitle"
+            android:textSize="@dimen/settingTitleSize"
+            android:textStyle="italic|bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtMoneyBoughtValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100.000 VND"
+            android:layout_marginLeft="@dimen/marLeftText"
+            android:textColor="@color/colorItemInfo"
+            android:textSize="@dimen/settingTitleSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/txtMoneyBoughtTitle"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/button_ripple_delete"
+        android:clickable="true"
+        android:text="@string/delete"
+        android:textColor="@color/colorItemTitle"
+        android:textSize="@dimen/buttonTextSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frame_moneyBought" />
+</androidx.constraintlayout.widget.ConstraintLayout>
