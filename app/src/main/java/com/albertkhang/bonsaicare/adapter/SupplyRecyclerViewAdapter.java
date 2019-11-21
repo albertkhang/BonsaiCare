@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
+import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 import com.albertkhang.bonsaicare.R;
@@ -20,9 +22,11 @@ import java.util.ArrayList;
 public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecyclerViewAdapter.ViewHolder> {
     Context context;
     ArrayList<SupplyItem> supplyArrayList = new ArrayList<>();
+    FeedReaderDbHelper dbHelper;
 
     public SupplyRecyclerViewAdapter(Context context) {
         this.context = context;
+        dbHelper = new FeedReaderDbHelper(context);
     }
 
     public void update(ArrayList<SupplyItem> supplyArrayList) {
@@ -64,7 +68,8 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         handleIcon(holder.imgSupplyIcon, position);
         holder.txtSupplyItemName.setText(supplyArrayList.get(position).getSupplyName());
-        holder.txtSupplyItemTotal.setText(String.valueOf(supplyArrayList.get(position).getTotal()));
+        int totalSupplyBought = ManipulationDb.getTotalSupplyBought(dbHelper, supplyArrayList.get(position).getSupplyName());
+        holder.txtSupplyItemTotal.setText(String.valueOf(totalSupplyBought));
         handleUnit(holder.txtSupplyItemUnit, position);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

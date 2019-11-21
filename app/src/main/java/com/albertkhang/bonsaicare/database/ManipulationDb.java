@@ -340,6 +340,15 @@ public class ManipulationDb {
         db.insert(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME, null, values);
     }
 
+    public static void deleteSupplyBill(FeedReaderDbHelper dbHelper, int supplyBillId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(supplyBillId)};
+
+        db.delete(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME, selection, selectionArgs);
+    }
+
     private static int getPlacementIdFromPlacementName(FeedReaderDbHelper dbHelper, String placementName) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -474,36 +483,6 @@ public class ManipulationDb {
         return postReturn;
     }
 
-    public int getTotalSupply(FeedReaderDbHelper dbHelper, String supplyName) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        String[] projection = {
-                FeedReaderContract.FeedEntry.SUPPLY_TOTAL_SUPPLIES
-        };
-
-        String selection = FeedReaderContract.FeedEntry.SUPPLY_NAME + " LIKE ?";
-        String[] selectionArgs = {supplyName};
-
-        Cursor cursor = db.query(
-                FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-        int total = 0;
-
-        while (cursor.moveToNext()) {
-            total = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLY_TOTAL_SUPPLIES));
-        }
-
-        cursor.close();
-
-        return total;
-    }
-
     private static int getSupplyIdFromSupplyName(FeedReaderDbHelper dbHelper, String supplyName) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -590,5 +569,35 @@ public class ManipulationDb {
         cursor.close();
 
         return unit;
+    }
+
+    public static int getTotalSupplyBought(FeedReaderDbHelper dbHelper, String supplyName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.SUPPLY_TOTAL_SUPPLIES
+        };
+
+        String selection = FeedReaderContract.FeedEntry.SUPPLY_NAME + " = ?";
+        String[] selectionArgs = {supplyName};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        int count = 0;
+        while (cursor.moveToNext()) {
+            count += cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLY_TOTAL_SUPPLIES));
+        }
+        cursor.close();
+
+        Log.d("_ManipulationDb", "getTotalSupplyBought: " + count);
+        return count;
     }
 }

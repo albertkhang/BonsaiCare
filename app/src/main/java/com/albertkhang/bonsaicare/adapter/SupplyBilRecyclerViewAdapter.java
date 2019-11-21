@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.albertkhang.bonsaicare.R;
@@ -15,6 +16,7 @@ import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.objectClass.SupplyBillItem;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBilRecyclerViewAdapter.ViewHolder> {
@@ -33,6 +35,26 @@ public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBil
         notifyDataSetChanged();
     }
 
+    public interface OnItemClickListener {
+        void onItemClickListener(View view, int position);
+    }
+
+    OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemLongClickListener {
+        void onItemLongClickListener(View view, int position);
+    }
+
+    OnItemLongClickListener onItemLongClickListener;
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,12 +65,42 @@ public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBil
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         handleIcon(holder.imgIcon, position);
         holder.txtDayBoughtValue.setText(supplyBillItemArrayList.get(position).getDayBought());
         holder.txtTotalBoughtValue.setText(String.valueOf(supplyBillItemArrayList.get(position).getTotalSupplies()));
         holder.txtSupplyItemUnit.setText(ManipulationDb.getSupplyUnitFromSupplyName(dbHelper, supplyBillItemArrayList.get(position).getSupplyName()));
         holder.txtSupplyMoneyValue.setText(String.valueOf(supplyBillItemArrayList.get(position).getTotalMoney()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(view, position);
+            }
+        });
+
+        holder.supply_item_frame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(view, position);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClickListener.onItemLongClickListener(view, position);
+                return true;
+            }
+        });
+
+        holder.supply_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClickListener.onItemLongClickListener(view, position);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -57,6 +109,8 @@ public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBil
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        ConstraintLayout supply_item_frame;
+
         ImageView imgIcon;
         TextView txtDayBoughtValue;
         TextView txtTotalBoughtValue;
@@ -65,6 +119,8 @@ public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBil
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            supply_item_frame = itemView.findViewById(R.id.supply_item_frame);
 
             imgIcon = itemView.findViewById(R.id.imgIcon);
             txtDayBoughtValue = itemView.findViewById(R.id.txtDayBoughtValue);

@@ -120,57 +120,9 @@
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_layout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_layout" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottom_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <TextView
-            android:id="@+id/txtSupplyBoughtTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="Total supply: "
-            android:textColor="@color/colorItemTitle"
-            android:textSize="16sp"
-            android:textStyle="italic|bold"
-
-            app:layout_constraintBottom_toBottomOf="@id/bottom_layout"
-            app:layout_constraintLeft_toLeftOf="@id/bottom_layout"
-            app:layout_constraintTop_toTopOf="@id/bottom_layout" />
-
-        <TextView
-            android:id="@+id/txtSupplyBoughtValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="13"
-            android:textColor="@color/colorItemTitle"
-            android:textSize="16sp"
-
-            app:layout_constraintBottom_toBottomOf="@id/bottom_layout"
-            app:layout_constraintLeft_toRightOf="@id/txtSupplyBoughtTitle"
-            app:layout_constraintTop_toTopOf="@id/bottom_layout" />
-
-        <TextView
-            android:id="@+id/txtUnit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:text="unit"
-            android:textColor="@color/colorItemTitle"
-            android:textSize="16sp"
-
-            app:layout_constraintBottom_toBottomOf="@id/bottom_layout"
-            app:layout_constraintLeft_toRightOf="@id/txtSupplyBoughtValue"
-            app:layout_constraintTop_toTopOf="@id/bottom_layout" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@id/top_layout"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

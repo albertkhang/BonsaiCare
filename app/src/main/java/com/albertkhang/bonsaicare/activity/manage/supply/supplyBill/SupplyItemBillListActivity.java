@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +15,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.manage.ManageList;
+import com.albertkhang.bonsaicare.activity.manage.supply.supply.NewAndEditSupplyActivity;
 import com.albertkhang.bonsaicare.activity.manage.supply.supply.SupplyDetailActivity;
 import com.albertkhang.bonsaicare.adapter.SupplyBilRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
@@ -35,9 +40,6 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<SupplyBillItem> supplyBillArrayList;
     SupplyBilRecyclerViewAdapter supplyBillAdapter;
-
-    TextView txtTotalSupplyValue;
-    TextView txtUnit;
 
     SupplyItem supplyItem;
 
@@ -67,9 +69,6 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
         imgAdd = findViewById(R.id.imgAdd);
 
         recyclerView = findViewById(R.id.recyclerView);
-
-        txtTotalSupplyValue = findViewById(R.id.txtSupplyBoughtValue);
-        txtUnit = findViewById(R.id.txtUnit);
 
         setDataFromIntent();
 
@@ -107,6 +106,56 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
                 startSupplyDetailActivity();
             }
         });
+
+        supplyBillAdapter.setOnItemClickListener(new SupplyBilRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(View view, int position) {
+
+            }
+        });
+
+        supplyBillAdapter.setOnItemLongClickListener(new SupplyBilRecyclerViewAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClickListener(View view, final int position) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SupplyItemBillListActivity.this, R.style.AlertDialog);
+                builder.setItems(R.array.item_long_click, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0://Edit
+                                break;
+                            case 1://Delete
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SupplyItemBillListActivity.this);
+                                builder.setTitle("Confirm");
+                                builder.setMessage("Are you sure?");
+                                builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(SupplyItemBillListActivity.this, R.string.toastDeleteSuccess, Toast.LENGTH_LONG).show();
+                                        ManipulationDb.deleteSupplyBill(dbHelper, supplyBillArrayList.get(position).getId());
+
+                                        supplyBillArrayList.remove(position);
+                                        supplyBillAdapter.update(supplyBillArrayList);
+                                    }
+                                });
+                                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                                builder.show();
+
+                                break;
+                        }
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     private void startSupplyDetailActivity() {
@@ -135,9 +184,6 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
             supplyItem.setSupplyName(getIntent().getStringExtra("name"));
             supplyItem.setSupplyUnit(getIntent().getStringExtra("unit"));
             supplyItem.setTotal(getIntent().getIntExtra("total", 0));
-
-            txtTotalSupplyValue.setText(String.valueOf(supplyItem.getTotal()));
-            txtUnit.setText(supplyItem.getSupplyUnit());
         }
     }
 

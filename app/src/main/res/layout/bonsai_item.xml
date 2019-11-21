@@ -102,7 +102,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/txtTotalBonsaiTitle"
+                    android:id="@+id/txtTotalRemainTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxWidth="220dp"
@@ -121,9 +121,9 @@
                     android:text="13/5/2001"
                     android:textColor="@color/colorItemInfo"
                     android:textSize="@dimen/manageDetailTextSize"
-                    app:layout_constraintLeft_toRightOf="@id/txtTotalBonsaiTitle"
-                    app:layout_constraintTop_toTopOf="@id/txtTotalBonsaiTitle"
-                    app:layout_constraintBottom_toBottomOf="@id/txtTotalBonsaiTitle"/>
+                    app:layout_constraintLeft_toRightOf="@id/txtTotalRemainTitle"
+                    app:layout_constraintTop_toTopOf="@id/txtTotalRemainTitle"
+                    app:layout_constraintBottom_toBottomOf="@id/txtTotalRemainTitle"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
