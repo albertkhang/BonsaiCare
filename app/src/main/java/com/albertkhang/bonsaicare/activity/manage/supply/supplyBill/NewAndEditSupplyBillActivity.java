@@ -44,6 +44,9 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
 
     String regex = "^[a-zA-Z0-9.,/]+( [a-zA-Z0-9.,/]+)*$";
     FeedReaderDbHelper dbHelper;
+    String type;
+    SupplyBillItem supplyBillItem;
+    boolean needRefresh = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
 
         btnSubmit = findViewById(R.id.btnSubmit);
         dbHelper = new FeedReaderDbHelper(this);
+        supplyBillItem = new SupplyBillItem();
 
         setCurrentDate(txtDayBoughtValue);
         setDataFromIntent();
@@ -113,17 +117,23 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (handleInput()) {
-                    SupplyBillItem item = new SupplyBillItem();
-                    item.setSupplyName(txtSupplyNameValue.getText().toString());
-                    item.setAddressBought(txtAddressValue.getText().toString());
-                    item.setDayBought(txtDayBoughtValue.getText().toString());
-                    item.setTotalSupplies(Integer.parseInt(txtSupplyBoughtValue.getText().toString()));
-                    item.setTotalMoney(Integer.parseInt(txtMoneyBoughtValue.getText().toString()));
+                    supplyBillItem.setSupplyName(txtSupplyNameValue.getText().toString());
+                    supplyBillItem.setAddressBought(txtAddressValue.getText().toString());
+                    supplyBillItem.setDayBought(txtDayBoughtValue.getText().toString());
+                    supplyBillItem.setTotalSupplies(Integer.parseInt(txtSupplyBoughtValue.getText().toString()));
+                    supplyBillItem.setTotalMoney(Integer.parseInt(txtMoneyBoughtValue.getText().toString()));
 
-                    ManipulationDb.addNewSupplyBill(dbHelper, item);
+                    if (type != null) {
+                        Log.d("_btnSubmit", "type != null");
+                        ManipulationDb.updateSupplyBill(dbHelper, supplyBillItem);
+                        Toast.makeText(NewAndEditSupplyBillActivity.this, "Update success!", Toast.LENGTH_LONG).show();
+                    } else {
+                        ManipulationDb.addNewSupplyBill(dbHelper, supplyBillItem);
+                        Toast.makeText(NewAndEditSupplyBillActivity.this, "Add success!", Toast.LENGTH_LONG).show();
+                    }
 
+                    needRefresh = true;
                     putDataBack();
-                    Toast.makeText(NewAndEditSupplyBillActivity.this, "Add success!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -204,6 +214,13 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
     private void putDataBack() {
         Intent intent = new Intent();
         intent.putExtra("supplyName", txtSupplyNameValue.getText().toString());
+
+        intent.putExtra("name", supplyBillItem.getSupplyName());
+        intent.putExtra("address", supplyBillItem.getAddressBought());
+        intent.putExtra("dayBought", supplyBillItem.getDayBought());
+        intent.putExtra("supplyBought", supplyBillItem.getTotalSupplies());
+        intent.putExtra("moneyBought", supplyBillItem.getTotalMoney());
+
         setResult(Activity.RESULT_OK, intent);
         finish();
     }
@@ -212,6 +229,16 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
         String title = getIntent().getStringExtra("name");
         if (title != null) {
             txtSupplyNameValue.setText(getIntent().getStringExtra("name"));
+        }
+
+        type = getIntent().getStringExtra("type");
+        if (type != null && type.equals("edit")) {
+            txtAddressValue.setText(getIntent().getStringExtra("address"));
+            txtDayBoughtValue.setText(getIntent().getStringExtra("dayBought"));
+            txtSupplyBoughtValue.setText(String.valueOf(getIntent().getIntExtra("supplyBought", 0)));
+            txtMoneyBoughtValue.setText(String.valueOf(getIntent().getIntExtra("moneyBought", 0)));
+
+            supplyBillItem.setId(getIntent().getIntExtra("id", 0));
         }
     }
 
@@ -261,5 +288,14 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (needRefresh) {
+            putDataBack();
+        }
+
+        super.onBackPressed();
     }
 }

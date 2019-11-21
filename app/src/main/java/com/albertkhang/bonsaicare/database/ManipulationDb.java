@@ -346,6 +346,43 @@ public class ManipulationDb {
         updateTotalSupplyRemain(dbHelper, supplyBillItem.getSupplyName(), nextValue);
     }
 
+    public static void updateSupplyBill(FeedReaderDbHelper dbHelper, SupplyBillItem supplyBillItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_ID, getSupplyIdFromSupplyName(dbHelper, supplyBillItem.getSupplyName()));
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_ADDRESS_BROUGHT, supplyBillItem.getAddressBought());
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_DATE_BOUGHT, supplyBillItem.getDayBought());
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_AMOUNT, supplyBillItem.getTotalSupplies());
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TOTAL_MONEY, supplyBillItem.getTotalMoney());
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(supplyBillItem.getId())};
+
+        int oldTotal = getTotalSupplyInSupplyBill(dbHelper, supplyBillItem.getId());
+        db.update(
+                FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+
+        int newTotal = supplyBillItem.getTotalSupplies();
+
+        if (newTotal > oldTotal) {
+            int change = newTotal - oldTotal;
+            int curValue = getTotalSupplyRemain(dbHelper, supplyBillItem.getSupplyName());
+            curValue += change;
+            updateTotalSupplyRemain(dbHelper, supplyBillItem.getSupplyName(), curValue);
+        }
+
+        if (newTotal < oldTotal) {
+            int change = oldTotal - newTotal;
+            int curValue = getTotalSupplyRemain(dbHelper, supplyBillItem.getSupplyName());
+            curValue -= change;
+            updateTotalSupplyRemain(dbHelper, supplyBillItem.getSupplyName(), curValue);
+        }
+    }
+
     public static void deleteSupplyBill(FeedReaderDbHelper dbHelper, SupplyBillItem supplyBillItem) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -618,6 +655,35 @@ public class ManipulationDb {
 
         Log.d("_ManipulationDb", "getTotalSupplyRemain: " + count);
         return count;
+    }
+
+    private static int getTotalSupplyInSupplyBill(FeedReaderDbHelper dbHelper, int supplyId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_AMOUNT
+        };
+
+        String selection = BaseColumns._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(supplyId)};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        int i = 0;
+        while (cursor.moveToNext()) {
+            i = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_AMOUNT));
+        }
+        cursor.close();
+
+        return i;
     }
 
     private static void updateTotalSupplyRemain(FeedReaderDbHelper dbHelper, String supplyName, int remain) {
