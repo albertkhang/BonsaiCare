@@ -160,7 +160,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txtBonsaiDayPlanted"
+            android:id="@+id/txtDayBoughtValue"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginLeft="6dp"

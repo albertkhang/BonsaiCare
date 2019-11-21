@@ -58,4 +58,16 @@ public class SupplyBillItem {
     public void setTotalMoney(int totalMoney) {
         this.totalMoney = totalMoney;
     }
+
+    @Override
+    public String toString() {
+        return "SupplyBillItem{" +
+                "id=" + id +
+                ", supplyName='" + supplyName + '\'' +
+                ", addressBought='" + addressBought + '\'' +
+                ", totalSupplies=" + totalSupplies +
+                ", dayBought='" + dayBought + '\'' +
+                ", totalMoney=" + totalMoney +
+                '}';
+    }
 }

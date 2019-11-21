@@ -10,6 +10,7 @@ import android.util.Log;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
+import com.albertkhang.bonsaicare.objectClass.SupplyBillItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 
 import java.util.ArrayList;
@@ -144,6 +145,58 @@ public class ManipulationDb {
         cursor.close();
     }
 
+    public static void getAllDataSupplyBillTable(FeedReaderDbHelper dbHelper, ArrayList<SupplyBillItem> supplyBillArrayList, String supplyName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                BaseColumns._ID,
+                FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_ID,
+                FeedReaderContract.FeedEntry.SUPPLIES_BILL_ADDRESS_BROUGHT,
+                FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_AMOUNT,
+                FeedReaderContract.FeedEntry.SUPPLIES_BILL_DATE_BOUGHT,
+                FeedReaderContract.FeedEntry.SUPPLIES_BILL_TOTAL_MONEY
+        };
+
+        String selection = FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(getSupplyIdFromSupplyName(dbHelper, supplyName))};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        supplyBillArrayList.clear();
+        while (cursor.moveToNext()) {
+            int supplyBillId = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry._ID));
+            int supplyId = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_ID));
+
+            String addressBought = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLIES_BILL_ADDRESS_BROUGHT));
+            int totalSupplyBought = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_AMOUNT));
+
+            String dayBought = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLIES_BILL_DATE_BOUGHT));
+            int totalMoney = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TOTAL_MONEY));
+
+            SupplyBillItem item = new SupplyBillItem();
+            item.setId(supplyBillId);
+            item.setSupplyName(getSupplyNameFromSupplyId(dbHelper, supplyId));
+            item.setAddressBought(addressBought);
+            item.setTotalSupplies(totalSupplyBought);
+            item.setDayBought(dayBought);
+            item.setTotalMoney(totalMoney);
+
+            Log.d("_ManipulationDb", "getAllDataSupplyBillTable_item: " + item.toString());
+
+            supplyBillArrayList.add(item);
+        }
+
+        cursor.close();
+    }
+
     public static void addNewBonsai(FeedReaderDbHelper dbHelper, BonsaiItem bonsaiItem) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -263,19 +316,28 @@ public class ManipulationDb {
                 selectionArgs);
     }
 
-    public static boolean deleteSupply(FeedReaderDbHelper dbHelper, int supply_id) {
+    public static void deleteSupply(FeedReaderDbHelper dbHelper, int supply_id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
         String[] selectionArgs = {String.valueOf(supply_id)};
 
-        int deletedRows = db.delete(FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME, selection, selectionArgs);
+        db.delete(FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME, selection, selectionArgs);
+    }
 
-        if (deletedRows == 1) {
-            return true;
-        } else {
-            return false;
-        }
+    public static void addNewSupplyBill(FeedReaderDbHelper dbHelper, SupplyBillItem supplyBillItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        Log.d("_ManipulationDb", "addNewSupplyBill: " + supplyBillItem.toString());
+        //GET SUPPLY ID
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_ID, getSupplyIdFromSupplyName(dbHelper, supplyBillItem.getSupplyName()));
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_ADDRESS_BROUGHT, supplyBillItem.getAddressBought());
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_DATE_BOUGHT, supplyBillItem.getDayBought());
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_AMOUNT, supplyBillItem.getTotalSupplies());
+        values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TOTAL_MONEY, supplyBillItem.getTotalMoney());
+
+        db.insert(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME, null, values);
     }
 
     private static int getPlacementIdFromPlacementName(FeedReaderDbHelper dbHelper, String placementName) {
@@ -442,4 +504,91 @@ public class ManipulationDb {
         return total;
     }
 
+    private static int getSupplyIdFromSupplyName(FeedReaderDbHelper dbHelper, String supplyName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                BaseColumns._ID
+        };
+
+        String selection = FeedReaderContract.FeedEntry.SUPPLY_NAME + " = ?";
+        String[] selectionArgs = {supplyName};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        int supplyId = 0;
+        while (cursor.moveToNext()) {
+            supplyId = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID));
+        }
+        cursor.close();
+
+        return supplyId;
+    }
+
+    private static String getSupplyNameFromSupplyId(FeedReaderDbHelper dbHelper, int supplyId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.SUPPLY_NAME
+        };
+
+        String selection = BaseColumns._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(supplyId)};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        String supplyName = null;
+        while (cursor.moveToNext()) {
+            supplyName = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLY_NAME));
+        }
+        cursor.close();
+
+        return supplyName;
+    }
+
+    public static String getSupplyUnitFromSupplyName(FeedReaderDbHelper dbHelper, String supplyName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.SUPPLY_UNIT
+        };
+
+        String selection = FeedReaderContract.FeedEntry.SUPPLY_NAME + " LIKE ?";
+        String[] selectionArgs = {supplyName};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        String unit = "";
+        while (cursor.moveToNext()) {
+            unit = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLY_UNIT));
+        }
+
+        cursor.close();
+
+        return unit;
+    }
 }
