@@ -240,9 +240,7 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
                         txtTitle.setText(title);
                     }
 
-                    String supplyName = data.getStringExtra("supplyName");
-                    Log.d("_onActivityResult", "supplyName: " + supplyName);
-                    ManipulationDb.getAllDataSupplyBillTable(dbHelper, supplyBillArrayList, supplyName);
+                    ManipulationDb.getAllDataSupplyBillTable(dbHelper, supplyBillArrayList, supplyItem.getSupplyName());
                     supplyBillAdapter.update(supplyBillArrayList);
                 }
                 break;
