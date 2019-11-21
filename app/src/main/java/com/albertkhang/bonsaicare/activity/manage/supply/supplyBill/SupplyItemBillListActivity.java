@@ -110,7 +110,7 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
         supplyBillAdapter.setOnItemClickListener(new SupplyBilRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-
+                //view detail
             }
         });
 
@@ -132,10 +132,11 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         Toast.makeText(SupplyItemBillListActivity.this, R.string.toastDeleteSuccess, Toast.LENGTH_LONG).show();
-                                        ManipulationDb.deleteSupplyBill(dbHelper, supplyBillArrayList.get(position).getId());
+                                        ManipulationDb.deleteSupplyBill(dbHelper, supplyBillArrayList.get(position));
 
                                         supplyBillArrayList.remove(position);
                                         supplyBillAdapter.update(supplyBillArrayList);
+                                        needRefresh = true;
                                     }
                                 });
                                 builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
@@ -171,6 +172,8 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
 
     private void startAddSupplyBillActivity() {
         Intent intent = new Intent(this, NewAndEditSupplyBillActivity.class);
+        intent.putExtra("name", supplyItem.getSupplyName());
+
         startActivityForResult(intent, ADD_SUPPLY_BILL_REQUEST_CODE);
     }
 

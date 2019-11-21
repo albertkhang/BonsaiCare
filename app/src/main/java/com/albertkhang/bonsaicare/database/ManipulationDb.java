@@ -323,6 +323,7 @@ public class ManipulationDb {
         String[] selectionArgs = {String.valueOf(supply_id)};
 
         db.delete(FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME, selection, selectionArgs);
+        deleteAllSupplyBill(dbHelper, supply_id);
     }
 
     public static void addNewSupplyBill(FeedReaderDbHelper dbHelper, SupplyBillItem supplyBillItem) {
@@ -338,13 +339,30 @@ public class ManipulationDb {
         values.put(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TOTAL_MONEY, supplyBillItem.getTotalMoney());
 
         db.insert(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME, null, values);
+
+        int curValue = getTotalSupplyRemain(dbHelper, supplyBillItem.getSupplyName());
+        int nextValue = curValue + supplyBillItem.getTotalSupplies();
+
+        updateTotalSupplyRemain(dbHelper, supplyBillItem.getSupplyName(), nextValue);
     }
 
-    public static void deleteSupplyBill(FeedReaderDbHelper dbHelper, int supplyBillId) {
+    public static void deleteSupplyBill(FeedReaderDbHelper dbHelper, SupplyBillItem supplyBillItem) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
-        String[] selectionArgs = {String.valueOf(supplyBillId)};
+        String[] selectionArgs = {String.valueOf(supplyBillItem.getId())};
+
+        db.delete(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME, selection, selectionArgs);
+        int curValue = getTotalSupplyRemain(dbHelper, supplyBillItem.getSupplyName());
+
+        updateTotalSupplyRemain(dbHelper, supplyBillItem.getSupplyName(), curValue - supplyBillItem.getTotalSupplies());
+    }
+
+    private static void deleteAllSupplyBill(FeedReaderDbHelper dbHelper, int supply_id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String selection = FeedReaderContract.FeedEntry.SUPPLIES_BILL_SUPPLIES_ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(supply_id)};
 
         db.delete(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME, selection, selectionArgs);
     }
@@ -571,7 +589,7 @@ public class ManipulationDb {
         return unit;
     }
 
-    public static int getTotalSupplyBought(FeedReaderDbHelper dbHelper, String supplyName) {
+    public static int getTotalSupplyRemain(FeedReaderDbHelper dbHelper, String supplyName) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -593,11 +611,28 @@ public class ManipulationDb {
 
         int count = 0;
         while (cursor.moveToNext()) {
+
             count += cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLY_TOTAL_SUPPLIES));
         }
         cursor.close();
 
-        Log.d("_ManipulationDb", "getTotalSupplyBought: " + count);
+        Log.d("_ManipulationDb", "getTotalSupplyRemain: " + count);
         return count;
+    }
+
+    private static void updateTotalSupplyRemain(FeedReaderDbHelper dbHelper, String supplyName, int remain) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.SUPPLY_TOTAL_SUPPLIES, remain);
+
+        String selection = FeedReaderContract.FeedEntry.SUPPLY_NAME + " LIKE ?";
+        String[] selectionArgs = {supplyName};
+
+        db.update(
+                FeedReaderContract.FeedEntry.SUPPLY_TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
     }
 }

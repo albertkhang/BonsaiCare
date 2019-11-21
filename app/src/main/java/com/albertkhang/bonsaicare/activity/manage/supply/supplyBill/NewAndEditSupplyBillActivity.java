@@ -3,11 +3,13 @@ package com.albertkhang.bonsaicare.activity.manage.supply.supplyBill;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,11 +17,18 @@ import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.MainActivity;
+import com.albertkhang.bonsaicare.activity.manage.bonsai.NewAndEditBonsaiActivity;
 import com.albertkhang.bonsaicare.activity.manage.supply.supply.NewAndEditSupplyActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
 import com.albertkhang.bonsaicare.objectClass.SupplyBillItem;
+import com.albertkhang.bonsaicare.objectClass.SupplyItem;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class NewAndEditSupplyBillActivity extends AppCompatActivity {
     ImageView btnBack;
@@ -58,10 +67,41 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         dbHelper = new FeedReaderDbHelper(this);
 
+        setCurrentDate(txtDayBoughtValue);
         setDataFromIntent();
     }
 
     private void addEvent() {
+        txtDayBoughtValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isCurrentDate()) {
+                    showDatePicker(Calendar.getInstance().get(Calendar.MONTH),
+                            Calendar.getInstance().get(Calendar.DATE),
+                            Calendar.getInstance().get(Calendar.YEAR));
+                } else {
+                    String showedDate = getShowedDate();
+                    if (showedDate != null) {
+                        try {
+                            SimpleDateFormat df = new SimpleDateFormat(getString(R.string.dateFormat));
+                            Date c = df.parse(txtDayBoughtValue.getText().toString());
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(c);
+
+                            int year = calendar.get(Calendar.YEAR);
+                            int month = calendar.get(Calendar.MONTH);
+                            int date = calendar.get(Calendar.DATE);
+
+                            showDatePicker(month, date, year);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,12 +124,66 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
 
                     putDataBack();
                     Toast.makeText(NewAndEditSupplyBillActivity.this, "Add success!", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(NewAndEditSupplyBillActivity.this, "Add fail!", Toast.LENGTH_LONG).show();
-
                 }
             }
         });
+    }
+
+    private String getShowedDate() {
+        try {
+            String date = txtDayBoughtValue.getText().toString();
+
+            SimpleDateFormat df = new SimpleDateFormat(getString(R.string.dateFormat));
+            Date c = df.parse(date);
+
+            return df.format(c);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private void showDatePicker(int month, int date, int year) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(NewAndEditSupplyBillActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                String date = month + 1 + "/" + day + "/" + year;
+                Log.d("_showDatePicker", "date: " + date);
+
+                try {
+                    Date c = new SimpleDateFormat("MM/dd/yyyy").parse(date);
+                    SimpleDateFormat df = new SimpleDateFormat(getString(R.string.dateFormat));
+                    String formattedDate = df.format(c);
+                    Log.d("_showDatePicker", "formattedDate: " + formattedDate);
+
+                    txtDayBoughtValue.setText(formattedDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, year, month, date);
+        datePickerDialog.show();
+    }
+
+    private boolean isCurrentDate() {
+        String date = txtDayBoughtValue.getText().toString();
+        Log.d("_isCurrentDate", "date: " + date);
+
+        String currentDate = getCurrentDate();
+        Log.d("_isCurrentDate", "currentDate: " + currentDate);
+
+        if (date.equals(currentDate)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private String getCurrentDate() {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.dateFormat));
+        return df.format(c);
     }
 
     private boolean handleInput() {
@@ -115,7 +209,18 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
     }
 
     private void setDataFromIntent() {
+        String title = getIntent().getStringExtra("name");
+        if (title != null) {
+            txtSupplyNameValue.setText(getIntent().getStringExtra("name"));
+        }
+    }
 
+    private void setCurrentDate(TextView textView) {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat(getString(R.string.dateFormat));
+        String formattedDate = df.format(c);
+
+        textView.setText(formattedDate);
     }
 
     private boolean isInputValid(String text) {
@@ -145,7 +250,7 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
             SharedPreferencesSetting setting = new SharedPreferencesSetting(this);
 
             int maxMoney = setting.getMaxMoney();
-            if (moneyBought < maxMoney) {
+            if (moneyBought <= maxMoney) {
                 return true;
             } else {
                 txtMoneyBoughtValue.setError("Money bought isn't bigger than max money.");

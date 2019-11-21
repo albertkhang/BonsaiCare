@@ -70,7 +70,7 @@ public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBil
         holder.txtDayBoughtValue.setText(supplyBillItemArrayList.get(position).getDayBought());
         holder.txtTotalBoughtValue.setText(String.valueOf(supplyBillItemArrayList.get(position).getTotalSupplies()));
         holder.txtSupplyItemUnit.setText(ManipulationDb.getSupplyUnitFromSupplyName(dbHelper, supplyBillItemArrayList.get(position).getSupplyName()));
-        holder.txtSupplyMoneyValue.setText(String.valueOf(supplyBillItemArrayList.get(position).getTotalMoney()));
+        holder.txtSupplyMoneyValue.setText(getMoneyFormat(supplyBillItemArrayList.get(position).getTotalMoney(), true));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +101,32 @@ public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBil
                 return true;
             }
         });
+    }
+
+    private String getMoneyFormat(int money, boolean haveVND) {
+        String s = "";
+        int countChar = 0;
+        char[] charArray = String.valueOf(money).toCharArray();
+
+        for (int i = charArray.length; i > 0; i--) {
+            s = s.concat(String.valueOf(charArray[i - 1]));
+            countChar++;
+
+            if (countChar == 3 && i != 1) {
+                s = s.concat(".");
+                countChar = 0;
+                continue;
+            }
+        }
+
+        StringBuffer reverse = new StringBuffer(s);
+        reverse.reverse().toString();
+
+        if (haveVND) {
+            return reverse + " VND";
+        } else {
+            return String.valueOf(reverse);
+        }
     }
 
     @Override
