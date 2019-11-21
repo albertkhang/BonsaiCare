@@ -540,7 +540,7 @@ public class ManageList extends AppCompatActivity {
                             case 1://Delete
                                 AlertDialog.Builder builder = new AlertDialog.Builder(ManageList.this);
                                 builder.setTitle("Confirm");
-                                builder.setMessage("Are you sure?");
+                                builder.setMessage("This action will delete all supply bill in it. Are you sure?");
                                 builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {

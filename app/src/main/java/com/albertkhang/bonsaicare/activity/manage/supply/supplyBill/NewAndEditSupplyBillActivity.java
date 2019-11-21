@@ -233,6 +233,8 @@ public class NewAndEditSupplyBillActivity extends AppCompatActivity {
 
         type = getIntent().getStringExtra("type");
         if (type != null && type.equals("edit")) {
+            txtTitle.setText("Edit Supply Bill");
+
             txtAddressValue.setText(getIntent().getStringExtra("address"));
             txtDayBoughtValue.setText(getIntent().getStringExtra("dayBought"));
             txtSupplyBoughtValue.setText(String.valueOf(getIntent().getIntExtra("supplyBought", 0)));

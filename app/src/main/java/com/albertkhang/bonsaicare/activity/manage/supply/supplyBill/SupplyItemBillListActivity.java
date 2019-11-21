@@ -72,6 +72,8 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
+        supplyBillItem = new SupplyBillItem();
+
         setDataFromIntent();
 
         dbHelper = new FeedReaderDbHelper(this);
@@ -125,16 +127,7 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i) {
                             case 0://Edit
-//                                supplyBillItem = new SupplyBillItem();
-//
-//                                supplyBillItem.setId(supplyBillArrayList.get(position).getId());
-//                                supplyBillItem.setSupplyName(supplyBillArrayList.get(position).getSupplyName());
-//                                supplyBillItem.setAddressBought(supplyBillArrayList.get(position).getAddressBought());
-//                                supplyBillItem.setDayBought(supplyBillArrayList.get(position).getDayBought());
-//                                supplyBillItem.setTotalSupplies(supplyBillArrayList.get(position).getTotalSupplies());
-//                                supplyBillItem.setTotalMoney(supplyBillArrayList.get(position).getTotalMoney());
-//
-//                                startSupplyBillDetailActivity();
+                                startEditSupplyBillActivity(position);
                                 break;
                             case 1://Delete
                                 AlertDialog.Builder builder = new AlertDialog.Builder(SupplyItemBillListActivity.this);
@@ -175,11 +168,21 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
         Intent intent = new Intent(SupplyItemBillListActivity.this, SupplyBillDetailActivity.class);
 
         intent.putExtra("id", supplyBillArrayList.get(position).getId());
+
         intent.putExtra("name", supplyBillArrayList.get(position).getSupplyName());
+        supplyBillItem.setSupplyName(supplyBillArrayList.get(position).getSupplyName());
+
         intent.putExtra("address", supplyBillArrayList.get(position).getAddressBought());
+        supplyBillItem.setAddressBought(supplyBillArrayList.get(position).getAddressBought());
+
         intent.putExtra("dayBought", supplyBillArrayList.get(position).getDayBought());
+        supplyBillItem.setDayBought(supplyBillArrayList.get(position).getDayBought());
+
         intent.putExtra("supplyBought", supplyBillArrayList.get(position).getTotalSupplies());
+        supplyBillItem.setTotalSupplies(supplyBillArrayList.get(position).getTotalSupplies());
+
         intent.putExtra("moneyBought", supplyBillArrayList.get(position).getTotalMoney());
+        supplyBillItem.setTotalMoney(supplyBillArrayList.get(position).getTotalMoney());
 
         startActivityForResult(intent, DETAIL_SUPPLY_BILL_REQUEST_CODE);
     }
@@ -198,6 +201,29 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
     private void startAddSupplyBillActivity() {
         Intent intent = new Intent(this, NewAndEditSupplyBillActivity.class);
         intent.putExtra("name", supplyItem.getSupplyName());
+
+        startActivityForResult(intent, ADD_SUPPLY_BILL_REQUEST_CODE);
+    }
+
+    private void startEditSupplyBillActivity(int position) {
+        Intent intent = new Intent(SupplyItemBillListActivity.this, NewAndEditSupplyBillActivity.class);
+
+        intent.putExtra("type", "edit");
+
+        supplyBillItem.setId(supplyBillArrayList.get(position).getId());
+        supplyBillItem.setSupplyName(supplyBillArrayList.get(position).getSupplyName());
+        supplyBillItem.setAddressBought(supplyBillArrayList.get(position).getAddressBought());
+        supplyBillItem.setDayBought(supplyBillArrayList.get(position).getDayBought());
+        supplyBillItem.setTotalSupplies(supplyBillArrayList.get(position).getTotalSupplies());
+        supplyBillItem.setTotalMoney(supplyBillArrayList.get(position).getTotalMoney());
+
+        intent.putExtra("id", supplyBillItem.getId());
+
+        intent.putExtra("name", supplyBillItem.getSupplyName());
+        intent.putExtra("address", supplyBillItem.getAddressBought());
+        intent.putExtra("dayBought", supplyBillItem.getDayBought());
+        intent.putExtra("supplyBought", supplyBillItem.getTotalSupplies());
+        intent.putExtra("moneyBought", supplyBillItem.getTotalMoney());
 
         startActivityForResult(intent, ADD_SUPPLY_BILL_REQUEST_CODE);
     }
