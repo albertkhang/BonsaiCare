@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -35,14 +36,16 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
     ImageView btnBack;
     TextView txtTitle;
 
-    EditText txtNameValue;
+    TextView txtBonsaiNameValue;
     TextView txtDayCreateValue;
+    TextView txtNameSelect;
 
     TextView txtDayTakeCareValue;
     TextView txtDayTakeCareChange;
 
     TextView txtTimeTakeCareValue;
     TextView txtTimeTakeCareChange;
+    TextView txtSupplySelect;
 
     TextView txtSupplyValue;
     EditText txtAmountValue;
@@ -53,6 +56,8 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
     boolean isShowKeyboard = false;
     String regex = "^[a-zA-Z0-9]+( [a-zA-Z0-9_]+)*$";
     ScheduleItem scheduleItem;
+
+    private static final int SELECT_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +74,16 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         txtTitle = findViewById(R.id.txtTitle);
 
-        txtNameValue = findViewById(R.id.txtNameValue);
+        txtBonsaiNameValue = findViewById(R.id.txtBonsaiNameValue);
         txtDayTakeCareValue = findViewById(R.id.txtDayTakeCareValue);
+        txtNameSelect = findViewById(R.id.txtNameSelect);
+
         txtDayCreateValue = findViewById(R.id.txtDayCreateValue);
         txtDayTakeCareChange = findViewById(R.id.txtDayTakeCareChange);
         txtTimeTakeCareValue = findViewById(R.id.txtTimeTakeCareValue);
         txtTimeTakeCareChange = findViewById(R.id.txtTimeTakeCareChange);
+        txtSupplySelect = findViewById(R.id.txtSupplySelect);
+
         txtSupplyValue = findViewById(R.id.txtSupplyValue);
         txtAmountValue = findViewById(R.id.txtAmountValue);
         txtNoteValue = findViewById(R.id.txtNoteValue);
@@ -88,12 +97,26 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void addEvent() {
+        txtSupplySelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startScheduleSelectSupplyActivity();
+            }
+        });
+
+        txtNameSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startScheduleSelectBonsaiActivity();
+            }
+        });
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isInputValid()) {
                     //name
-                    scheduleItem.setScheduleName(txtNameValue.getText().toString());
+                    scheduleItem.setScheduleName(txtBonsaiNameValue.getText().toString());
                     //dayCreate
                     scheduleItem.setDayCreated(txtDayCreateValue.getText().toString());
                     //dayTakeCare
@@ -110,13 +133,6 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
                     //add into DB
                     //pullDataBack
                 }
-            }
-        });
-
-        txtNameValue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isShowKeyboard = true;
             }
         });
 
@@ -178,13 +194,6 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             }
         });
 
-        txtNameValue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isShowKeyboard = true;
-            }
-        });
-
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -193,13 +202,23 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isInputValid() {
-        if (!isNameValid(txtNameValue.getText().toString())) {
-            //notify error
-            txtNameValue.setError(getString(R.string.nameError));
-            return false;
-        }
+    private void startScheduleSelectSupplyActivity() {
+        Intent intent = new Intent(NewAndEditScheduleActivity.this, ScheduleSelectActivity.class);
+        intent.putExtra("title", "Select Supply");
+        intent.putExtra("type", "supply");
 
+        startActivityForResult(intent, SELECT_REQUEST_CODE);
+    }
+
+    private void startScheduleSelectBonsaiActivity() {
+        Intent intent = new Intent(NewAndEditScheduleActivity.this, ScheduleSelectActivity.class);
+        intent.putExtra("title", "Select Bonsai");
+        intent.putExtra("type", "bonsai");
+
+        startActivityForResult(intent, SELECT_REQUEST_CODE);
+    }
+
+    private boolean isInputValid() {
         if (txtAmountValue.getText().toString().isEmpty()) {
             txtAmountValue.setError("Amount need larger than 0.");
             return false;
@@ -328,17 +347,10 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         textView.setText(formattedDate);
     }
 
-    private void showKeyboard() {
-        isShowKeyboard = true;
-        txtNameValue.requestFocus();
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-    }
-
     private void hideKeyboard() {
         isShowKeyboard = false;
-        txtNameValue.clearFocus();
+        txtAmountValue.clearFocus();
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(txtNameValue.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(txtAmountValue.getWindowToken(), 0);
     }
 }

@@ -113,7 +113,7 @@ public class ManageList extends AppCompatActivity {
         imgManageListAddButton = findViewById(R.id.imgManageListAddButton);
         imgManageListSearchButton = findViewById(R.id.imgManageListSearchButton);
 
-        txt_search_frame = findViewById(R.id.txt_search_frame);
+        txt_search_frame = findViewById(R.id.txtSearchValue);
         imgClearText = findViewById(R.id.imgClearText);
 
         setIcon();

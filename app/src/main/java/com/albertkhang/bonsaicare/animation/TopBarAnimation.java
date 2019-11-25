@@ -136,7 +136,7 @@ public class TopBarAnimation {
     private static void hideSearchFrame(View view) {
         final ImageView searchFrame = view.findViewById(R.id.searchFrame);
 //        final ImageView searchFrameButton = view.findViewById(R.id.searchFrameButton);
-        final EditText txt_search_frame = view.findViewById(R.id.txt_search_frame);
+        final EditText txt_search_frame = view.findViewById(R.id.txtSearchValue);
 
         ObjectAnimator scaleXAnimator1 = ObjectAnimator.ofFloat(searchFrame, "scaleX", 1.005f);
         ObjectAnimator scaleYAnimator1 = ObjectAnimator.ofFloat(searchFrame, "scaleY", 1.005f);
@@ -187,7 +187,7 @@ public class TopBarAnimation {
     private static void showSearchFrame(View view) {
         ImageView searchFrame = view.findViewById(R.id.searchFrame);
 //        ImageView searchFrameButton = view.findViewById(R.id.searchFrameButton);
-        EditText txt_search_frame = view.findViewById(R.id.txt_search_frame);
+        EditText txt_search_frame = view.findViewById(R.id.txtSearchValue);
         searchFrame.setVisibility(View.VISIBLE);
 //        searchFrameButton.setVisibility(View.VISIBLE);
         txt_search_frame.setVisibility(View.VISIBLE);
