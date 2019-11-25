@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,8 +13,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.manage.supply.supply.SupplyDetailActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.objectClass.SupplyBillItem;
@@ -77,9 +81,27 @@ public class SupplyBillDetailActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                needRefresh = true;
-                ManipulationDb.deleteSupplyBill(dbHelper, supplyBillItem);
-                onBackPressed();
+                AlertDialog.Builder builder = new AlertDialog.Builder(SupplyBillDetailActivity.this);
+                builder.setTitle("Confirm");
+                builder.setMessage("Are you sure?");
+                builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(SupplyBillDetailActivity.this, R.string.toastDeleteSuccess, Toast.LENGTH_LONG).show();
+
+                        needRefresh = true;
+                        ManipulationDb.deleteSupplyBill(dbHelper, supplyBillItem);
+                        onBackPressed();
+                    }
+                });
+                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                builder.show();
             }
         });
 

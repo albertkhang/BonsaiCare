@@ -71,7 +71,7 @@ public class SupplyDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SupplyDetailActivity.this);
                 builder.setTitle("Confirm");
-                builder.setMessage("Are you sure?");
+                builder.setMessage("This action will delete all supply bill in it. Are you sure?");
                 builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -79,7 +79,6 @@ public class SupplyDetailActivity extends AppCompatActivity {
                         ManipulationDb.deleteSupply(dbHelper, supplyItem.getId());
 
                         putDataBackClose();
-//                        finish();
                     }
                 });
                 builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
