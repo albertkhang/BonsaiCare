@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +18,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.activity.manage.supply.supplyBill.NewAndEditSupplyBillActivity;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 
 import java.text.ParseException;
@@ -34,9 +37,13 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
 
     EditText txtNameValue;
     TextView txtDayCreateValue;
+
     TextView txtDayTakeCareValue;
     TextView txtDayTakeCareChange;
+
     TextView txtTimeTakeCareValue;
+    TextView txtTimeTakeCareChange;
+
     TextView txtSupplyValue;
     EditText txtAmountValue;
     EditText txtNoteValue;
@@ -67,6 +74,7 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         txtDayCreateValue = findViewById(R.id.txtDayCreateValue);
         txtDayTakeCareChange = findViewById(R.id.txtDayTakeCareChange);
         txtTimeTakeCareValue = findViewById(R.id.txtTimeTakeCareValue);
+        txtTimeTakeCareChange = findViewById(R.id.txtTimeTakeCareChange);
         txtSupplyValue = findViewById(R.id.txtSupplyValue);
         txtAmountValue = findViewById(R.id.txtAmountValue);
         txtNoteValue = findViewById(R.id.txtNoteValue);
@@ -83,7 +91,7 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isNameValid(txtNameValue.getText().toString())) {
+                if (isInputValid()) {
                     //name
                     scheduleItem.setScheduleName(txtNameValue.getText().toString());
                     //dayCreate
@@ -99,10 +107,8 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
                     //note
                     scheduleItem.setNote(txtNoteValue.getText().toString());
 
-                    
-                } else {
-                    //notify error
-                    txtNameValue.setError(getString(R.string.nameError));
+                    //add into DB
+                    //pullDataBack
                 }
             }
         });
@@ -111,36 +117,6 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isShowKeyboard = true;
-            }
-        });
-
-        txtDayTakeCareValue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isCurrentDate()) {
-                    showDatePicker(Calendar.getInstance().get(Calendar.MONTH),
-                            Calendar.getInstance().get(Calendar.DATE),
-                            Calendar.getInstance().get(Calendar.YEAR));
-                } else {
-                    String showedDate = getShowedDate();
-                    if (showedDate != null) {
-                        try {
-                            SimpleDateFormat df = new SimpleDateFormat(getString(R.string.dateFormat));
-                            Date c = df.parse(txtDayTakeCareValue.getText().toString());
-
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.setTime(c);
-
-                            int year = calendar.get(Calendar.YEAR);
-                            int month = calendar.get(Calendar.MONTH);
-                            int date = calendar.get(Calendar.DATE);
-
-                            showDatePicker(month, date, year);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
             }
         });
 
@@ -174,6 +150,23 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             }
         });
 
+        txtTimeTakeCareChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(NewAndEditScheduleActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        txtTimeTakeCareValue.setText(getTimeFormatter(selectedHour, selectedMinute));
+                    }
+                }, hour, minute, true);
+                timePickerDialog.show();
+            }
+        });
+
         layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -198,6 +191,63 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    private boolean isInputValid() {
+        if (!isNameValid(txtNameValue.getText().toString())) {
+            //notify error
+            txtNameValue.setError(getString(R.string.nameError));
+            return false;
+        }
+
+        if (txtAmountValue.getText().toString().isEmpty()) {
+            txtAmountValue.setError("Amount need larger than 0.");
+            return false;
+        }
+
+        if (!isSupplyAmountValid(Integer.parseInt(txtAmountValue.getText().toString()))) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isSupplyAmountValid(int amount) {
+        if (amount > 0) {
+            return true;
+        } else {
+            txtAmountValue.setError(getString(R.string.notifyErrorSupplyBought));
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isShowKeyboard) {
+            hideKeyboard();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private String getTimeFormatter(int hour, int minute) {
+        String h = "";
+        String m = "";
+
+        if (hour < 10) {
+            h += "0" + hour;
+        } else {
+            h += "" + hour;
+        }
+
+        if (minute < 10) {
+            m += "0" + minute;
+        } else {
+            m += "" + minute;
+        }
+
+        return h + ":" + m;
     }
 
     private boolean isNameValid(String text) {
