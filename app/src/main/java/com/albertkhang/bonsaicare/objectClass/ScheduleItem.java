@@ -1,58 +1,97 @@
 package com.albertkhang.bonsaicare.objectClass;
 
 public class ScheduleItem {
-    private int time;
-    private String day;//May 13
-    private String name;
-    private String location;
-    private String supplies;
+    private int id;
+    private String scheduleName;
+    private String bonsaiName;
+    private String dayCreated;
+    private String dayTakeCare;
+    private String timeTakeCare;
+    private String bonsaiPlace;
+    private String supply;
+    private int amount;
     private String note;
+
     private boolean haveNote;
     private boolean isTicked;
 
     public ScheduleItem() {
+        note = "";
+
         haveNote = false;
         isTicked = false;
     }
 
-    public int getTime() {
-        return time;
+    public String getTimeTakeCare() {
+        return timeTakeCare;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setTimeTakeCare(String timeTakeCare) {
+        this.timeTakeCare = timeTakeCare;
     }
 
-    public String getDay() {
-        return day;
+    public int getId() {
+        return id;
     }
 
-    public void setDay(String day) {
-        this.day = day;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getScheduleName() {
+        return scheduleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setScheduleName(String scheduleName) {
+        this.scheduleName = scheduleName;
     }
 
-    public String getLocation() {
-        return location;
+    public String getBonsaiName() {
+        return bonsaiName;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setBonsaiName(String bonsaiName) {
+        this.bonsaiName = bonsaiName;
     }
 
-    public String getSupplies() {
-        return supplies;
+    public String getDayCreated() {
+        return dayCreated;
     }
 
-    public void setSupplies(String supplies) {
-        this.supplies = supplies;
+    public void setDayCreated(String dayCreated) {
+        this.dayCreated = dayCreated;
+    }
+
+    public String getDayTakeCare() {
+        return dayTakeCare;
+    }
+
+    public void setDayTakeCare(String dayTakeCare) {
+        this.dayTakeCare = dayTakeCare;
+    }
+
+    public String getBonsaiPlace() {
+        return bonsaiPlace;
+    }
+
+    public void setBonsaiPlace(String bonsaiPlace) {
+        this.bonsaiPlace = bonsaiPlace;
+    }
+
+    public String getSupply() {
+        return supply;
+    }
+
+    public void setSupply(String supply) {
+        this.supply = supply;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getNote() {

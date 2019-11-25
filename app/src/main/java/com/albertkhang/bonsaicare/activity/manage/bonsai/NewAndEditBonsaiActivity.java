@@ -132,7 +132,6 @@ public class NewAndEditBonsaiActivity extends AppCompatActivity {
                             if (txtDetailSettingTitle.getText().toString().equals(getString(R.string.editBonsaiTitle))) {
                                 Log.d("_btnAddNewBonsaiSubmit", "update");
                                 //update
-
                                 ManipulationDb.updateBonsai(dbHelper, item);
                                 Toast.makeText(NewAndEditBonsaiActivity.this, "Edit success!", Toast.LENGTH_LONG).show();
                             } else {

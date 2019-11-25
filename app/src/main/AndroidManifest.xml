@@ -11,9 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/FullScreenThemeAndroid"
         tools:ignore="GoogleAppIndexingWarning" >
-        <activity android:name=".activity.schedule.NewAndEditScheduleActivity" />
+        <activity android:name=".activity.schedule.NewAndEditScheduleActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.manage.supply.supplyBill.SupplyBillDetailActivity" />
-        <activity android:name=".activity.manage.supply.supplyBill.NewAndEditSupplyBillActivity" />
+        <activity android:name=".activity.manage.supply.supplyBill.NewAndEditSupplyBillActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.manage.supply.supplyBill.SupplyItemBillListActivity" />
         <activity android:name=".activity.manage.supply.supply.SupplyDetailActivity" />
         <activity android:name=".activity.manage.supply.supply.NewAndEditSupplyActivity" />

@@ -66,17 +66,16 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
             holder.imgItemTick.setImageResource(R.drawable.ic_nottick);
         }
 
+        if (scheduleItems.get(position).isHaveNote()) {
+            holder.imgItemNote.setVisibility(View.VISIBLE);
+        } else {
+            holder.imgItemNote.setVisibility(View.INVISIBLE);
+        }
+
         holder.imgItemTick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onTickClickListener.onTickClickListener(view, position);
-            }
-        });
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, position);
             }
         });
     }
@@ -87,7 +86,6 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtItemTime;
         TextView txtItemDay;
 
         TextView txtItemBonsaiName;
@@ -100,7 +98,6 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            txtItemTime = itemView.findViewById(R.id.txtItemTime);
             txtItemDay = itemView.findViewById(R.id.txtItemDay);
 
             txtItemBonsaiName = itemView.findViewById(R.id.txtPlacementName);
