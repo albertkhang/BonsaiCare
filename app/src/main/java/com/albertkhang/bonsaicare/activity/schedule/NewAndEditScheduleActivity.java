@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.MainActivity;
@@ -61,6 +62,10 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
     String regex = "^[a-zA-Z0-9]+( [a-zA-Z0-9_]+)*$";
     ScheduleItem scheduleItem;
     FeedReaderDbHelper dbHelper;
+
+    int totalSupply;
+    boolean bonsaiNameSelected = false;
+    boolean bonsaiSupplySelected = false;
 
     private static final int SELECT_BONSAI_REQUEST_CODE = 1;
     private static final int SELECT_SUPPLY_REQUEST_CODE = 2;
@@ -141,6 +146,9 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
 
                     //add into DB
                     ManipulationDb.addNewSchedule(dbHelper, scheduleItem);
+                    Toast.makeText(NewAndEditScheduleActivity.this, getString(R.string.toastAddSuccess), Toast.LENGTH_SHORT).show();
+                    //update total supply
+                    ManipulationDb.updateTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName(), totalSupply - scheduleItem.getAmount());
                     //pullDataBack
                     putDataBack();
                 }
@@ -245,11 +253,14 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             case SELECT_BONSAI_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
                     scheduleItem.setBonsaiPlace(data.getStringExtra("bonsaiPlace"));
+                    scheduleItem.setBonsaiName(data.getStringExtra("bonsaiName"));
 
                     Log.d("_onActivityResult", "bonsaiName: " + scheduleItem.getBonsaiName());
                     Log.d("_onActivityResult", "bonsaiPlace: " + scheduleItem.getBonsaiPlace());
 
                     txtBonsaiNameValue.setText(scheduleItem.getBonsaiName());
+
+                    bonsaiNameSelected = true;
                 }
                 break;
 
@@ -258,7 +269,12 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
                     scheduleItem.setSupplyName(data.getStringExtra("supplyName"));
                     txtSupplyValue.setText(scheduleItem.getSupplyName());
 
+                    totalSupply = ManipulationDb.getTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName());
+
                     Log.d("_onActivityResult", "supplyName: " + scheduleItem.getSupplyName());
+                    Log.d("_onActivityResult", "totalSupply: " + totalSupply);
+
+                    bonsaiSupplySelected = true;
                 }
 
                 break;
@@ -266,9 +282,22 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
     }
 
     private boolean isInputValid() {
-        if (txtAmountValue.getText().toString().isEmpty()) {
-            txtAmountValue.setError("Amount need larger than 0.");
+        //name
+        //supply
+        //amount
+
+        if (!bonsaiNameSelected) {
+            txtBonsaiNameValue.setError("Please select bonsai.");
             return false;
+        } else {
+            txtBonsaiNameValue.setError(null);
+        }
+
+        if (!bonsaiSupplySelected) {
+            txtSupplyValue.setError("Please select supply.");
+            return false;
+        } else {
+            txtSupplyValue.setError(null);
         }
 
         if (!isSupplyAmountValid(Integer.parseInt(txtAmountValue.getText().toString()))) {
@@ -279,13 +308,22 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
     }
 
     private boolean isSupplyAmountValid(int amount) {
-        if (amount > 0) {
-            return true;
-        } else {
-            txtAmountValue.setError(getString(R.string.notifyErrorSupplyBought));
+        if (txtAmountValue.getText().toString().isEmpty()) {
+            txtAmountValue.setError("Amount need larger than 0.");
+            return false;
         }
 
-        return false;
+        if (amount < 1) {
+            txtAmountValue.setError(getString(R.string.notifyErrorSupplyBought));
+            return false;
+        }
+
+        if (amount > totalSupply) {
+            txtAmountValue.setError(getString(R.string.notifyErrorSupplyBiggerBought));
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -314,18 +352,6 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         }
 
         return h + ":" + m;
-    }
-
-    private boolean isNameValid(String text) {
-        if (text.length() < 1) {
-            return false;
-        } else {
-            if (text.matches(regex)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private String getShowedDate() {

@@ -19,7 +19,9 @@ import com.albertkhang.bonsaicare.activity.schedule.NewAndEditScheduleActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.adapter.ViewPagerAdapter;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;
+import com.albertkhang.bonsaicare.fragment.FragmentManage;
 import com.albertkhang.bonsaicare.fragment.FragmentSchedule;
+import com.albertkhang.bonsaicare.fragment.FragmentSetting;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
     ViewPagerAdapter viewPagerAdapter;
 
     FeedReaderDbHelper dbHelper;
+
+    FragmentSchedule fragmentSchedule;
+    FragmentManage fragmentManage;
+    FragmentSetting fragmentSetting;
 
     private static final int ADD_NEW_REQUEST_CODE = 1;
 
@@ -54,7 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
         vpViewPager = findViewById(R.id.vpViewPager);
         vpViewPager.setOffscreenPageLimit(2);//load 2 fragment per time
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        fragmentSchedule = new FragmentSchedule();
+        fragmentManage = new FragmentManage();
+        fragmentSetting = new FragmentSetting();
+        
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragmentSchedule, fragmentManage, fragmentSetting);
         vpViewPager.setAdapter(viewPagerAdapter);
 
         dbHelper = new FeedReaderDbHelper(this);
@@ -116,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
             case ADD_NEW_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
                     if (data.getBooleanExtra("needRefresh", false)) {
-                        FragmentSchedule fragmentSchedule = new FragmentSchedule();
                         fragmentSchedule.updateAdapter();
                     }
                 }

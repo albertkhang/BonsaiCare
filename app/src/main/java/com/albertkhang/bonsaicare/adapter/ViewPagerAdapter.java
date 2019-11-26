@@ -17,19 +17,23 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+    public ViewPagerAdapter(FragmentManager fm, FragmentSchedule fragmentSchedule, FragmentManage fragmentManage, FragmentSetting fragmentSetting) {
+        super(fm);
+        this.fragmentSchedule = fragmentSchedule;
+        this.fragmentManage = fragmentManage;
+        this.fragmentSetting = fragmentSetting;
+    }
+
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0://FragmentSchedule
-                fragmentSchedule = new FragmentSchedule();
                 return fragmentSchedule;
 
             case 1://FragmentManage
-                fragmentManage = new FragmentManage();
                 return fragmentManage;
 
             case 2://FragmentSetting
-                fragmentSetting = new FragmentSetting();
                 return fragmentSetting;
         }
         return null;

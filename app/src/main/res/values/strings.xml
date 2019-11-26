@@ -64,7 +64,7 @@
     <string name="delete">Delete</string>
 
     <!--    format-->
-    <string name="dateFormat">MM - dd - yyy</string>
+    <string name="dateFormat">MM - dd - yyyy</string>
 
     <string-array name="dropdownBonsaiType">
         <item>Need Light</item>
@@ -101,6 +101,7 @@
     <string name="postErrorText">before change.</string>
     <string name="notifyErrorMaxMoney">Money has to bigger than 0.</string>
     <string name="notifyErrorSupplyBought">Supply bought has to bigger than 0.</string>
+    <string name="notifyErrorSupplyBiggerBought">Amount is bigger than total supply.</string>
 
     <string name="inputHandleMaxBonsai">Please enter a number.</string>
     <string name="inputHandleMaxMoney">Please enter a number.</string>

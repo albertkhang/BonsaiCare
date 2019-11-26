@@ -84,7 +84,7 @@
             app:layout_constraintLeft_toLeftOf="parent">
 
             <TextView
-                android:id="@+id/txtPlacementName"
+                android:id="@+id/txtBonsaiName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -101,12 +101,12 @@
                 android:layout_height="@dimen/bonsaiIconHeight"
                 app:layout_constraintDimensionRatio="1:1"
                 android:src="@drawable/ic_location_filled"
-                app:layout_constraintBottom_toBottomOf="@id/txtTotalBonsaiValue"
-                app:layout_constraintLeft_toLeftOf="@id/txtPlacementName"
-                app:layout_constraintTop_toTopOf="@id/txtTotalBonsaiValue" />
+                app:layout_constraintBottom_toBottomOf="@id/txtBonsaiLocation"
+                app:layout_constraintLeft_toLeftOf="@id/txtBonsaiName"
+                app:layout_constraintTop_toTopOf="@id/txtBonsaiLocation" />
 
             <TextView
-                android:id="@+id/txtTotalBonsaiValue"
+                android:id="@+id/txtBonsaiLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
@@ -114,7 +114,7 @@
                 android:textColor="@color/colorItemInfo"
                 android:textSize="@dimen/bonsaiDetailTextSize"
                 app:layout_constraintLeft_toRightOf="@id/imgItemLocation"
-                app:layout_constraintTop_toBottomOf="@id/txtPlacementName" />
+                app:layout_constraintTop_toBottomOf="@id/txtBonsaiName" />
 
             <ImageView
                 android:id="@+id/imgItemSupplies"
@@ -135,7 +135,7 @@
                 android:textColor="@color/colorItemInfo"
                 android:textSize="@dimen/bonsaiDetailTextSize"
                 app:layout_constraintLeft_toRightOf="@id/imgItemSupplies"
-                app:layout_constraintTop_toBottomOf="@id/txtTotalBonsaiValue" />
+                app:layout_constraintTop_toBottomOf="@id/txtBonsaiLocation" />
 
             <ImageView
                 android:id="@+id/imgItemNote"
@@ -144,9 +144,9 @@
                 app:layout_constraintDimensionRatio="1:1"
                 android:src="@drawable/ic_note"
                 android:layout_marginLeft="4dp"
-                app:layout_constraintTop_toTopOf="@id/txtPlacementName"
-                app:layout_constraintLeft_toRightOf="@id/txtPlacementName"
-                app:layout_constraintBottom_toBottomOf="@id/txtPlacementName"/>
+                app:layout_constraintTop_toTopOf="@id/txtBonsaiName"
+                app:layout_constraintLeft_toRightOf="@id/txtBonsaiName"
+                app:layout_constraintBottom_toBottomOf="@id/txtBonsaiName"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

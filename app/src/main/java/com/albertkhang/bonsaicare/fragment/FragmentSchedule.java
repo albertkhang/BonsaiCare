@@ -107,9 +107,10 @@ public class FragmentSchedule extends Fragment {
         rvSchedule.setLayoutManager(manager);
         rvSchedule.setAdapter(adapter);
 
-        dbHelper = new FeedReaderDbHelper(getContext());
+        dbHelper = new FeedReaderDbHelper(getActivity());
 
         ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
+        adapter.sort(scheduleItems);
         adapter.update(scheduleItems);
     }
 
@@ -122,14 +123,20 @@ public class FragmentSchedule extends Fragment {
                 ImageView imageView = (ImageView) view;
                 if (!scheduleItems.get(position).isTicked()) {
                     scheduleItems.get(position).setTicked(true);
+
                     imageView.setScaleX(0);
                     imageView.setScaleY(0);
                     imageView.setImageResource(R.drawable.ic_ticked);
                     imageView.setVisibility(View.VISIBLE);
                     TickMarkAnimation.showTickMark(imageView);
+
+                    //update in Db
+                    ManipulationDb.updateTickedSchedule(dbHelper, scheduleItems.get(position).getId(), 1);
                 } else {
                     scheduleItems.get(position).setTicked(false);
                     imageView.setImageResource(R.drawable.ic_nottick);
+
+                    ManipulationDb.updateTickedSchedule(dbHelper, scheduleItems.get(position).getId(), 0);
                 }
             }
         });
@@ -145,6 +152,7 @@ public class FragmentSchedule extends Fragment {
 
     public void updateAdapter() {
         ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
+        adapter.sort(scheduleItems);
         adapter.update(scheduleItems);
     }
 

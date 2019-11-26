@@ -1,5 +1,11 @@
 package com.albertkhang.bonsaicare.objectClass;
 
+import com.albertkhang.bonsaicare.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ScheduleItem {
     private int id;
 
@@ -18,6 +24,21 @@ public class ScheduleItem {
 
     private boolean haveNote;
     private boolean isTicked;
+
+    public Date getDate() {
+        Date c = null;
+        if (!dayTakeCare.isEmpty()) {
+            try {
+                SimpleDateFormat df = new SimpleDateFormat("MM - dd - yyyy");
+                c = df.parse(dayTakeCare);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return c;
+    }
 
     public ScheduleItem() {
         note = "";

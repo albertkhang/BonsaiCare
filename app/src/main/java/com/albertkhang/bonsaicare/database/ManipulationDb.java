@@ -42,6 +42,7 @@ public class ManipulationDb {
                 FeedReaderContract.FeedEntry.SCHEDULE_SUPPLY_ID,
 
                 FeedReaderContract.FeedEntry.SCHEDULE_AMOUNT,
+                FeedReaderContract.FeedEntry.SCHEDULE_TICKED,
                 FeedReaderContract.FeedEntry.SCHEDULE_NOTE
         };
 
@@ -819,7 +820,7 @@ public class ManipulationDb {
         return i;
     }
 
-    private static void updateTotalSupplyRemain(FeedReaderDbHelper dbHelper, String supplyName, int remain) {
+    public static void updateTotalSupplyRemain(FeedReaderDbHelper dbHelper, String supplyName, int remain) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -854,5 +855,21 @@ public class ManipulationDb {
         values.put(FeedReaderContract.FeedEntry.SCHEDULE_NOTE, scheduleItem.getNote());
 
         db.insert(FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME, null, values);
+    }
+
+    public static void updateTickedSchedule(FeedReaderDbHelper dbHelper, int scheduleId, int ticked) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_TICKED, ticked);
+
+        String selection = BaseColumns._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(scheduleId)};
+
+        db.update(
+                FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
     }
 }

@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -137,6 +138,8 @@ public class ScheduleSelectActivity extends AppCompatActivity {
 
         intent.putExtra("bonsaiName", bonsaiArrayList.get(position).getBonsaiName());
         intent.putExtra("bonsaiPlace", bonsaiArrayList.get(position).getBonsaiPlacementName());
+
+        Log.d("_putBonsaiDataBack", "bonsaiName:" +bonsaiArrayList.get(position).getBonsaiName());
 
         setResult(Activity.RESULT_OK, intent);
         finish();
