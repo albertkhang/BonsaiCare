@@ -18,13 +18,14 @@ public final class FeedReaderContract {
 
         /* SCHEDULE TABLE */
         public static final String SCHEDULE_TABLE_NAME = "schedule";
-        public static final String SCHEDULE_NAME = "schedule_name";
         public static final String SCHEDULE_BONSAI_ID = "schedule_bonsai_id";
         public static final String SCHEDULE_DATE_CREATED = "schedule_date_created";
         public static final String SCHEDULE_DATE_TAKE_CARE = "schedule_date_take_care";
+        public static final String SCHEDULE_TIME_TAKE_CARE = "schedule_time_take_care";
         public static final String SCHEDULE_PLACEMENT_ID = "schedule_placement_id";
         public static final String SCHEDULE_SUPPLY_ID = "schedule_supply_id";
         public static final String SCHEDULE_AMOUNT = "schedule_amount";
+        public static final String SCHEDULE_TICKED = "schedule_ticked";
         public static final String SCHEDULE_NOTE = "schedule_note";
 
         /* PLACEMENT TABLE */
@@ -59,13 +60,14 @@ public final class FeedReaderContract {
         public static final String SQL_CREATE_SCHEDULE_TABLE =
                 "CREATE TABLE " + FeedEntry.SCHEDULE_TABLE_NAME + " (" +
                         FeedEntry._ID + " INTEGER PRIMARY KEY," +
-                        FeedEntry.SCHEDULE_NAME + " TEXT," +
                         FeedEntry.SCHEDULE_BONSAI_ID + " INTEGER," +
                         FeedEntry.SCHEDULE_DATE_CREATED + " TEXT," +
                         FeedEntry.SCHEDULE_DATE_TAKE_CARE + " TEXT," +
+                        FeedEntry.SCHEDULE_TIME_TAKE_CARE + " TEXT," +
                         FeedEntry.SCHEDULE_PLACEMENT_ID + " INTEGER," +
                         FeedEntry.SCHEDULE_SUPPLY_ID + " INTEGER," +
                         FeedEntry.SCHEDULE_AMOUNT + " INTEGER," +
+                        FeedEntry.SCHEDULE_TICKED + " INTEGER," +
                         FeedEntry.SCHEDULE_NOTE + " TEXT)";
 
         /* CREATE PLACEMENT TABLE */

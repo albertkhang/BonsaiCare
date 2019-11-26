@@ -1,9 +1,11 @@
 package com.albertkhang.bonsaicare.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,7 @@ import com.albertkhang.bonsaicare.activity.schedule.NewAndEditScheduleActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.adapter.ViewPagerAdapter;
 import com.albertkhang.bonsaicare.animation.TopBarAnimation;
+import com.albertkhang.bonsaicare.fragment.FragmentSchedule;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     ViewPagerAdapter viewPagerAdapter;
 
     FeedReaderDbHelper dbHelper;
+
+    private static final int ADD_NEW_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +103,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, NewAndEditScheduleActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, ADD_NEW_REQUEST_CODE);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case ADD_NEW_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data.getBooleanExtra("needRefresh", false)) {
+                        FragmentSchedule fragmentSchedule = new FragmentSchedule();
+                        fragmentSchedule.updateAdapter();
+                    }
+                }
+
+                break;
+        }
     }
 
     private void handleUIFragmentChange(int position, boolean isViewPager) {

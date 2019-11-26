@@ -15,13 +15,13 @@
         <activity
             android:name=".activity.schedule.NewAndEditScheduleActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.manage.supply.supplyBill.SupplyBillDetailActivity" />
+        <activity android:name=".activity.manage.supplyName.supplyBill.SupplyBillDetailActivity" />
         <activity
-            android:name=".activity.manage.supply.supplyBill.NewAndEditSupplyBillActivity"
+            android:name=".activity.manage.supplyName.supplyBill.NewAndEditSupplyBillActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.manage.supply.supplyBill.SupplyItemBillListActivity" />
-        <activity android:name=".activity.manage.supply.supply.SupplyDetailActivity" />
-        <activity android:name=".activity.manage.supply.supply.NewAndEditSupplyActivity" />
+        <activity android:name=".activity.manage.supplyName.supplyBill.SupplyItemBillListActivity" />
+        <activity android:name=".activity.manage.supplyName.supplyName.SupplyDetailActivity" />
+        <activity android:name=".activity.manage.supplyName.supplyName.NewAndEditSupplyActivity" />
         <activity android:name=".activity.manage.place.NewAndEditPlaceActivity" />
         <activity android:name=".activity.manage.place.PlaceDetailActivity" />
         <activity android:name=".activity.manage.bonsai.BonsaiDetailActivity" />

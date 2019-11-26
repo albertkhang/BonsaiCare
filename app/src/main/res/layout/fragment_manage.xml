@@ -194,7 +194,7 @@ tools:context=".fragment.FragmentManage">
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-<!--supply-->
+<!--supplyName-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frame_supplies"
     android:layout_width="match_parent"

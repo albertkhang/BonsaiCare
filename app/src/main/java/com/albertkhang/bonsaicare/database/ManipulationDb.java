@@ -10,6 +10,7 @@ import android.util.Log;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
+import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyBillItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 
@@ -23,6 +24,80 @@ public class ManipulationDb {
 
         db.execSQL(FeedReaderContract.FeedEntry.SQL_INSERT_SUPPLY_WATER_DEFAULT_DATA);
         db.execSQL(FeedReaderContract.FeedEntry.SQL_INSERT_SUPPLY_NITROGEN_FERTILIZER_DEFAULT_DATA);
+    }
+
+    public static void getAllDataScheduleTable(FeedReaderDbHelper dbHelper, ArrayList<ScheduleItem> scheduleArrayList) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                BaseColumns._ID,
+                FeedReaderContract.FeedEntry.SCHEDULE_BONSAI_ID,
+
+                FeedReaderContract.FeedEntry.SCHEDULE_DATE_CREATED,
+                FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE,
+
+                FeedReaderContract.FeedEntry.SCHEDULE_TIME_TAKE_CARE,
+
+                FeedReaderContract.FeedEntry.SCHEDULE_PLACEMENT_ID,
+                FeedReaderContract.FeedEntry.SCHEDULE_SUPPLY_ID,
+
+                FeedReaderContract.FeedEntry.SCHEDULE_AMOUNT,
+                FeedReaderContract.FeedEntry.SCHEDULE_NOTE
+        };
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        scheduleArrayList.clear();
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID));
+
+            int bonsaiId = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_BONSAI_ID));
+
+            String dayCreated = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_DATE_CREATED));
+            String dayTakeCare = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE));
+
+            String timeTakeCare = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_TIME_TAKE_CARE));
+
+            int placeId = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_PLACEMENT_ID));
+            int supplyId = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_SUPPLY_ID));
+
+            int amount = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_AMOUNT));
+            int ticked = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_TICKED));
+            String note = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_NOTE));
+
+            ScheduleItem item = new ScheduleItem();
+            item.setId(id);
+            item.setBonsaiName(getBonsaiNameFromBonsaiId(dbHelper, bonsaiId));
+
+            item.setDayCreated(dayCreated);
+            item.setDayTakeCare(dayTakeCare);
+
+            item.setTimeTakeCare(timeTakeCare);
+
+            item.setBonsaiPlace(getPlacementNameFromPlacementId(dbHelper, placeId));
+            item.setSupplyName(getSupplyNameFromSupplyId(dbHelper, supplyId));
+
+            item.setAmount(amount);
+            if (ticked == 0) {
+                item.setTicked(false);
+            } else {
+                item.setTicked(true);
+            }
+            item.setNote(note);
+
+            scheduleArrayList.add(item);
+        }
+
+        cursor.close();
+        Log.d("_ManipulationDb", scheduleArrayList.toString());
     }
 
     public static void getAllDataBonsaiTable(FeedReaderDbHelper dbHelper, ArrayList<BonsaiItem> bonsaiArrayList) {
@@ -462,6 +537,64 @@ public class ManipulationDb {
         return placementName;
     }
 
+    private static int getBonsaiIdFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                BaseColumns._ID
+        };
+
+        String selection = FeedReaderContract.FeedEntry.BONSAI_NAME + " = ?";
+        String[] selectionArgs = {bonsaiName};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        int bonsaiId = 0;
+        while (cursor.moveToNext()) {
+            bonsaiId = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID));
+        }
+        cursor.close();
+
+        return bonsaiId;
+    }
+
+    private static String getBonsaiNameFromBonsaiId(FeedReaderDbHelper dbHelper, int bonsaiId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.BONSAI_NAME
+        };
+
+        String selection = BaseColumns._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(bonsaiId)};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        String bonsaiName = "";
+        while (cursor.moveToNext()) {
+            bonsaiName = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_NAME));
+        }
+        cursor.close();
+
+        return bonsaiName;
+    }
+
     public static int countBonsaiInPlacement(FeedReaderDbHelper dbHelper, String placementName) {
         int placementId = getPlacementIdFromPlacementName(dbHelper, placementName);
 
@@ -700,5 +833,26 @@ public class ManipulationDb {
                 values,
                 selection,
                 selectionArgs);
+    }
+
+    public static void addNewSchedule(FeedReaderDbHelper dbHelper, ScheduleItem scheduleItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_BONSAI_ID, getBonsaiIdFromBonsaiName(dbHelper, scheduleItem.getBonsaiName()));
+
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_DATE_CREATED, scheduleItem.getDayCreated());
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE, scheduleItem.getDayTakeCare());
+
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_TIME_TAKE_CARE, scheduleItem.getTimeTakeCare());
+
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_PLACEMENT_ID, getPlacementIdFromPlacementName(dbHelper, scheduleItem.getBonsaiPlace()));
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_SUPPLY_ID, getSupplyIdFromSupplyName(dbHelper, scheduleItem.getSupplyName()));
+
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_AMOUNT, scheduleItem.getAmount());
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_TICKED, 0);
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_NOTE, scheduleItem.getNote());
+
+        db.insert(FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME, null, values);
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".activity.manage.supply.supply.NewAndEditSupplyActivity">
+    tools:context=".activity.manage.supplyName.supplyName.NewAndEditSupplyActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_layout_new_bonsai"
@@ -124,7 +124,7 @@
             android:layout_marginLeft="6dp"
             android:background="@null"
             android:backgroundTint="@color/colorHint"
-            android:hint="Enter unit of supply"
+            android:hint="Enter unit of supplyName"
             android:inputType="text"
             android:maxLength="24"
             android:maxLines="1"

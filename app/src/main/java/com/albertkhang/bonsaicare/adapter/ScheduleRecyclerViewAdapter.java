@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
 
@@ -17,11 +18,16 @@ import java.util.ArrayList;
 
 public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRecyclerViewAdapter.ViewHolder> {
     Context context;
-    ArrayList<ScheduleItem> scheduleItems;
+    ArrayList<ScheduleItem> scheduleItems = new ArrayList<>();
 
-    public ScheduleRecyclerViewAdapter(Context context, ArrayList<ScheduleItem> scheduleItems) {
+    public ScheduleRecyclerViewAdapter(Context context) {
         this.context = context;
-        this.scheduleItems = scheduleItems;
+    }
+
+    public void update(ArrayList<ScheduleItem> scheduleArrayList) {
+        this.scheduleItems.clear();
+        this.scheduleItems.addAll(scheduleArrayList);
+        notifyDataSetChanged();
     }
 
     public void refresh(ArrayList<ScheduleItem> scheduleItems) {

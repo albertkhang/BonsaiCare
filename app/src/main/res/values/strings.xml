@@ -26,7 +26,7 @@
     <!--    detail-->
     <string name="detailBonsai">Show the bonsais that you have.</string>
     <string name="detailPlacement">Show the placements that you have.</string>
-    <string name="detailSupplies">Show the supply that you have.</string>
+    <string name="detailSupplies">Show the supplyName that you have.</string>
     <string name="detailReport">Show cost of bonsai care and bonsai status.</string>
 
     <!--    ratio icon-->

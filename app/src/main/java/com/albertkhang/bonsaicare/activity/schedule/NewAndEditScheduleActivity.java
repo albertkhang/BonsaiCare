@@ -1,5 +1,6 @@
 package com.albertkhang.bonsaicare.activity.schedule;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -22,7 +23,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.manage.supply.supplyBill.NewAndEditSupplyBillActivity;
+import com.albertkhang.bonsaicare.activity.MainActivity;
+import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
+import com.albertkhang.bonsaicare.database.ManipulationDb;
+import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 
 import java.text.ParseException;
@@ -56,8 +60,10 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
     boolean isShowKeyboard = false;
     String regex = "^[a-zA-Z0-9]+( [a-zA-Z0-9_]+)*$";
     ScheduleItem scheduleItem;
+    FeedReaderDbHelper dbHelper;
 
-    private static final int SELECT_REQUEST_CODE = 1;
+    private static final int SELECT_BONSAI_REQUEST_CODE = 1;
+    private static final int SELECT_SUPPLY_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +98,8 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
 
         scheduleItem = new ScheduleItem();
 
+        dbHelper = new FeedReaderDbHelper(this);
+
         setCurrentDate(txtDayTakeCareValue);
     }
 
@@ -116,22 +124,25 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isInputValid()) {
                     //name
-                    scheduleItem.setScheduleName(txtBonsaiNameValue.getText().toString());
+                    scheduleItem.setBonsaiName(txtBonsaiNameValue.getText().toString());
                     //dayCreate
                     scheduleItem.setDayCreated(txtDayCreateValue.getText().toString());
                     //dayTakeCare
                     scheduleItem.setDayTakeCare(txtDayTakeCareValue.getText().toString());
                     //timeTakeCare
                     scheduleItem.setTimeTakeCare(txtTimeTakeCareValue.getText().toString());
-                    //supply
-                    scheduleItem.setSupply(txtSupplyValue.getText().toString());
+                    //added bonsaiPlace in onResult
+                    //supplyName
+                    scheduleItem.setSupplyName(txtSupplyValue.getText().toString());
                     //amount
                     scheduleItem.setAmount(Integer.parseInt(txtAmountValue.getText().toString()));
                     //note
                     scheduleItem.setNote(txtNoteValue.getText().toString());
 
                     //add into DB
+                    ManipulationDb.addNewSchedule(dbHelper, scheduleItem);
                     //pullDataBack
+                    putDataBack();
                 }
             }
         });
@@ -202,12 +213,20 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         });
     }
 
+    private void putDataBack() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("needRefresh", true);
+
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
+
     private void startScheduleSelectSupplyActivity() {
         Intent intent = new Intent(NewAndEditScheduleActivity.this, ScheduleSelectActivity.class);
         intent.putExtra("title", "Select Supply");
         intent.putExtra("type", "supply");
 
-        startActivityForResult(intent, SELECT_REQUEST_CODE);
+        startActivityForResult(intent, SELECT_SUPPLY_REQUEST_CODE);
     }
 
     private void startScheduleSelectBonsaiActivity() {
@@ -215,7 +234,35 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         intent.putExtra("title", "Select Bonsai");
         intent.putExtra("type", "bonsai");
 
-        startActivityForResult(intent, SELECT_REQUEST_CODE);
+        startActivityForResult(intent, SELECT_BONSAI_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case SELECT_BONSAI_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    scheduleItem.setBonsaiPlace(data.getStringExtra("bonsaiPlace"));
+
+                    Log.d("_onActivityResult", "bonsaiName: " + scheduleItem.getBonsaiName());
+                    Log.d("_onActivityResult", "bonsaiPlace: " + scheduleItem.getBonsaiPlace());
+
+                    txtBonsaiNameValue.setText(scheduleItem.getBonsaiName());
+                }
+                break;
+
+            case SELECT_SUPPLY_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    scheduleItem.setSupplyName(data.getStringExtra("supplyName"));
+                    txtSupplyValue.setText(scheduleItem.getSupplyName());
+
+                    Log.d("_onActivityResult", "supplyName: " + scheduleItem.getSupplyName());
+                }
+
+                break;
+        }
     }
 
     private boolean isInputValid() {

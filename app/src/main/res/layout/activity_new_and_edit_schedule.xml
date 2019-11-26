@@ -108,6 +108,7 @@
                     android:layout_marginLeft="6dp"
                     android:gravity="center_vertical"
                     android:text="Select"
+                    android:paddingLeft="20dp"
                     android:textColor="@color/colorMain"
                     android:textSize="@dimen/settingTitleSize"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -209,6 +210,7 @@
                     android:layout_marginLeft="6dp"
                     android:gravity="center_vertical"
                     android:text="Change"
+                    android:paddingLeft="20dp"
                     android:textColor="@color/colorMain"
                     android:textSize="@dimen/settingTitleSize"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -266,6 +268,7 @@
                     android:layout_marginLeft="6dp"
                     android:gravity="center_vertical"
                     android:text="Change"
+                    android:paddingLeft="20dp"
                     android:textColor="@color/colorMain"
                     android:textSize="@dimen/settingTitleSize"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -274,7 +277,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--    supply-->
+            <!--    supplyName-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/frame_Supply"
                 android:layout_width="match_parent"
@@ -308,7 +311,7 @@
                     android:layout_height="0dp"
                     android:layout_marginLeft="6dp"
                     android:gravity="center_vertical"
-                    android:text="Select supply"
+                    android:text="Select supplyName"
                     android:textColor="@color/colorItemTitle"
                     android:textSize="@dimen/settingTitleSize"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -323,6 +326,7 @@
                     android:layout_marginLeft="6dp"
                     android:gravity="center_vertical"
                     android:text="Select"
+                    android:paddingLeft="20dp"
                     android:textColor="@color/colorMain"
                     android:textSize="@dimen/settingTitleSize"
                     app:layout_constraintBottom_toBottomOf="parent"

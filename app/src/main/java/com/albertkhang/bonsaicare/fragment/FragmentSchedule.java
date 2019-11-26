@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
+import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.schedule.ScheduleItemActivity;
@@ -49,6 +51,8 @@ public class FragmentSchedule extends Fragment {
     RecyclerView rvSchedule;
     ScheduleRecyclerViewAdapter adapter;
     ArrayList<ScheduleItem> scheduleItems;
+
+    FeedReaderDbHelper dbHelper;
 
     public FragmentSchedule() {
         // Required empty public constructor
@@ -86,6 +90,7 @@ public class FragmentSchedule extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d("_FragmentSchedule", "onViewCreated");
 
         addControl();
         addEvent();
@@ -94,16 +99,22 @@ public class FragmentSchedule extends Fragment {
     private void addControl() {
         scheduleItems = new ArrayList<>();
         rvSchedule = getView().findViewById(R.id.rvSchedule);
-        adapter = new ScheduleRecyclerViewAdapter(getContext(), scheduleItems);
+        adapter = new ScheduleRecyclerViewAdapter(getContext());
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(RecyclerView.VERTICAL);
+
         rvSchedule.setLayoutManager(manager);
         rvSchedule.setAdapter(adapter);
+
+        dbHelper = new FeedReaderDbHelper(getContext());
+
+        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
+        adapter.update(scheduleItems);
     }
 
     private void addEvent() {
-        createFakeData(30);
+//        createFakeData(30);
 
         adapter.setOnTickClickListener(new ScheduleRecyclerViewAdapter.OnTickClickListener() {
             @Override
@@ -132,6 +143,11 @@ public class FragmentSchedule extends Fragment {
         });
     }
 
+    public void updateAdapter() {
+        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
+        adapter.update(scheduleItems);
+    }
+
     private void createFakeData(int n) {
         for (int i = 0; i < n; i++) {
             ScheduleItem item = new ScheduleItem();
@@ -145,6 +161,8 @@ public class FragmentSchedule extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d("_FragmentSchedule", "onCreateView");
+
         return inflater.inflate(R.layout.fragment_schedule, container, false);
     }
 

@@ -2,13 +2,17 @@ package com.albertkhang.bonsaicare.objectClass;
 
 public class ScheduleItem {
     private int id;
-    private String scheduleName;
+
     private String bonsaiName;
+
     private String dayCreated;
     private String dayTakeCare;
+
     private String timeTakeCare;
+
     private String bonsaiPlace;
-    private String supply;
+    private String supplyName;
+
     private int amount;
     private String note;
 
@@ -36,14 +40,6 @@ public class ScheduleItem {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getScheduleName() {
-        return scheduleName;
-    }
-
-    public void setScheduleName(String scheduleName) {
-        this.scheduleName = scheduleName;
     }
 
     public String getBonsaiName() {
@@ -78,12 +74,12 @@ public class ScheduleItem {
         this.bonsaiPlace = bonsaiPlace;
     }
 
-    public String getSupply() {
-        return supply;
+    public String getSupplyName() {
+        return supplyName;
     }
 
-    public void setSupply(String supply) {
-        this.supply = supply;
+    public void setSupplyName(String supplyName) {
+        this.supplyName = supplyName;
     }
 
     public int getAmount() {
