@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         vpViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-//                Log.d("_MainActivity", "setOnTouchListener");
                 if (!isViewPagerTouch) {
                     Log.d("_MainActivity", "setOnTouchListener");
                     txtSearchValue.setText("");
@@ -330,7 +329,6 @@ public class MainActivity extends AppCompatActivity {
     private void hideSearchFrame() {
         isShowSearchFrame = false;
         btnBack.setVisibility(View.GONE);
-//        TopBarAnimation.hideSearchFrame(searchFrame, txtSearchValue);
         searchFrame.setVisibility(View.GONE);
         txtSearchValue.setVisibility(View.GONE);
     }
