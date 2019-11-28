@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean isShowKeyboard = false;
     boolean isShowSearchFrame = false;
+    boolean isViewPagerTouch = false;
 
     private static final int ADD_NEW_REQUEST_CODE = 1;
 
@@ -136,14 +137,22 @@ public class MainActivity extends AppCompatActivity {
         vpViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                txtSearchValue.setText("");
-                if (isShowKeyboard) {
-                    hideKeyboard(txtSearchValue);
+//                Log.d("_MainActivity", "setOnTouchListener");
+                if (!isViewPagerTouch) {
+                    Log.d("_MainActivity", "setOnTouchListener");
+                    txtSearchValue.setText("");
+                    if (isShowKeyboard) {
+                        hideKeyboard(txtSearchValue);
+                    }
+
+                    if (isShowSearchFrame) {
+                        hideSearchFrame();
+                    }
+
+                    isViewPagerTouch = true;
                 }
 
-                if (isShowSearchFrame) {
-                    hideSearchFrame();
-                }
+
                 return false;
             }
         });
@@ -176,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentSchedule.setOnTouchListener(new FragmentSchedule.OnTouchListener() {
             @Override
             public void onTouch(View view, MotionEvent motionEvent) {
+                Log.d("_MainActivity", "onTouch");
                 if (txtSearchValue.getText().toString().equals("")) {
                     if (isShowKeyboard) {
                         hideKeyboard(txtSearchValue);
