@@ -54,6 +54,16 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         this.onItemClickListener = onItemClickListener;
     }
 
+    public interface OnItemLongClickListener {
+        void onItemLongClickListener(View view, int position);
+    }
+
+    OnItemLongClickListener onItemLongClickListener;
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
+    }
+
     public interface OnTickClickListener {
         void onTickClickListener(View view, int position);
     }
@@ -113,6 +123,21 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
             @Override
             public void onClick(View view) {
                 onTickClickListener.onTickClickListener(view, holder.getAdapterPosition());
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
+                return true;
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
             }
         });
     }

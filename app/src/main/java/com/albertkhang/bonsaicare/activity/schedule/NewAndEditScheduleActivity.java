@@ -60,6 +60,7 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
 
     boolean isShowKeyboard = false;
     String regex = "^[a-zA-Z0-9]+( [a-zA-Z0-9_]+)*$";
+
     ScheduleItem scheduleItem;
     FeedReaderDbHelper dbHelper;
 
@@ -106,6 +107,8 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         dbHelper = new FeedReaderDbHelper(this);
 
         setCurrentDate(txtDayTakeCareValue);
+
+        setDataFromIntent();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -219,6 +222,51 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    private void setDataFromIntent() {
+        String title = getIntent().getStringExtra("title");
+        if (title != null) {
+            txtTitle.setText(title);
+
+            int id = getIntent().getIntExtra("id", -1);
+            scheduleItem.setId(id);
+
+            String bonsaiName = getIntent().getStringExtra("bonsaiName");
+            scheduleItem.setBonsaiName(bonsaiName);
+            txtBonsaiNameValue.setText(bonsaiName);
+
+            String dayCreated = getIntent().getStringExtra("dayCreated");
+            scheduleItem.setDayCreated(dayCreated);
+            txtDayCreateValue.setText(dayCreated);
+
+            String dayTakeCare = getIntent().getStringExtra("dayTakeCare");
+            scheduleItem.setDayTakeCare(dayTakeCare);
+            txtDayTakeCareValue.setText(dayTakeCare);
+
+            String timeTakeCare = getIntent().getStringExtra("timeTakeCare");
+            scheduleItem.setTimeTakeCare(timeTakeCare);
+            txtTimeTakeCareValue.setText(timeTakeCare);
+
+            String bonsaiPlace = getIntent().getStringExtra("bonsaiPlace");
+            scheduleItem.setBonsaiPlace(bonsaiPlace);
+
+            String supplyName = getIntent().getStringExtra("supplyName");
+            scheduleItem.setSupplyName(supplyName);
+            txtSupplyValue.setText("" + supplyName);
+
+            int amount = getIntent().getIntExtra("amount", 0);
+            scheduleItem.setAmount(amount);
+            txtAmountValue.setText("" + amount);
+            txtAmountValue.setSelection(txtAmountValue.getText().toString().length());
+
+            String note = getIntent().getStringExtra("note");
+            scheduleItem.setNote(note);
+            txtNoteValue.setText(note);
+
+            boolean ticked = getIntent().getBooleanExtra("ticked", false);
+            scheduleItem.setTicked(ticked);
+        }
     }
 
     private void putDataBack() {

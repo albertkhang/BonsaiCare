@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.albertkhang.bonsaicare.R;
 
-public class ScheduleItemActivity extends AppCompatActivity {
+public class ScheduleDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedule_item);
+        setContentView(R.layout.activity_schedule_detail);
     }
 }

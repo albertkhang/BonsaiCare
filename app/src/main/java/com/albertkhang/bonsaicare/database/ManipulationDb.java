@@ -857,6 +857,18 @@ public class ManipulationDb {
         db.insert(FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME, null, values);
     }
 
+    public static void deleteSchedule(FeedReaderDbHelper dbHelper, ScheduleItem scheduleItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(scheduleItem.getId())};
+
+        db.delete(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME, selection, selectionArgs);
+        int curValue = getTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName());
+
+        updateTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName(), curValue + scheduleItem.getAmount());
+    }
+
     public static void updateTickedSchedule(FeedReaderDbHelper dbHelper, int scheduleId, int ticked) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 

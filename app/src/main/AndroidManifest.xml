@@ -11,13 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/FullScreenThemeAndroid"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.schedule.ScheduleSelectActivity"/>
+        <activity android:name=".activity.schedule.ScheduleDetailActivity"></activity>
+        <activity android:name=".activity.schedule.ScheduleSelectActivity" />
         <activity
             android:name=".activity.schedule.NewAndEditScheduleActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.manage.supply.supplyBill.SupplyBillDetailActivity" />
-        <activity
-            android:name=".activity.manage.supply.supplyBill.NewAndEditSupplyBillActivity" />
+        <activity android:name=".activity.manage.supply.supplyBill.NewAndEditSupplyBillActivity" />
         <activity android:name=".activity.manage.supply.supplyBill.SupplyItemBillListActivity" />
         <activity android:name=".activity.manage.supply.supply.SupplyDetailActivity" />
         <activity android:name=".activity.manage.supply.supply.NewAndEditSupplyActivity" />
@@ -30,7 +30,6 @@
         <activity
             android:name=".activity.manage.ManageList"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.schedule.ScheduleItemActivity" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,7 +1,9 @@
 package com.albertkhang.bonsaicare.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,16 +19,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.albertkhang.bonsaicare.activity.schedule.NewAndEditScheduleActivity;
+import com.albertkhang.bonsaicare.activity.schedule.ScheduleDetailActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
-import com.albertkhang.bonsaicare.activity.schedule.ScheduleItemActivity;
 import com.albertkhang.bonsaicare.adapter.ScheduleRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
 
@@ -62,6 +64,8 @@ public class FragmentSchedule extends Fragment {
     ArrayList<ScheduleItem> scheduleItems;
 
     FeedReaderDbHelper dbHelper;
+
+    private static final int EDIT_SCHEDULE_REQUEST_CODE = 1;
 
     public FragmentSchedule() {
         // Required empty public constructor
@@ -193,10 +197,75 @@ public class FragmentSchedule extends Fragment {
         adapter.setOnItemClickListener(new ScheduleRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-                Intent intent = new Intent(getContext(), ScheduleItemActivity.class);
+                Intent intent = new Intent(getContext(), ScheduleDetailActivity.class);
                 startActivity(intent);
             }
         });
+
+        adapter.setOnItemLongClickListener(new ScheduleRecyclerViewAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClickListener(View view, final int position) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+                builder.setItems(R.array.item_long_click, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0://Edit
+//                                Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
+                                startScheduleEditActivity(position);
+
+                                break;
+                            case 1://Delete
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                builder.setTitle("Confirm");
+                                builder.setMessage("Are you sure?");
+
+                                builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
+                                        //Delete
+                                        ManipulationDb.deleteSchedule(dbHelper, scheduleItems.get(position));
+                                        scheduleItems.remove(position);
+                                        adapter.remove(scheduleItems, position);
+                                    }
+                                });
+
+                                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.cancel();
+                                    }
+                                });
+
+                                builder.show();
+                                break;
+                        }
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+    private void startScheduleEditActivity(int position) {
+        Intent intent = new Intent(getContext(), NewAndEditScheduleActivity.class);
+        intent.putExtra("title", "Edit Schedule");
+
+        intent.putExtra("id", scheduleItems.get(position).getId());
+        intent.putExtra("bonsaiName", scheduleItems.get(position).getBonsaiName());
+        intent.putExtra("dayCreated", scheduleItems.get(position).getDayCreated());
+        intent.putExtra("dayTakeCare", scheduleItems.get(position).getDayTakeCare());
+        intent.putExtra("timeTakeCare", scheduleItems.get(position).getTimeTakeCare());
+        intent.putExtra("bonsaiPlace", scheduleItems.get(position).getBonsaiPlace());
+        intent.putExtra("supplyName", scheduleItems.get(position).getSupplyName());
+        intent.putExtra("amount", scheduleItems.get(position).getAmount());
+        intent.putExtra("note", scheduleItems.get(position).getNote());
+        intent.putExtra("ticked", scheduleItems.get(position).isTicked());
+
+        startActivityForResult(intent, EDIT_SCHEDULE_REQUEST_CODE);
     }
 
     public void updateAdapter() {
