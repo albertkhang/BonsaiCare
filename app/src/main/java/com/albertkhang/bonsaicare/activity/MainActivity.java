@@ -151,8 +151,6 @@ public class MainActivity extends AppCompatActivity {
 
                     isViewPagerTouch = true;
                 }
-
-
                 return false;
             }
         });
@@ -261,6 +259,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case 1:
+                txtSearchValue.setText("");
+                if (isShowKeyboard) {
+                    hideKeyboard(txtSearchValue);
+                }
+
+                if (isShowSearchFrame) {
+                    hideSearchFrame();
+                }
+
                 TopBarAnimation.handleAddSearchIcon(imgSearch, false, imgAddButton, false);
                 if (isViewPager) {
                     /* isViewPager */
@@ -275,6 +282,15 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case 2:
+                txtSearchValue.setText("");
+                if (isShowKeyboard) {
+                    hideKeyboard(txtSearchValue);
+                }
+
+                if (isShowSearchFrame) {
+                    hideSearchFrame();
+                }
+                
                 TopBarAnimation.handleAddSearchIcon(imgSearch, false, imgAddButton, false);
                 if (isViewPager) {
                     /* isViewPager */
