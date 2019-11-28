@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
 
@@ -234,5 +235,21 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         }
 
         return null;
+    }
+
+    public void Filter(String text, ArrayList<ScheduleItem> scheduleArrayList) {
+        if (!text.equals("")) {
+            ArrayList<ScheduleItem> filterArrayList = new ArrayList<>();
+            for (ScheduleItem item :
+                    scheduleArrayList) {
+                if (item.getBonsaiName().toLowerCase().contains(text.toLowerCase())) {
+                    filterArrayList.add(item);
+                }
+            }
+
+            update(filterArrayList);
+        } else {
+            update(scheduleArrayList);
+        }
     }
 }

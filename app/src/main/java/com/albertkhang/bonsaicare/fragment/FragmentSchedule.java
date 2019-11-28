@@ -1,5 +1,6 @@
 package com.albertkhang.bonsaicare.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -96,6 +98,17 @@ public class FragmentSchedule extends Fragment {
         addEvent();
     }
 
+    public interface OnTouchListener {
+        void onTouch(View view, MotionEvent motionEvent);
+    }
+
+    OnTouchListener onTouchListener;
+
+    public void setOnTouchListener(OnTouchListener onTouchListener) {
+        this.onTouchListener = onTouchListener;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private void addControl() {
         scheduleItems = new ArrayList<>();
         rvSchedule = getView().findViewById(R.id.rvSchedule);
@@ -112,6 +125,15 @@ public class FragmentSchedule extends Fragment {
         ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
         adapter.sort(scheduleItems);
         adapter.update(scheduleItems);
+
+        rvSchedule.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                onTouchListener.onTouch(view, motionEvent);
+
+                return false;
+            }
+        });
     }
 
     private void addEvent() {
@@ -154,6 +176,10 @@ public class FragmentSchedule extends Fragment {
         ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
         adapter.sort(scheduleItems);
         adapter.update(scheduleItems);
+    }
+
+    public void filterAdapter(String text) {
+        adapter.Filter(text, scheduleItems);
     }
 
     private void createFakeData(int n) {

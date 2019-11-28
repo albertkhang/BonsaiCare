@@ -569,6 +569,8 @@ public class ManageList extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+
     }
 
     private void handleClearButton(String text) {

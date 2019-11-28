@@ -184,18 +184,76 @@ public class TopBarAnimation {
         showSearchFrame(view);
     }
 
+    public static void showSearchFrame(ImageView imgFrame, EditText txtSearchValue) {
+        imgFrame.setVisibility(View.VISIBLE);
+        txtSearchValue.setVisibility(View.VISIBLE);
+
+        ObjectAnimator scaleXAnimator1 = ObjectAnimator.ofFloat(imgFrame, "scaleX", 1.005f);
+        ObjectAnimator scaleYAnimator1 = ObjectAnimator.ofFloat(imgFrame, "scaleY", 1.005f);
+
+        AnimatorSet animatorSet1 = new AnimatorSet();
+        animatorSet1.setDuration(200);
+        animatorSet1.playTogether(scaleXAnimator1, scaleYAnimator1);
+
+        animatorSet1.start();
+
+        ObjectAnimator scaleXAnimator2 = ObjectAnimator.ofFloat(imgFrame, "scaleX", 1f);
+        ObjectAnimator scaleYAnimator2 = ObjectAnimator.ofFloat(imgFrame, "scaleY", 1f);
+        ObjectAnimator scaleXAnimator222 = ObjectAnimator.ofFloat(txtSearchValue, "scaleX", 1f);
+        ObjectAnimator scaleYAnimator222 = ObjectAnimator.ofFloat(txtSearchValue, "scaleY", 1f);
+
+        AnimatorSet animatorSet2 = new AnimatorSet();
+        animatorSet2.setStartDelay(200);
+        animatorSet2.setDuration(50);
+        animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2, scaleXAnimator222, scaleYAnimator222);
+
+        animatorSet2.start();
+    }
+
+    public static void hideSearchFrame(final ImageView imgFrame, final EditText txtSearchValue) {
+        ObjectAnimator scaleXAnimator1 = ObjectAnimator.ofFloat(imgFrame, "scaleX", 1.005f);
+        ObjectAnimator scaleYAnimator1 = ObjectAnimator.ofFloat(imgFrame, "scaleY", 1.005f);
+
+        AnimatorSet animatorSet1 = new AnimatorSet();
+        animatorSet1.setDuration(50);
+        animatorSet1.playTogether(scaleXAnimator1, scaleYAnimator1);
+
+        animatorSet1.start();
+
+        ObjectAnimator scaleXAnimator2 = ObjectAnimator.ofFloat(imgFrame, "scaleX", 0f);
+        ObjectAnimator scaleYAnimator2 = ObjectAnimator.ofFloat(imgFrame, "scaleY", 0f);
+        ObjectAnimator scaleXAnimator222 = ObjectAnimator.ofFloat(txtSearchValue, "scaleX", 0f);
+        ObjectAnimator scaleYAnimator222 = ObjectAnimator.ofFloat(txtSearchValue, "scaleY", 0f);
+
+        AnimatorSet animatorSet2 = new AnimatorSet();
+        animatorSet2.setStartDelay(50);
+        animatorSet2.setDuration(100);
+        animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2, scaleXAnimator222, scaleYAnimator222);
+
+        animatorSet2.start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                imgFrame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        imgFrame.setVisibility(View.GONE);
+                        txtSearchValue.setVisibility(View.GONE);
+                    }
+                }, 150);
+            }
+        }).start();
+    }
+
     private static void showSearchFrame(View view) {
         ImageView searchFrame = view.findViewById(R.id.searchFrame);
-//        ImageView searchFrameButton = view.findViewById(R.id.searchFrameButton);
         EditText txt_search_frame = view.findViewById(R.id.txtSearchValue);
         searchFrame.setVisibility(View.VISIBLE);
-//        searchFrameButton.setVisibility(View.VISIBLE);
         txt_search_frame.setVisibility(View.VISIBLE);
 
         ObjectAnimator scaleXAnimator1 = ObjectAnimator.ofFloat(searchFrame, "scaleX", 1.005f);
         ObjectAnimator scaleYAnimator1 = ObjectAnimator.ofFloat(searchFrame, "scaleY", 1.005f);
-//        ObjectAnimator scaleXAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 1.005f);
-//        ObjectAnimator scaleYAnimator11 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 1.005f);
 
         AnimatorSet animatorSet1 = new AnimatorSet();
         animatorSet1.setDuration(200);
@@ -205,8 +263,6 @@ public class TopBarAnimation {
 
         ObjectAnimator scaleXAnimator2 = ObjectAnimator.ofFloat(searchFrame, "scaleX", 1f);
         ObjectAnimator scaleYAnimator2 = ObjectAnimator.ofFloat(searchFrame, "scaleY", 1f);
-//        ObjectAnimator scaleXAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleX", 1f);
-//        ObjectAnimator scaleYAnimator22 = ObjectAnimator.ofFloat(searchFrameButton, "scaleY", 1f);
         ObjectAnimator scaleXAnimator222 = ObjectAnimator.ofFloat(txt_search_frame, "scaleX", 1f);
         ObjectAnimator scaleYAnimator222 = ObjectAnimator.ofFloat(txt_search_frame, "scaleY", 1f);
 
@@ -224,5 +280,13 @@ public class TopBarAnimation {
 
         hideIcon(addIcon);
         hideIcon(title);
+    }
+
+    public static void handleSearch(TextView txtTitle, ImageView imgFrame, EditText txtSearchValue, boolean showSearchFrame) {
+        if (showSearchFrame) {
+            //
+        } else {
+            //
+        }
     }
 }
