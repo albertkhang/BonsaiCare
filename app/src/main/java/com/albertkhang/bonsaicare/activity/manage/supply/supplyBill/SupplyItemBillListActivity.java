@@ -140,7 +140,7 @@ public class SupplyItemBillListActivity extends AppCompatActivity {
                                         ManipulationDb.deleteSupplyBill(dbHelper, supplyBillArrayList.get(position));
 
                                         supplyBillArrayList.remove(position);
-                                        supplyBillAdapter.update(supplyBillArrayList);
+                                        supplyBillAdapter.remove(supplyBillArrayList, position);
                                         needRefresh = true;
                                     }
                                 });

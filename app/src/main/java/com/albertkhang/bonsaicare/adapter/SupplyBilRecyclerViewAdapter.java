@@ -35,6 +35,14 @@ public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBil
         notifyDataSetChanged();
     }
 
+    public void remove(ArrayList<SupplyBillItem> supplyBillItemArrayList, int position) {
+        this.supplyBillItemArrayList.clear();
+        this.supplyBillItemArrayList.addAll(supplyBillItemArrayList);
+
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, supplyBillItemArrayList.size());
+    }
+
     public interface OnItemClickListener {
         void onItemClickListener(View view, int position);
     }
@@ -65,31 +73,31 @@ public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBil
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        handleIcon(holder.imgIcon, position);
-        holder.txtDayBoughtValue.setText(supplyBillItemArrayList.get(position).getDayBought());
-        holder.txtTotalBoughtValue.setText(String.valueOf(supplyBillItemArrayList.get(position).getTotalSupplies()));
-        holder.txtSupplyItemUnit.setText(ManipulationDb.getSupplyUnitFromSupplyName(dbHelper, supplyBillItemArrayList.get(position).getSupplyName()));
-        holder.txtSupplyMoneyValue.setText(getMoneyFormat(supplyBillItemArrayList.get(position).getTotalMoney(), true));
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        handleIcon(holder.imgIcon, holder.getAdapterPosition());
+        holder.txtDayBoughtValue.setText(supplyBillItemArrayList.get(holder.getAdapterPosition()).getDayBought());
+        holder.txtTotalBoughtValue.setText(String.valueOf(supplyBillItemArrayList.get(holder.getAdapterPosition()).getTotalSupplies()));
+        holder.txtSupplyItemUnit.setText(ManipulationDb.getSupplyUnitFromSupplyName(dbHelper, supplyBillItemArrayList.get(holder.getAdapterPosition()).getSupplyName()));
+        holder.txtSupplyMoneyValue.setText(getMoneyFormat(supplyBillItemArrayList.get(holder.getAdapterPosition()).getTotalMoney(), true));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, position);
+                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
             }
         });
 
         holder.supply_item_frame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, position);
+                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
             }
         });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, position);
+                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
                 return true;
             }
         });
@@ -97,7 +105,7 @@ public class SupplyBilRecyclerViewAdapter extends RecyclerView.Adapter<SupplyBil
         holder.supply_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, position);
+                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
                 return true;
             }
         });

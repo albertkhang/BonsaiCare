@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isShowSearchFrame) {
                     hideSearchFrame();
                 }
-                
+
                 TopBarAnimation.handleAddSearchIcon(imgSearch, false, imgAddButton, false);
                 if (isViewPager) {
                     /* isViewPager */

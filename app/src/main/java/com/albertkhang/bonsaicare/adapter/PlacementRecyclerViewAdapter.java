@@ -55,6 +55,14 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
         notifyDataSetChanged();
     }
 
+    public void remove(ArrayList<PlacementItem> placementArrayList, int position) {
+        this.placementArrayList.clear();
+        this.placementArrayList.addAll(placementArrayList);
+
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, placementArrayList.size());
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -65,32 +73,32 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        handleIcon(holder.imgPlacementIcon, position);
-        handleDetail(holder, position);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        handleIcon(holder.imgPlacementIcon, holder.getAdapterPosition());
+        handleDetail(holder, holder.getAdapterPosition());
 
-        holder.txtPlacementName.setText(placementArrayList.get(position).getPlacementName());
+        holder.txtPlacementName.setText(placementArrayList.get(holder.getAdapterPosition()).getPlacementName());
 
-        holder.txtTotalBonsaiValue.setText(String.valueOf(placementArrayList.get(position).getTotalBonsai()));
+        holder.txtTotalBonsaiValue.setText(String.valueOf(placementArrayList.get(holder.getAdapterPosition()).getTotalBonsai()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, position);
+                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
             }
         });
 
         holder.bonsai_item_frame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, position);
+                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
             }
         });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, position);
+                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
                 return true;
             }
         });
@@ -98,7 +106,7 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
         holder.bonsai_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, position);
+                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
                 return true;
             }
         });

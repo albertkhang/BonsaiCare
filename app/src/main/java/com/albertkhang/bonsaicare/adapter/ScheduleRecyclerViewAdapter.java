@@ -41,6 +41,14 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         notifyDataSetChanged();
     }
 
+    public void remove(ArrayList<ScheduleItem> scheduleArrayList, int position) {
+        this.scheduleItems.clear();
+        this.scheduleItems.addAll(scheduleArrayList);
+
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, scheduleArrayList.size());
+    }
+
     public interface OnItemClickListener {
         void onItemClickListener(View view, int position);
     }
@@ -73,34 +81,34 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         //bonsaiName
-        holder.txtBonsaiName.setText(scheduleItems.get(position).getBonsaiName());
+        holder.txtBonsaiName.setText(scheduleItems.get(holder.getAdapterPosition()).getBonsaiName());
         //location
-        holder.txtBonsaiLocation.setText(scheduleItems.get(position).getBonsaiPlace());
+        holder.txtBonsaiLocation.setText(scheduleItems.get(holder.getAdapterPosition()).getBonsaiPlace());
         //supply
-        holder.txtItemSupplies.setText(scheduleItems.get(position).getSupplyName());
+        holder.txtItemSupplies.setText(scheduleItems.get(holder.getAdapterPosition()).getSupplyName());
         //supply icon
-        handleSupplyIcon(holder, position);
+        handleSupplyIcon(holder, holder.getAdapterPosition());
         //timeTakeCare
-        holder.txtItemTime.setText(scheduleItems.get(position).getTimeTakeCare());
+        holder.txtItemTime.setText(scheduleItems.get(holder.getAdapterPosition()).getTimeTakeCare());
         //dayTakeCare
-        int month = getMonth(scheduleItems.get(position).getDayTakeCare());
-        holder.txtItemDay.setText(getMonthText(month) + " " + getDay(scheduleItems.get(position).getDayTakeCare()) + ", " + getYear(scheduleItems.get(position).getDayTakeCare()));
+        int month = getMonth(scheduleItems.get(holder.getAdapterPosition()).getDayTakeCare());
+        holder.txtItemDay.setText(getMonthText(month) + " " + getDay(scheduleItems.get(holder.getAdapterPosition()).getDayTakeCare()) + ", " + getYear(scheduleItems.get(holder.getAdapterPosition()).getDayTakeCare()));
 
         //ticked
-        if (scheduleItems.get(position).isTicked()) {
+        if (scheduleItems.get(holder.getAdapterPosition()).isTicked()) {
             holder.imgItemTick.setImageResource(R.drawable.ic_ticked);
         } else {
             holder.imgItemTick.setImageResource(R.drawable.ic_nottick);
         }
 
-        if (scheduleItems.get(position).isHaveNote()) {
+        if (scheduleItems.get(holder.getAdapterPosition()).isHaveNote()) {
             holder.imgItemNote.setVisibility(View.VISIBLE);
         } else {
             holder.imgItemNote.setVisibility(View.INVISIBLE);
         }
 
         //note
-        if (!scheduleItems.get(position).getNote().equals("")) {
+        if (!scheduleItems.get(holder.getAdapterPosition()).getNote().equals("")) {
             holder.imgItemNote.setVisibility(View.VISIBLE);
         } else {
             holder.imgItemNote.setVisibility(View.INVISIBLE);
@@ -109,7 +117,7 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         holder.imgItemTick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onTickClickListener.onTickClickListener(view, position);
+                onTickClickListener.onTickClickListener(view, holder.getAdapterPosition());
             }
         });
     }

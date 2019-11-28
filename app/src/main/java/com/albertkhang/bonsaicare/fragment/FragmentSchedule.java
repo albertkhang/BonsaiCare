@@ -141,8 +141,8 @@ public class FragmentSchedule extends Fragment {
 
         adapter.setOnTickClickListener(new ScheduleRecyclerViewAdapter.OnTickClickListener() {
             @Override
-            public void onTickClickListener(View view, int position) {
-                ImageView imageView = (ImageView) view;
+            public void onTickClickListener(View view, final int position) {
+                final ImageView imageView = (ImageView) view;
                 if (!scheduleItems.get(position).isTicked()) {
                     scheduleItems.get(position).setTicked(true);
 
@@ -154,6 +154,22 @@ public class FragmentSchedule extends Fragment {
 
                     //update in Db
                     ManipulationDb.updateTickedSchedule(dbHelper, scheduleItems.get(position).getId(), 1);
+
+                    //remove item from schedule list
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (scheduleItems.get(position).isTicked()) {
+                                        scheduleItems.remove(position);
+                                        adapter.remove(scheduleItems, position);
+                                    }
+                                }
+                            }, 300);
+                        }
+                    }).start();
                 } else {
                     scheduleItems.get(position).setTicked(false);
                     imageView.setImageResource(R.drawable.ic_nottick);

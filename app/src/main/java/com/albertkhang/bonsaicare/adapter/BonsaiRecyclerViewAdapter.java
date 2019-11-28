@@ -51,6 +51,14 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         notifyDataSetChanged();
     }
 
+    public void remove(ArrayList<BonsaiItem> bonsaiArrayList, int position) {
+        this.bonsaiArrayList.clear();
+        this.bonsaiArrayList.addAll(bonsaiArrayList);
+
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, bonsaiArrayList.size());
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -62,17 +70,17 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        handleIcon(holder.imgBonsaiIcon, bonsaiArrayList.get(position));
-        holder.txtBonsaiItemPlace.setText(bonsaiArrayList.get(position).getBonsaiPlacementName());
-        holder.txtBonsaiItemName.setText(bonsaiArrayList.get(position).getBonsaiName());
-        holder.txtDayPlanted.setText(bonsaiArrayList.get(position).getBonsaiDayPlanted());
+        handleIcon(holder.imgBonsaiIcon, bonsaiArrayList.get(holder.getAdapterPosition()));
+        holder.txtBonsaiItemPlace.setText(bonsaiArrayList.get(holder.getAdapterPosition()).getBonsaiPlacementName());
+        holder.txtBonsaiItemName.setText(bonsaiArrayList.get(holder.getAdapterPosition()).getBonsaiName());
+        holder.txtDayPlanted.setText(bonsaiArrayList.get(holder.getAdapterPosition()).getBonsaiDayPlanted());
 
         Log.d("_onBindViewHolder", "Loaded!");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, position);
+                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
             }
         });
 
@@ -81,14 +89,14 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
             public void onClick(View view) {
                 Log.d("_onBindViewHolder", "Clicked!");
 
-                onItemClickListener.onItemClickListener(view, position);
+                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
             }
         });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, position);
+                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
                 return true;
             }
         });
@@ -96,7 +104,7 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
         holder.bonsai_item_frame_manage.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, position);
+                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
                 return true;
             }
         });

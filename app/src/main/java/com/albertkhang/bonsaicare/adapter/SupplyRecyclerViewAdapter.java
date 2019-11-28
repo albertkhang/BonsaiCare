@@ -34,6 +34,14 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
         notifyDataSetChanged();
     }
 
+    public void remove(ArrayList<SupplyItem> supplyArrayList, int position) {
+        this.supplyArrayList.clear();
+        this.supplyArrayList.addAll(supplyArrayList);
+
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, supplyArrayList.size());
+    }
+
     public interface OnItemClickListener {
         void onItemClickListener(View view, int position);
     }
@@ -64,30 +72,30 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        handleIcon(holder.imgSupplyIcon, position);
-        holder.txtSupplyItemName.setText(supplyArrayList.get(position).getSupplyName());
-        int totalSupplyBought = ManipulationDb.getTotalSupplyRemain(dbHelper, supplyArrayList.get(position).getSupplyName());
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        handleIcon(holder.imgSupplyIcon, holder.getAdapterPosition());
+        holder.txtSupplyItemName.setText(supplyArrayList.get(holder.getAdapterPosition()).getSupplyName());
+        int totalSupplyBought = ManipulationDb.getTotalSupplyRemain(dbHelper, supplyArrayList.get(holder.getAdapterPosition()).getSupplyName());
         holder.txtSupplyItemTotal.setText(String.valueOf(totalSupplyBought));
-        handleUnit(holder.txtSupplyItemUnit, position);
+        handleUnit(holder.txtSupplyItemUnit, holder.getAdapterPosition());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, position);
+                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
             }
         });
         holder.supply_item_frame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, position);
+                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
             }
         });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, position);
+                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
 
                 return true;
             }
@@ -96,7 +104,7 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
         holder.supply_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, position);
+                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
                 return true;
             }
         });

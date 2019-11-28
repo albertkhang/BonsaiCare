@@ -321,7 +321,7 @@ public class ManageList extends AppCompatActivity {
                                             Toast.makeText(ManageList.this, "Delete success!", Toast.LENGTH_LONG).show();
 
                                             bonsaiArrayList.remove(position);
-                                            bonsaiAdapter.update(bonsaiArrayList);
+                                            bonsaiAdapter.remove(bonsaiArrayList, position);
                                         }
                                     }
                                 });
@@ -432,7 +432,7 @@ public class ManageList extends AppCompatActivity {
                                         } else {
                                             if (ManipulationDb.deletePlace(dbHelper, placementArrayList.get(position).getId())) {
                                                 placementArrayList.remove(position);
-                                                placementAdapter.update(placementArrayList);
+                                                placementAdapter.remove(placementArrayList, position);
                                                 Toast.makeText(ManageList.this, R.string.toastDeleteSuccess, Toast.LENGTH_LONG).show();
                                             } else {
                                                 Toast.makeText(ManageList.this, R.string.toastDeleteFail, Toast.LENGTH_LONG).show();
@@ -513,7 +513,6 @@ public class ManageList extends AppCompatActivity {
         supplyAdapter.setOnItemClickListener(new SupplyRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClickListener(View view, int position) {
-//                startSupplyDetailActivity(position);
                 startSupplyBillListActivity(position);
             }
         });
@@ -548,7 +547,7 @@ public class ManageList extends AppCompatActivity {
                                         ManipulationDb.deleteSupply(dbHelper, supplyArrayList.get(position).getId());
 
                                         supplyArrayList.remove(position);
-                                        supplyAdapter.update(supplyArrayList);
+                                        supplyAdapter.remove(supplyArrayList, position);
                                     }
                                 });
                                 builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
