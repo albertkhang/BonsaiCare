@@ -17,15 +17,22 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
+import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.schedule.ScheduleItemActivity;
 import com.albertkhang.bonsaicare.adapter.ScheduleRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -123,6 +130,7 @@ public class FragmentSchedule extends Fragment {
         dbHelper = new FeedReaderDbHelper(getActivity());
 
         ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
+
         adapter.sort(scheduleItems);
         adapter.update(scheduleItems);
 
@@ -137,8 +145,6 @@ public class FragmentSchedule extends Fragment {
     }
 
     private void addEvent() {
-//        createFakeData(30);
-
         adapter.setOnTickClickListener(new ScheduleRecyclerViewAdapter.OnTickClickListener() {
             @Override
             public void onTickClickListener(View view, final int position) {
@@ -159,12 +165,17 @@ public class FragmentSchedule extends Fragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            final SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
+//                            Log.d("_setOnTickClickListener", String.valueOf(!setting.getShowAllComplete()));
+
                             imageView.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (scheduleItems.get(position).isTicked()) {
-                                        scheduleItems.remove(position);
-                                        adapter.remove(scheduleItems, position);
+                                        if (setting.getShowAllComplete() == 1) {
+                                            scheduleItems.remove(position);
+                                            adapter.remove(scheduleItems, position);
+                                        }
                                     }
                                 }
                             }, 300);
@@ -196,15 +207,6 @@ public class FragmentSchedule extends Fragment {
 
     public void filterAdapter(String text) {
         adapter.Filter(text, scheduleItems);
-    }
-
-    private void createFakeData(int n) {
-        for (int i = 0; i < n; i++) {
-            ScheduleItem item = new ScheduleItem();
-            scheduleItems.add(item);
-        }
-
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -255,5 +257,42 @@ public class FragmentSchedule extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(String status) {
+        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
+        int statusInt = Integer.parseInt(status);
+        Log.d("_EventBus", "statusInt: " + statusInt);
+
+        if (statusInt == 1) {
+            //tick
+            ArrayList<ScheduleItem> tempArrayList = new ArrayList<>();
+            for (int i = 0; i < scheduleItems.size(); i++) {
+                if (!scheduleItems.get(i).isTicked()) {
+                    tempArrayList.add(scheduleItems.get(i));
+                }
+            }
+
+            scheduleItems.clear();
+            scheduleItems.addAll(tempArrayList);
+        } else {
+            //not tick
+            adapter.update(scheduleItems);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        EventBus.getDefault().unregister(this);
     }
 }

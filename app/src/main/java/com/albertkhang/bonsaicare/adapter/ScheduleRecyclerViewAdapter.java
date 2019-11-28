@@ -36,11 +36,6 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
         notifyDataSetChanged();
     }
 
-    public void refresh(ArrayList<ScheduleItem> scheduleItems) {
-        this.scheduleItems = scheduleItems;
-        notifyDataSetChanged();
-    }
-
     public void remove(ArrayList<ScheduleItem> scheduleArrayList, int position) {
         this.scheduleItems.clear();
         this.scheduleItems.addAll(scheduleArrayList);

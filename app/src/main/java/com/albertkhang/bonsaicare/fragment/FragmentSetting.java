@@ -19,13 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
+
+import org.greenrobot.eventbus.EventBus;
 
 import static java.lang.String.valueOf;
 
@@ -63,6 +67,8 @@ public class FragmentSetting extends Fragment {
 
     TextView txtSettingMaxBonsaiTitle;
     TextView txtSettingMaxMoneyPerSupplyTitle;
+
+    ImageView imgItemTick;
 
     FeedReaderDbHelper dbHelper;
 
@@ -120,6 +126,8 @@ public class FragmentSetting extends Fragment {
         txtSettingMaxBonsaiTitle = getView().findViewById(R.id.txtIdTitle);
         txtSettingMaxMoneyPerSupplyTitle = getView().findViewById(R.id.txtSettingMaxMoneyPerSupplyTitle);
 
+        imgItemTick = getView().findViewById(R.id.imgItemTick);
+
         getSetting();
 
         dbHelper = new FeedReaderDbHelper(getContext());
@@ -127,6 +135,31 @@ public class FragmentSetting extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void addEvent() {
+        imgItemTick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
+                if (setting.getShowAllComplete() == 1) {
+                    imgItemTick.setImageResource(R.drawable.ic_nottick);
+
+                    setting.updateShowAllComplete(0);
+                    EventBus.getDefault().post("" + 0);
+                    Log.d("_EventBus_sent", "not tick");
+                } else {
+                    imgItemTick.setScaleX(0);
+                    imgItemTick.setScaleY(0);
+                    imgItemTick.setImageResource(R.drawable.ic_ticked);
+                    imgItemTick.setVisibility(View.VISIBLE);
+                    TickMarkAnimation.showTickMark(imgItemTick);
+
+                    setting.updateShowAllComplete(1);
+                    EventBus.getDefault().post("" + 1);
+
+                    Log.d("_EventBus_sent", "tick");
+                }
+            }
+        });
+
         fragment_layout_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -274,6 +307,12 @@ public class FragmentSetting extends Fragment {
 
         txtSettingMaxBonsaiValue.setText(String.valueOf(setting.getMaxBonsai()));
         txtSettingMaxMoneyPerSupplyValue.setText(getMoneyFormat(setting.getMaxMoney(), true));
+
+        if (setting.getShowAllComplete() == 1) {
+            imgItemTick.setImageResource(R.drawable.ic_ticked);
+        } else {
+            imgItemTick.setImageResource(R.drawable.ic_nottick);
+        }
     }
 
     private String getMoneyFormat(int money, boolean haveVND) {

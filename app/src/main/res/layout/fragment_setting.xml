@@ -126,4 +126,44 @@ c
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frame_ShowAllComplete"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:clickable="true"
+        android:background="@drawable/constraint_layout_ripple"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frame_MaxMoneyPerSupply">
+
+        <TextView
+            android:id="@+id/txtShowAllCompleteTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show all complete schedule"
+            android:textColor="@color/colorItemTitle"
+            android:textSize="@dimen/settingTitleSize"
+            android:textStyle="italic|bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgItemTick"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="1:1"
+            android:padding="10dp"
+            android:src="@drawable/ic_nottick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
