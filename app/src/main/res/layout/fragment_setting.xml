@@ -158,7 +158,7 @@ c
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintDimensionRatio="1:1"
-            android:padding="11dp"
+            android:padding="10dp"
             android:src="@drawable/ic_nottick"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
