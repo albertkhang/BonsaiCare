@@ -66,6 +66,7 @@ public class FragmentSchedule extends Fragment {
     FeedReaderDbHelper dbHelper;
 
     private static final int EDIT_SCHEDULE_REQUEST_CODE = 1;
+    private static final int DETAIL_SCHEDULE_REQUEST_CODE = 2;
 
     public FragmentSchedule() {
         // Required empty public constructor
@@ -170,13 +171,12 @@ public class FragmentSchedule extends Fragment {
                         @Override
                         public void run() {
                             final SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
-//                            Log.d("_setOnTickClickListener", String.valueOf(!setting.getShowAllComplete()));
 
                             imageView.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (scheduleItems.get(position).isTicked()) {
-                                        if (setting.getShowAllComplete() == 1) {
+                                        if (setting.getShowAllComplete() == 0) {//0 not show when click
                                             scheduleItems.remove(position);
                                             adapter.remove(scheduleItems, position);
                                         }
@@ -198,7 +198,19 @@ public class FragmentSchedule extends Fragment {
             @Override
             public void onItemClickListener(View view, int position) {
                 Intent intent = new Intent(getContext(), ScheduleDetailActivity.class);
-                startActivity(intent);
+                intent.putExtra("id", scheduleItems.get(position).getId());
+                intent.putExtra("bonsaiName", scheduleItems.get(position).getBonsaiName());
+                intent.putExtra("dayCreated", scheduleItems.get(position).getDayCreated());
+                intent.putExtra("dayTakeCare", scheduleItems.get(position).getDayTakeCare());
+                intent.putExtra("timeTakeCare", scheduleItems.get(position).getTimeTakeCare());
+                intent.putExtra("bonsaiPlace", scheduleItems.get(position).getBonsaiPlace());
+                intent.putExtra("supplyName", scheduleItems.get(position).getSupplyName());
+                intent.putExtra("amount", scheduleItems.get(position).getAmount());
+                intent.putExtra("note", scheduleItems.get(position).getNote());
+
+                intent.putExtra("isTicked", scheduleItems.get(position).isTicked());
+
+                startActivityForResult(intent, DETAIL_SCHEDULE_REQUEST_CODE);
             }
         });
 
@@ -334,7 +346,7 @@ public class FragmentSchedule extends Fragment {
         int statusInt = Integer.parseInt(status);
         Log.d("_EventBus", "statusInt: " + statusInt);
 
-        if (statusInt == 1) {
+        if (statusInt == 0) {//0 is do not show complete schedule
             //tick
             ArrayList<ScheduleItem> tempArrayList = new ArrayList<>();
             for (int i = 0; i < scheduleItems.size(); i++) {
