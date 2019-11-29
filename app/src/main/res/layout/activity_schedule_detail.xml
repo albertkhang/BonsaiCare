@@ -18,6 +18,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/imgEdit"
+            android:layout_width="@dimen/topBarWidthButton"
+            android:layout_height="@dimen/topBarHeightButton"
+            android:paddingLeft="@dimen/topBarPaddingLeftAddButton"
+            android:paddingTop="@dimen/topBarPaddingTopButton"
+            android:paddingRight="@dimen/topBarPaddingRightAddButton"
+            android:paddingBottom="@dimen/topBarPaddingBottomButton"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
             android:id="@+id/btnBack"
             android:layout_width="50dp"
             android:layout_height="0dp"
@@ -41,6 +53,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

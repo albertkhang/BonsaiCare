@@ -857,6 +857,34 @@ public class ManipulationDb {
         db.insert(FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME, null, values);
     }
 
+    public static void updateSchedule(FeedReaderDbHelper dbHelper, ScheduleItem scheduleItem) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_BONSAI_ID, getBonsaiIdFromBonsaiName(dbHelper, scheduleItem.getBonsaiName()));
+
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_DATE_CREATED, scheduleItem.getDayCreated());
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE, scheduleItem.getDayTakeCare());
+
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_TIME_TAKE_CARE, scheduleItem.getTimeTakeCare());
+
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_PLACEMENT_ID, getPlacementIdFromPlacementName(dbHelper, scheduleItem.getBonsaiPlace()));
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_SUPPLY_ID, getSupplyIdFromSupplyName(dbHelper, scheduleItem.getSupplyName()));
+
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_AMOUNT, scheduleItem.getAmount());
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_TICKED, 0);
+        values.put(FeedReaderContract.FeedEntry.SCHEDULE_NOTE, scheduleItem.getNote());
+
+        String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(scheduleItem.getId())};
+
+        db.update(
+                FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
     public static void deleteSchedule(FeedReaderDbHelper dbHelper, ScheduleItem scheduleItem) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 

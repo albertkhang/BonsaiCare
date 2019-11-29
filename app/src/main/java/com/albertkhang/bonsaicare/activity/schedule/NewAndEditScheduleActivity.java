@@ -131,30 +131,69 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isInputValid()) {
-                    //name
-                    scheduleItem.setBonsaiName(txtBonsaiNameValue.getText().toString());
-                    //dayCreate
-                    scheduleItem.setDayCreated(txtDayCreateValue.getText().toString());
-                    //dayTakeCare
-                    scheduleItem.setDayTakeCare(txtDayTakeCareValue.getText().toString());
-                    //timeTakeCare
-                    scheduleItem.setTimeTakeCare(txtTimeTakeCareValue.getText().toString());
-                    //added bonsaiPlace in onResult
-                    //supplyName
-                    scheduleItem.setSupplyName(txtSupplyValue.getText().toString());
-                    //amount
-                    scheduleItem.setAmount(Integer.parseInt(txtAmountValue.getText().toString()));
-                    //note
-                    scheduleItem.setNote(txtNoteValue.getText().toString());
+                if (txtTitle.getText().toString().equals("Edit Schedule")) {
+                    if (isInputValid()) {
+                        //name
+                        scheduleItem.setBonsaiName(txtBonsaiNameValue.getText().toString());
+                        //dayCreate
+                        scheduleItem.setDayCreated(txtDayCreateValue.getText().toString());
+                        //dayTakeCare
+                        scheduleItem.setDayTakeCare(txtDayTakeCareValue.getText().toString());
+                        //timeTakeCare
+                        scheduleItem.setTimeTakeCare(txtTimeTakeCareValue.getText().toString());
+                        //added bonsaiPlace in onResult
+                        //supplyName
+                        scheduleItem.setSupplyName(txtSupplyValue.getText().toString());
+                        //amount
+                        scheduleItem.setAmount(Integer.parseInt(txtAmountValue.getText().toString()));
+                        //note
+                        scheduleItem.setNote(txtNoteValue.getText().toString());
 
-                    //add into DB
-                    ManipulationDb.addNewSchedule(dbHelper, scheduleItem);
-                    Toast.makeText(NewAndEditScheduleActivity.this, getString(R.string.toastAddSuccess), Toast.LENGTH_SHORT).show();
-                    //update total supply
-                    ManipulationDb.updateTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName(), totalSupply - scheduleItem.getAmount());
-                    //pullDataBack
-                    putDataBack();
+                        //update into DB
+                        ManipulationDb.updateSchedule(dbHelper, scheduleItem);
+                        Toast.makeText(NewAndEditScheduleActivity.this, "Updated!", Toast.LENGTH_SHORT).show();
+
+                        //update total supply
+                        int totalAmountSupply = ManipulationDb.getTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName());
+                        int differenceAmount = Math.abs(totalAmountSupply - scheduleItem.getAmount());
+                        Log.d("_ScheduleEdit", "differenceAmount: " + differenceAmount);
+                        if (totalAmountSupply > scheduleItem.getAmount()) {
+                            totalAmountSupply -= differenceAmount;
+                        } else {
+                            totalAmountSupply += differenceAmount;
+                        }
+                        Log.d("_ScheduleEdit", "totalAmountSupply: " + totalAmountSupply);
+                        ManipulationDb.updateTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName(), totalAmountSupply);
+
+                        //pullDataBack
+                        putDataBack();
+                    }
+                } else {
+                    if (isInputValid()) {
+                        //name
+                        scheduleItem.setBonsaiName(txtBonsaiNameValue.getText().toString());
+                        //dayCreate
+                        scheduleItem.setDayCreated(txtDayCreateValue.getText().toString());
+                        //dayTakeCare
+                        scheduleItem.setDayTakeCare(txtDayTakeCareValue.getText().toString());
+                        //timeTakeCare
+                        scheduleItem.setTimeTakeCare(txtTimeTakeCareValue.getText().toString());
+                        //added bonsaiPlace in onResult
+                        //supplyName
+                        scheduleItem.setSupplyName(txtSupplyValue.getText().toString());
+                        //amount
+                        scheduleItem.setAmount(Integer.parseInt(txtAmountValue.getText().toString()));
+                        //note
+                        scheduleItem.setNote(txtNoteValue.getText().toString());
+
+                        //add into DB
+                        ManipulationDb.addNewSchedule(dbHelper, scheduleItem);
+                        Toast.makeText(NewAndEditScheduleActivity.this, getString(R.string.toastAddSuccess), Toast.LENGTH_SHORT).show();
+                        //update total supply
+                        ManipulationDb.updateTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName(), totalSupply - scheduleItem.getAmount());
+                        //pullDataBack
+                        putDataBack();
+                    }
                 }
             }
         });
@@ -236,6 +275,7 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             String bonsaiName = getIntent().getStringExtra("bonsaiName");
             scheduleItem.setBonsaiName(bonsaiName);
             txtBonsaiNameValue.setText(bonsaiName);
+            bonsaiNameSelected = true;
 
             String dayCreated = getIntent().getStringExtra("dayCreated");
             scheduleItem.setDayCreated(dayCreated);
@@ -255,6 +295,7 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             String supplyName = getIntent().getStringExtra("supplyName");
             scheduleItem.setSupplyName(supplyName);
             txtSupplyValue.setText("" + supplyName);
+            bonsaiSupplySelected = true;
 
             int amount = getIntent().getIntExtra("amount", 0);
             scheduleItem.setAmount(amount);
@@ -272,6 +313,17 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
 
     private void putDataBack() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        if (txtTitle.getText().toString().equals("Edit Schedule")) {
+            intent.putExtra("id", scheduleItem.getId());
+            intent.putExtra("bonsaiName", scheduleItem.getBonsaiName());
+            intent.putExtra("dayCreated", scheduleItem.getDayCreated());
+            intent.putExtra("dayTakeCare", scheduleItem.getDayTakeCare());
+            intent.putExtra("timeTakeCare", scheduleItem.getTimeTakeCare());
+            intent.putExtra("bonsaiPlace", scheduleItem.getBonsaiPlace());
+            intent.putExtra("supplyName", scheduleItem.getSupplyName());
+            intent.putExtra("amount", scheduleItem.getAmount());
+            intent.putExtra("note", scheduleItem.getNote());
+        }
         setResult(Activity.RESULT_OK, intent);
         finish();
     }
@@ -365,7 +417,9 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             return false;
         }
 
+        totalSupply = ManipulationDb.getTotalSupplyRemain(dbHelper, txtSupplyValue.getText().toString());
         if (amount > totalSupply) {
+
             txtAmountValue.setError(getString(R.string.notifyErrorSupplyBiggerBought));
             return false;
         }
