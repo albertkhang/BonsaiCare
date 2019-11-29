@@ -1,6 +1,7 @@
 package com.albertkhang.bonsaicare.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -136,8 +137,7 @@ public class FragmentSchedule extends Fragment {
 
         ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
 
-        adapter.sort(scheduleItems);
-        adapter.update(scheduleItems);
+        sortAdapter();
 
         rvSchedule.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -280,8 +280,27 @@ public class FragmentSchedule extends Fragment {
         startActivityForResult(intent, EDIT_SCHEDULE_REQUEST_CODE);
     }
 
-    public void updateAdapter() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case EDIT_SCHEDULE_REQUEST_CODE:
+            case DETAIL_SCHEDULE_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    sortAdapter();
+                }
+                break;
+        }
+    }
+
+    public void sortAdapter() {
         ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
+
+        SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
+        if (setting.getShowAllComplete() == 0) {
+            //filter schedule complete
+            filterScheduleComplete();
+        }
+
         adapter.sort(scheduleItems);
         adapter.update(scheduleItems);
     }
@@ -342,25 +361,29 @@ public class FragmentSchedule extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(String status) {
-        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
         int statusInt = Integer.parseInt(status);
-        Log.d("_EventBus", "statusInt: " + statusInt);
+        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
 
         if (statusInt == 0) {//0 is do not show complete schedule
-            //tick
-            ArrayList<ScheduleItem> tempArrayList = new ArrayList<>();
-            for (int i = 0; i < scheduleItems.size(); i++) {
-                if (!scheduleItems.get(i).isTicked()) {
-                    tempArrayList.add(scheduleItems.get(i));
-                }
-            }
-
-            scheduleItems.clear();
-            scheduleItems.addAll(tempArrayList);
+            //filter schedule complete
+            filterScheduleComplete();
         } else {
-            //not tick
+            //show all
             adapter.update(scheduleItems);
         }
+
+    }
+
+    private void filterScheduleComplete() {
+        ArrayList<ScheduleItem> tempArrayList = new ArrayList<>();
+        for (int i = 0; i < scheduleItems.size(); i++) {
+            if (!scheduleItems.get(i).isTicked()) {
+                tempArrayList.add(scheduleItems.get(i));
+            }
+        }
+
+        scheduleItems.clear();
+        scheduleItems.addAll(tempArrayList);
     }
 
     @Override

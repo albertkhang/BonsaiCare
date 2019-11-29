@@ -28,6 +28,7 @@ import com.albertkhang.bonsaicare.activity.MainActivity;
 import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
 import com.albertkhang.bonsaicare.database.ManipulationDb;
 import com.albertkhang.bonsaicare.database.SharedPreferencesSetting;
+import com.albertkhang.bonsaicare.fragment.FragmentSchedule;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 
 import java.text.ParseException;
@@ -270,9 +271,7 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
     }
 
     private void putDataBack() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("needRefresh", true);
-
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }

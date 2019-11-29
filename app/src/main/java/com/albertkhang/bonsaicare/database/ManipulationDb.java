@@ -863,7 +863,7 @@ public class ManipulationDb {
         String selection = FeedReaderContract.FeedEntry._ID + " LIKE ?";
         String[] selectionArgs = {String.valueOf(scheduleItem.getId())};
 
-        db.delete(FeedReaderContract.FeedEntry.SUPPLIES_BILL_TABLE_NAME, selection, selectionArgs);
+        db.delete(FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME, selection, selectionArgs);
         int curValue = getTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName());
 
         updateTotalSupplyRemain(dbHelper, scheduleItem.getSupplyName(), curValue + scheduleItem.getAmount());

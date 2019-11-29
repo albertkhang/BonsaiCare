@@ -3,7 +3,6 @@ package com.albertkhang.bonsaicare.activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
@@ -234,9 +233,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case ADD_NEW_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
-                    if (data.getBooleanExtra("needRefresh", false)) {
-                        fragmentSchedule.updateAdapter();
-                    }
+                    fragmentSchedule.sortAdapter();
                 }
 
                 break;

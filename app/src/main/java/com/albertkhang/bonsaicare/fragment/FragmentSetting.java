@@ -58,6 +58,7 @@ public class FragmentSetting extends Fragment {
 
     ConstraintLayout frame_BonsaiNameDetail;
     ConstraintLayout frame_MaxMoneyPerSupply;
+    ConstraintLayout frame_ShowAllComplete;
 
     EditText txtMaxBonsaiEdit;
     EditText txtMaxMoneyEdit;
@@ -128,6 +129,8 @@ public class FragmentSetting extends Fragment {
 
         imgItemTick = getView().findViewById(R.id.imgItemTick);
 
+        frame_ShowAllComplete = getView().findViewById(R.id.frame_ShowAllComplete);
+
         getSetting();
 
         dbHelper = new FeedReaderDbHelper(getContext());
@@ -135,6 +138,13 @@ public class FragmentSetting extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void addEvent() {
+        frame_ShowAllComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imgItemTick.callOnClick();
+            }
+        });
+
         imgItemTick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -3,12 +3,22 @@ package com.albertkhang.bonsaicare.activity.schedule;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.R;
+import com.albertkhang.bonsaicare.database.FeedReaderDbHelper;
+import com.albertkhang.bonsaicare.database.ManipulationDb;
+import com.albertkhang.bonsaicare.fragment.FragmentSchedule;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 
 public class ScheduleDetailActivity extends AppCompatActivity {
@@ -32,6 +42,12 @@ public class ScheduleDetailActivity extends AppCompatActivity {
     ImageView imgIconSupplyName;
 
     ImageView imgIconTicked;
+
+    Button btnDelete;
+
+    FeedReaderDbHelper dbHelper;
+
+    boolean needRefresh = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +80,65 @@ public class ScheduleDetailActivity extends AppCompatActivity {
         imgIconBonsaiPlace = findViewById(R.id.imgIconBonsaiPlace);
         imgIconSupplyName = findViewById(R.id.imgIconSupplyName);
 
+        btnDelete = findViewById(R.id.btnDelete);
+
+        dbHelper = new FeedReaderDbHelper(this);
+
         getDataFromIntent();
     }
 
     private void addEvent() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ScheduleDetailActivity.this);
+                builder.setTitle("Confirm");
+                builder.setMessage("Are you sure?");
+
+                builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(getBaseContext(), "Delete", Toast.LENGTH_SHORT).show();
+                        //Delete
+                        ManipulationDb.deleteSchedule(dbHelper, scheduleItem);
+
+                        needRefresh = true;
+                        onBackPressed();
+                    }
+                });
+
+                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+    }
+
+    private void putDataBack() {
+        if (needRefresh) {
+            Log.d("_ScheduleDetailActivity", "PutDataBack");
+            Intent intent = new Intent(this, FragmentSchedule.class);
+            setResult(Activity.RESULT_OK, intent);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        putDataBack();
+
+        super.onBackPressed();
     }
 
     private void getDataFromIntent() {
