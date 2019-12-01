@@ -21,6 +21,9 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
     Context context;
     ArrayList<BonsaiItem> bonsaiArrayList = new ArrayList<>();
 
+    private static final int VIEW_TYPE_EMPTY = 0;
+    private static final int VIEW_TYPE_NOT_EMPTY = 1;
+
     public BonsaiRecyclerViewAdapter(Context context) {
         this.context = context;
     }
@@ -63,51 +66,59 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.bonsai_item, parent, false);
+        View view;
+        if (viewType == VIEW_TYPE_EMPTY) {
+            view = inflater.inflate(R.layout.item_empty_layout, parent, false);
+        } else {
+            view = inflater.inflate(R.layout.bonsai_item, parent, false);
+        }
 
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        handleIcon(holder.imgBonsaiIcon, bonsaiArrayList.get(holder.getAdapterPosition()));
-        holder.txtBonsaiItemPlace.setText(bonsaiArrayList.get(holder.getAdapterPosition()).getBonsaiPlacementName());
-        holder.txtBonsaiItemName.setText(bonsaiArrayList.get(holder.getAdapterPosition()).getBonsaiName());
-        holder.txtDayPlanted.setText(bonsaiArrayList.get(holder.getAdapterPosition()).getBonsaiDayPlanted());
+        int viewType = getItemViewType(position);
+        if (viewType == VIEW_TYPE_NOT_EMPTY) {
+            handleIcon(holder.imgBonsaiIcon, bonsaiArrayList.get(holder.getAdapterPosition()));
+            holder.txtBonsaiItemPlace.setText(bonsaiArrayList.get(holder.getAdapterPosition()).getBonsaiPlacementName());
+            holder.txtBonsaiItemName.setText(bonsaiArrayList.get(holder.getAdapterPosition()).getBonsaiName());
+            holder.txtDayPlanted.setText(bonsaiArrayList.get(holder.getAdapterPosition()).getBonsaiDayPlanted());
 
-        Log.d("_onBindViewHolder", "Loaded!");
+            Log.d("_onBindViewHolder", "Loaded!");
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
-            }
-        });
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
+                }
+            });
 
-        holder.bonsai_item_frame_manage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("_onBindViewHolder", "Clicked!");
+            holder.bonsai_item_frame_manage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("_onBindViewHolder", "Clicked!");
 
-                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
-            }
-        });
+                    onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
+                }
+            });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
-                return true;
-            }
-        });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
+                    return true;
+                }
+            });
 
-        holder.bonsai_item_frame_manage.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
-                return true;
-            }
-        });
+            holder.bonsai_item_frame_manage.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
+                    return true;
+                }
+            });
+        }
     }
 
     private void handleIcon(ImageView imageView, BonsaiItem item) {
@@ -128,7 +139,20 @@ public class BonsaiRecyclerViewAdapter extends RecyclerView.Adapter<BonsaiRecycl
 
     @Override
     public int getItemCount() {
-        return bonsaiArrayList.size();
+        if (bonsaiArrayList.size() == 0) {
+            return 1;
+        } else {
+            return bonsaiArrayList.size();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (bonsaiArrayList.size() == 0) {
+            return VIEW_TYPE_EMPTY;
+        } else {
+            return VIEW_TYPE_NOT_EMPTY;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

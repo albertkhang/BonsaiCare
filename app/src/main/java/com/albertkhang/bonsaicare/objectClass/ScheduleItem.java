@@ -25,7 +25,7 @@ public class ScheduleItem {
     private boolean haveNote;
     private boolean isTicked;
 
-    public Date getDate() {
+    public Date getDateTakeCare() {
         Date c = null;
         if (!dayTakeCare.isEmpty()) {
             try {

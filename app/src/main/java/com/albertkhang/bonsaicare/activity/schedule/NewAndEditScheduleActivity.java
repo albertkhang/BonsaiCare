@@ -403,7 +403,28 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             return false;
         }
 
+        //dateTakeCare is after bonsaiDatePlanted ==> return false
+        int bonsaiName = ManipulationDb.getBonsaiIdFromBonsaiName(dbHelper, scheduleItem.getBonsaiName());
+        Date bonsaiDatePlanted = ManipulationDb.getBonsaiDatePlanted(dbHelper, bonsaiName);
+        if (!isDayTakeCareValid(scheduleItem.getDateTakeCare(), bonsaiDatePlanted)) {
+            return false;
+        }
+
         return true;
+    }
+
+    private boolean isDayTakeCareValid(Date dayTakeCare, Date bonsaiDayPlanted) {
+        if (dayTakeCare.compareTo(bonsaiDayPlanted) == 0) {
+            //dayTakeCare == bonsaiDayPlanted
+            return true;
+        } else {
+            if (dayTakeCare.compareTo(bonsaiDayPlanted) < 0) {
+                //dayTakeCare is before bonsaiDayPlanted
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean isSupplyAmountValid(int amount) {

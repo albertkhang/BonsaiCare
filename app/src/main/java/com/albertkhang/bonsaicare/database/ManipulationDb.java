@@ -14,7 +14,10 @@ import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyBillItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ManipulationDb {
     public static void createDefaultData(SQLiteDatabase db) {
@@ -538,7 +541,7 @@ public class ManipulationDb {
         return placementName;
     }
 
-    private static int getBonsaiIdFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName) {
+    public static int getBonsaiIdFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -911,5 +914,44 @@ public class ManipulationDb {
                 values,
                 selection,
                 selectionArgs);
+    }
+
+    public static Date getBonsaiDatePlanted(FeedReaderDbHelper dbHelper, int bonsaiId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.BONSAI_DAY_PLANTED
+        };
+
+        String selection = BaseColumns._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(bonsaiId)};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.BONSAI_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        String date = "";
+        Date bonsaiDatePlanted = null;
+
+        while (cursor.moveToNext()) {
+            date = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLY_UNIT));
+        }
+
+        SimpleDateFormat df = new SimpleDateFormat("MM - dd - yyyy");
+        try {
+            bonsaiDatePlanted = df.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        cursor.close();
+
+        return bonsaiDatePlanted;
     }
 }

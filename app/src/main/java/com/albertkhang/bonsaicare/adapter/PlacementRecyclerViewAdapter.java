@@ -24,6 +24,9 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
 
     FeedReaderDbHelper dbHelper;
 
+    private static final int VIEW_TYPE_EMPTY = 0;
+    private static final int VIEW_TYPE_NOT_EMPTY = 1;
+
     public interface OnItemClickListener {
         void onItemClickListener(View view, int position);
     }
@@ -67,49 +70,57 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.placement_item, parent, false);
+        View view;
+        if (viewType == VIEW_TYPE_EMPTY) {
+            view = inflater.inflate(R.layout.item_empty_layout, parent, false);
+        } else {
+            view = inflater.inflate(R.layout.placement_item, parent, false);
+        }
 
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        handleIcon(holder.imgPlacementIcon, holder.getAdapterPosition());
-        handleDetail(holder, holder.getAdapterPosition());
+        int viewType = getItemViewType(position);
+        if (viewType == VIEW_TYPE_NOT_EMPTY) {
+            handleIcon(holder.imgPlacementIcon, holder.getAdapterPosition());
+            handleDetail(holder, holder.getAdapterPosition());
 
-        holder.txtPlacementName.setText(placementArrayList.get(holder.getAdapterPosition()).getPlacementName());
+            holder.txtPlacementName.setText(placementArrayList.get(holder.getAdapterPosition()).getPlacementName());
 
-        holder.txtTotalBonsaiValue.setText(String.valueOf(placementArrayList.get(holder.getAdapterPosition()).getTotalBonsai()));
+            holder.txtTotalBonsaiValue.setText(String.valueOf(placementArrayList.get(holder.getAdapterPosition()).getTotalBonsai()));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
-            }
-        });
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
+                }
+            });
 
-        holder.bonsai_item_frame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
-            }
-        });
+            holder.bonsai_item_frame.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
+                }
+            });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
-                return true;
-            }
-        });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
+                    return true;
+                }
+            });
 
-        holder.bonsai_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
-                return true;
-            }
-        });
+            holder.bonsai_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
+                    return true;
+                }
+            });
+        }
     }
 
     private void handleDetail(ViewHolder holder, int position) {
@@ -137,7 +148,20 @@ public class PlacementRecyclerViewAdapter extends RecyclerView.Adapter<Placement
 
     @Override
     public int getItemCount() {
-        return placementArrayList.size();
+        if (placementArrayList.size() == 0) {
+            return 1;
+        } else {
+            return placementArrayList.size();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (placementArrayList.size() == 0) {
+            return VIEW_TYPE_EMPTY;
+        } else {
+            return VIEW_TYPE_NOT_EMPTY;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

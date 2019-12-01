@@ -23,6 +23,9 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
     ArrayList<SupplyItem> supplyArrayList = new ArrayList<>();
     FeedReaderDbHelper dbHelper;
 
+    private static final int VIEW_TYPE_EMPTY = 0;
+    private static final int VIEW_TYPE_NOT_EMPTY = 1;
+
     public SupplyRecyclerViewAdapter(Context context) {
         this.context = context;
         dbHelper = new FeedReaderDbHelper(context);
@@ -66,48 +69,56 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.supply_item, parent, false);
+        View view;
+        if (viewType == VIEW_TYPE_EMPTY) {
+            view = inflater.inflate(R.layout.item_empty_layout, parent, false);
+        } else {
+            view = inflater.inflate(R.layout.supply_item, parent, false);
+        }
 
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        handleIcon(holder.imgSupplyIcon, holder.getAdapterPosition());
-        holder.txtSupplyItemName.setText(supplyArrayList.get(holder.getAdapterPosition()).getSupplyName());
-        int totalSupplyBought = ManipulationDb.getTotalSupplyRemain(dbHelper, supplyArrayList.get(holder.getAdapterPosition()).getSupplyName());
-        holder.txtSupplyItemTotal.setText(String.valueOf(totalSupplyBought));
-        handleUnit(holder.txtSupplyItemUnit, holder.getAdapterPosition());
+        int viewType = getItemViewType(position);
+        if (viewType == VIEW_TYPE_NOT_EMPTY) {
+            handleIcon(holder.imgSupplyIcon, holder.getAdapterPosition());
+            holder.txtSupplyItemName.setText(supplyArrayList.get(holder.getAdapterPosition()).getSupplyName());
+            int totalSupplyBought = ManipulationDb.getTotalSupplyRemain(dbHelper, supplyArrayList.get(holder.getAdapterPosition()).getSupplyName());
+            holder.txtSupplyItemTotal.setText(String.valueOf(totalSupplyBought));
+            handleUnit(holder.txtSupplyItemUnit, holder.getAdapterPosition());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
-            }
-        });
-        holder.supply_item_frame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
-            }
-        });
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
+                }
+            });
+            holder.supply_item_frame.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClickListener(view, holder.getAdapterPosition());
+                }
+            });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
 
-                return true;
-            }
-        });
+                    return true;
+                }
+            });
 
-        holder.supply_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
-                return true;
-            }
-        });
+            holder.supply_item_frame.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onItemLongClickListener.onItemLongClickListener(view, holder.getAdapterPosition());
+                    return true;
+                }
+            });
+        }
     }
 
     private void handleUnit(TextView textView, int position) {
@@ -132,7 +143,20 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
 
     @Override
     public int getItemCount() {
-        return supplyArrayList.size();
+        if (supplyArrayList.size() == 0) {
+            return 1;
+        } else {
+            return supplyArrayList.size();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (supplyArrayList.size() == 0) {
+            return VIEW_TYPE_EMPTY;
+        } else {
+            return VIEW_TYPE_NOT_EMPTY;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
