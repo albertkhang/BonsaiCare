@@ -940,7 +940,7 @@ public class ManipulationDb {
         Date bonsaiDatePlanted = null;
 
         while (cursor.moveToNext()) {
-            date = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SUPPLY_UNIT));
+            date = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.BONSAI_DAY_PLANTED));
         }
 
         SimpleDateFormat df = new SimpleDateFormat("MM - dd - yyyy");

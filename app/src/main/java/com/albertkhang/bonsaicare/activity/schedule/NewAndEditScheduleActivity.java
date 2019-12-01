@@ -392,6 +392,15 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             txtBonsaiNameValue.setError(null);
         }
 
+        //dateTakeCare is after bonsaiDatePlanted ==> return false
+        int bonsaiName = ManipulationDb.getBonsaiIdFromBonsaiName(dbHelper, scheduleItem.getBonsaiName());
+        Date bonsaiDatePlanted = ManipulationDb.getBonsaiDatePlanted(dbHelper, bonsaiName);
+        scheduleItem.setDayTakeCare(txtDayTakeCareValue.getText().toString());
+        if (!isDayTakeCareValid(scheduleItem.getDateTakeCare(), bonsaiDatePlanted)) {
+            txtDayTakeCareValue.setError("Date Take Care have to after bonsai planted");
+            return false;
+        }
+
         if (!bonsaiSupplySelected) {
             txtSupplyValue.setError("Please select supply.");
             return false;
@@ -403,28 +412,27 @@ public class NewAndEditScheduleActivity extends AppCompatActivity {
             return false;
         }
 
-        //dateTakeCare is after bonsaiDatePlanted ==> return false
-        int bonsaiName = ManipulationDb.getBonsaiIdFromBonsaiName(dbHelper, scheduleItem.getBonsaiName());
-        Date bonsaiDatePlanted = ManipulationDb.getBonsaiDatePlanted(dbHelper, bonsaiName);
-        if (!isDayTakeCareValid(scheduleItem.getDateTakeCare(), bonsaiDatePlanted)) {
-            return false;
-        }
-
         return true;
     }
 
     private boolean isDayTakeCareValid(Date dayTakeCare, Date bonsaiDayPlanted) {
+        Log.d("_isDayTakeCareValid", "dayTakeCare: " + dayTakeCare.toString());
+        Log.d("_isDayTakeCareValid", "bonsaiDayPlanted: " + bonsaiDayPlanted.toString());
+
         if (dayTakeCare.compareTo(bonsaiDayPlanted) == 0) {
             //dayTakeCare == bonsaiDayPlanted
+            Log.d("_isDayTakeCareValid", "== 0");
             return true;
         } else {
-            if (dayTakeCare.compareTo(bonsaiDayPlanted) < 0) {
+            if (dayTakeCare.compareTo(bonsaiDayPlanted) > 0) {
                 //dayTakeCare is before bonsaiDayPlanted
+                Log.d("_isDayTakeCareValid", "> 0");
                 return true;
+            } else {
+                Log.d("_isDayTakeCareValid", "< 0");
+                return false;
             }
         }
-
-        return false;
     }
 
     private boolean isSupplyAmountValid(int amount) {
