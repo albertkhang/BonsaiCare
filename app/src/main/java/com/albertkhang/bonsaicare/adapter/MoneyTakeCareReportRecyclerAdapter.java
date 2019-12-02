@@ -27,6 +27,11 @@ public class MoneyTakeCareReportRecyclerAdapter extends RecyclerView.Adapter<Mon
     ArrayList<MoneyTakeCareReportItem> moneyTakeCareReportArrayList = new ArrayList<>();
     FeedReaderDbHelper dbHelper;
 
+    private static final int VIEW_TYPE_EMPTY = 0;
+    private static final int VIEW_TYPE_NOT_EMPTY = 1;
+
+    private static boolean isEmpty = false;
+
     public MoneyTakeCareReportRecyclerAdapter(Context context, TextView txtSumOfMoney) {
         this.context = context;
         this.txtSumOfMoney = txtSumOfMoney;
@@ -47,19 +52,28 @@ public class MoneyTakeCareReportRecyclerAdapter extends RecyclerView.Adapter<Mon
         }
 
         for (int i = 0; i < moneyTakeCareReportArrayList.size(); i++) {
-            double itemMoney = moneyTakeCareReportArrayList.get(i).getTotalMoney();
-            double totalMoney = sumOfMoney;
-            double percentage = (itemMoney / totalMoney) * 100;
+            if (sumOfMoney != 0) {
+                double itemMoney = moneyTakeCareReportArrayList.get(i).getTotalMoney();
+                double totalMoney = sumOfMoney;
+                double percentage = (itemMoney / totalMoney) * 100;
 
-            Log.d("_update", "itemMoney: " + itemMoney);
-            Log.d("_update", "totalMoney: " + totalMoney);
-            Log.d("_update", "percentage: " + percentage);
+                Log.d("_update", "itemMoney: " + itemMoney);
+                Log.d("_update", "totalMoney: " + totalMoney);
+                Log.d("_update", "percentage: " + percentage);
 
-            moneyTakeCareReportArrayList.get(i).setPercentage(percentage);
+                moneyTakeCareReportArrayList.get(i).setPercentage(percentage);
+            } else {
+                moneyTakeCareReportArrayList.get(i).setPercentage(0);
+            }
         }
         txtSumOfMoney.setText(getMoneyFormat(sumOfMoney, true));
 
         //notify date set change
+        if (sumOfMoney == 0) {
+            isEmpty = true;
+        } else {
+            isEmpty = false;
+        }
         notifyDataSetChanged();
     }
 
@@ -67,28 +81,51 @@ public class MoneyTakeCareReportRecyclerAdapter extends RecyclerView.Adapter<Mon
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_money_take_care_report, parent, false);
-
+//        View view = inflater.inflate(R.layout.item_money_take_care_report, parent, false);
+//
+//        return new ViewHolder(view);
+        View view;
+        if (viewType == VIEW_TYPE_EMPTY) {
+            view = inflater.inflate(R.layout.item_empty_layout, parent, false);
+        } else {
+            view = inflater.inflate(R.layout.item_money_take_care_report, parent, false);
+        }
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        handleIcon(moneyTakeCareReportArrayList.get(position).getSupplyName(), holder.imgIcon);
+        int viewType = getItemViewType(position);
+        if (viewType == VIEW_TYPE_NOT_EMPTY) {
+            handleIcon(moneyTakeCareReportArrayList.get(position).getSupplyName(), holder.imgIcon);
 
-        holder.txtSupplyName.setText(moneyTakeCareReportArrayList.get(position).getSupplyName());
-        holder.txtTotalSupplyBillValue.setText(String.valueOf(moneyTakeCareReportArrayList.get(position).getTotalBill()));
-        holder.txtTotalMoneyBoughtValue.setText(getMoneyFormat(moneyTakeCareReportArrayList.get(position).getTotalMoney(), true));
+            holder.txtSupplyName.setText(moneyTakeCareReportArrayList.get(position).getSupplyName());
+            holder.txtTotalSupplyBillValue.setText(String.valueOf(moneyTakeCareReportArrayList.get(position).getTotalBill()));
+            holder.txtTotalMoneyBoughtValue.setText(getMoneyFormat(moneyTakeCareReportArrayList.get(position).getTotalMoney(), true));
 
-        holder.txtNoValue.setText("No. " + (position + 1));
+            holder.txtNoValue.setText("No. " + (position + 1));
 
-        String percentage = new DecimalFormat("0.00").format(moneyTakeCareReportArrayList.get(position).getPercentage());
-        holder.txtPercentageValue.setText(percentage + "%");
+            String percentage = new DecimalFormat("0.00").format(moneyTakeCareReportArrayList.get(position).getPercentage());
+            holder.txtPercentageValue.setText(percentage + "%");
+        }
     }
 
     @Override
     public int getItemCount() {
-        return moneyTakeCareReportArrayList.size();
+        if (isEmpty) {
+            return 1;
+        } else {
+            return moneyTakeCareReportArrayList.size();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isEmpty) {
+            return VIEW_TYPE_EMPTY;
+        } else {
+            return VIEW_TYPE_NOT_EMPTY;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -3,6 +3,7 @@ package com.albertkhang.bonsaicare.activity.manage.report;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -26,6 +27,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MoneyTakeCareReportActivity extends AppCompatActivity {
+    ImageView btnBack;
+
     TextView txtMonthValue;
     TextView txtMonthYearValue;
 
@@ -45,6 +48,8 @@ public class MoneyTakeCareReportActivity extends AppCompatActivity {
     }
 
     private void addControl() {
+        btnBack = findViewById(R.id.btnBack);
+
         txtMonthValue = findViewById(R.id.txtMonthValue);
         txtMonthYearValue = findViewById(R.id.txtMonthYearValue);
 
@@ -64,6 +69,13 @@ public class MoneyTakeCareReportActivity extends AppCompatActivity {
     }
 
     private void addEvent() {
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         txtMonthValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
