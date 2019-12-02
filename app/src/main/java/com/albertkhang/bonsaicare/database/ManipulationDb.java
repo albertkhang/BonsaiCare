@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.util.LocaleData;
 import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
+import com.albertkhang.bonsaicare.objectClass.MoneyTakeCareReportItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.objectClass.SupplyBillItem;
@@ -16,7 +18,9 @@ import com.albertkhang.bonsaicare.objectClass.SupplyItem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ManipulationDb {
@@ -953,5 +957,82 @@ public class ManipulationDb {
         cursor.close();
 
         return bonsaiDatePlanted;
+    }
+
+    public static void getMoneyTakeCareReportData(FeedReaderDbHelper dbHelper, ArrayList<MoneyTakeCareReportItem> moneyTakeCareReportArrayList, int month, int year) {
+        //get all supply to run for for each supply
+        ArrayList<SupplyItem> supplyArrayList = new ArrayList<>();
+        getAllDataSupplyTable(dbHelper, supplyArrayList);
+
+        for (int i = 0; i < supplyArrayList.size(); i++) {
+            MoneyTakeCareReportItem item = new MoneyTakeCareReportItem();
+            //supplyName
+            item.setSupplyName(supplyArrayList.get(i).getSupplyName());
+
+            //totalBill
+            //get all supply bill to count totalBill and get money
+            ArrayList<SupplyBillItem> supplyBillArrayList = new ArrayList<>();
+            getAllDataSupplyBillTable(dbHelper, supplyBillArrayList, supplyArrayList.get(i).getSupplyName());
+
+            int totalBill = 0;
+            int totalMoney = 0;
+            for (int j = 0; j < supplyBillArrayList.size(); j++) {
+                if (isMonthYearValid(supplyBillArrayList.get(j), month, year)) {
+                    totalBill += 1;
+                    totalMoney += supplyBillArrayList.get(j).getTotalMoney();
+                }
+            }
+
+            item.setTotalBill(totalBill);
+            item.setTotalMoney(totalMoney);
+
+            moneyTakeCareReportArrayList.add(item);
+        }
+    }
+
+    private static boolean isMonthYearValid(SupplyBillItem item, int month, int year) {
+        if (year == getYear(item.getDayBought())) {
+            if (month == getMonth(item.getDayBought())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private static int getMonth(String date) {
+        Date c = null;
+        if (!date.isEmpty()) {
+            try {
+                SimpleDateFormat df = new SimpleDateFormat("MM - dd - yyyy");
+                c = df.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(c);
+        int month = calendar.get(Calendar.MONTH) + 1;
+
+        return month;
+    }
+
+    private static int getYear(String date) {
+        Date c = null;
+        if (!date.isEmpty()) {
+            try {
+                SimpleDateFormat df = new SimpleDateFormat("MM - dd - yyyy");
+                c = df.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(c);
+        int year = calendar.get(Calendar.YEAR);
+
+        return year;
     }
 }

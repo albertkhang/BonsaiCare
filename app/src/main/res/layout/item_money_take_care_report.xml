@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/supply_item_frame"
         android:layout_width="match_parent"
@@ -17,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/frameItemIcon"
+            android:id="@+id/frameIcon"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -27,16 +28,35 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imgPlacementIcon"
+                android:id="@+id/imgIcon"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/manageIconHeight"
-                android:background="@drawable/ic_water"
+                android:src="@drawable/ic_water"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="@string/ratioIconBonsai"
-                android:scaleType="center"
+                android:scaleType="fitCenter"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtNoValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No.1"
+                android:textStyle="bold"
+                android:textColor="@color/colorItemTitle"
+                android:textSize="@dimen/bonsaiDetailTextSize"
+
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+
+                android:background="@drawable/label"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -45,12 +65,12 @@
             android:layout_height="70dp"
             android:background="@color/colorDivideLine"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/frameItemIcon"
-            app:layout_constraintRight_toLeftOf="@id/frameBonsaiDetail"
+            app:layout_constraintLeft_toRightOf="@id/frameIcon"
+            app:layout_constraintRight_toLeftOf="@id/frameDetail"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/frameBonsaiDetail"
+            android:id="@+id/frameDetail"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,65 +80,100 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/frame_textBonsaiItem"
+                android:id="@+id/frameItemDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/txtPlacementName"
+                    android:id="@+id/txtSupplyName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Water"
+                    android:text="supplyName"
+
                     android:textColor="@color/colorItemTitle"
                     android:textSize="@dimen/manageTitleTextSize"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/txtTotalBonsaiValue"
+
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintBottom_toTopOf="@+id/txtTotalSupplyBillTitle"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
-                    android:id="@+id/txtTotalRemainTitle"
+                    android:id="@+id/txtTotalSupplyBillTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxWidth="220dp"
-                    android:maxLines="2"
-                    android:text="Total remain: "
+                    android:text="Total supply bill: "
                     android:textColor="@color/colorItemInfo"
                     android:textSize="@dimen/manageDetailTextSize"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtTotalMoneyBoughtTitle"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtPlacementName" />
+                    app:layout_constraintTop_toBottomOf="@id/txtSupplyName" />
 
                 <TextView
-                    android:id="@+id/txtTotalBonsaiValue"
+                    android:id="@+id/txtTotalSupplyBillValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="13"
+
                     android:textColor="@color/colorItemInfo"
                     android:textSize="@dimen/manageDetailTextSize"
-                    app:layout_constraintLeft_toRightOf="@id/txtTotalRemainTitle"
-                    app:layout_constraintTop_toTopOf="@id/txtTotalRemainTitle"
-                    app:layout_constraintBottom_toBottomOf="@id/txtTotalRemainTitle"/>
+
+                    app:layout_constraintTop_toTopOf="@+id/txtTotalSupplyBillTitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtTotalSupplyBillTitle"
+                    app:layout_constraintLeft_toRightOf="@+id/txtTotalSupplyBillTitle"/>
 
                 <TextView
-                    android:id="@+id/txtSupplyItemUnit"
+                    android:id="@+id/txtTotalMoneyBoughtTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="grams"
-                    android:layout_marginLeft="2dp"
+                    android:text="Total money bought: "
+
                     android:textColor="@color/colorItemInfo"
                     android:textSize="@dimen/manageDetailTextSize"
-                    app:layout_constraintLeft_toRightOf="@id/txtTotalBonsaiValue"
-                    app:layout_constraintTop_toTopOf="@id/txtTotalRemainTitle"
-                    app:layout_constraintBottom_toBottomOf="@id/txtTotalRemainTitle"/>
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtTotalSupplyBillTitle" />
+
+                <TextView
+                    android:id="@+id/txtTotalMoneyBoughtValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100.000 VND"
+
+                    android:textColor="@color/colorItemInfo"
+                    android:textSize="@dimen/manageDetailTextSize"
+
+                    app:layout_constraintTop_toTopOf="@+id/txtTotalMoneyBoughtTitle"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtTotalMoneyBoughtTitle"
+                    app:layout_constraintLeft_toRightOf="@+id/txtTotalMoneyBoughtTitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/txtPercentageValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13%"
+                android:textStyle="bold"
+                android:textColor="@color/colorItemTitle"
+                android:textSize="@dimen/bonsaiDetailTextSize"
+
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+
+                android:background="@drawable/label"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
