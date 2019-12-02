@@ -11,7 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/FullScreenThemeAndroid"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.schedule.ScheduleDetailActivity"></activity>
+        <activity android:name=".activity.manage.report.BonsaiStatusReportActivity"></activity>
+        <activity android:name=".activity.manage.report.MoneyTakeCareReportActivity" />
+        <activity android:name=".activity.manage.report.ReportDetailList" />
+        <activity android:name=".activity.schedule.ScheduleDetailActivity" />
         <activity android:name=".activity.schedule.ScheduleSelectActivity" />
         <activity
             android:name=".activity.schedule.NewAndEditScheduleActivity"

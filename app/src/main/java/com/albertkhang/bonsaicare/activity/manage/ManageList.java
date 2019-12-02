@@ -602,17 +602,6 @@ public class ManageList extends AppCompatActivity {
         startActivityForResult(intent, EDIT_PLACE_REQUEST_CODE);
     }
 
-    private void startSupplyDetailActivity(int position) {
-        Intent intent = new Intent(ManageList.this, SupplyDetailActivity.class);
-
-        intent.putExtra("id", supplyArrayList.get(position).getId());
-        intent.putExtra("name", supplyArrayList.get(position).getSupplyName());
-        intent.putExtra("unit", supplyArrayList.get(position).getSupplyUnit());
-        intent.putExtra("total", supplyArrayList.get(position).getTotal());
-
-        startActivityForResult(intent, DETAIL_SUPPLY_REQUEST_CODE);
-    }
-
     private void startSupplyBillListActivity(int position) {
         Intent intent = new Intent(ManageList.this, SupplyItemBillListActivity.class);
 

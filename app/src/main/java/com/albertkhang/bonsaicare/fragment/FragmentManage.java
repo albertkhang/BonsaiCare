@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.activity.manage.ManageList;
+import com.albertkhang.bonsaicare.activity.manage.report.ReportDetailList;
 
 
 /**
@@ -124,9 +125,14 @@ public class FragmentManage extends Fragment {
         frame_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(ManageList.class, R.string.titleReport);
+                startReportDetailActivity();
             }
         });
+    }
+
+    private void startReportDetailActivity() {
+        Intent intent = new Intent(getContext(), ReportDetailList.class);
+        startActivity(intent);
     }
 
     private void startActivity(Class<ManageList> manageListClass, int titleId) {
@@ -145,10 +151,6 @@ public class FragmentManage extends Fragment {
             case R.string.titleSupplies:
                 intent.putExtra(getString(R.string.putExtraManageShowIcon), "true");
                 intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titleSupplies));
-                break;
-            case R.string.titleReport:
-                intent.putExtra(getString(R.string.putExtraManageShowIcon), "false");
-                intent.putExtra(getString(R.string.putExtraManageLoadList), getString(R.string.titleReport));
                 break;
         }
 
