@@ -136,7 +136,7 @@ public class SupplyRecyclerViewAdapter extends RecyclerView.Adapter<SupplyRecycl
             if (supplyArrayList.get(position).getSupplyName().equals("Nitrogen fertilizer")) {
                 imageView.setBackgroundResource(R.drawable.ic_nitrogen_fertilizer);
             } else {
-                imageView.setBackgroundResource(R.drawable.ic_supplies_filled);
+                imageView.setBackgroundResource(R.drawable.ic_icon_supplies);
             }
         }
     }

@@ -35,9 +35,6 @@ public class MoneyTakeCareReportActivity extends AppCompatActivity {
     MoneyTakeCareReportRecyclerAdapter moneyTakeCareReportRecyclerAdapter;
     ArrayList<MoneyTakeCareReportItem> moneyTakeCareReportArrayList;
 
-    int currentMonth = 0;
-    int currentYear = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,9 +75,6 @@ public class MoneyTakeCareReportActivity extends AppCompatActivity {
                                 Log.d("_txtMonthValue", monthLabel);
                                 Log.d("_txtMonthValue", "month: " + month);
                                 Log.d("_txtMonthValue", "year: " + year);
-                                currentMonth = month;
-                                currentYear = year;
-
                                 txtMonthYearValue.setText(monthLabel);
 
                                 updateAdapter();
