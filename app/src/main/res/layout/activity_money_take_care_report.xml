@@ -57,8 +57,9 @@
             android:id="@+id/txtMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="Month: "
+            android:layout_marginLeft="25dp"
+            android:text="See report in: "
+            android:textStyle="italic"
             android:textColor="@color/colorItemTitle"
             android:textSize="@dimen/manageTitleTextSize"
 
@@ -66,7 +67,33 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        
+        <TextView
+            android:id="@+id/txtMonthYearValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:text="May, 2019"
+            android:textColor="@color/colorItemTitle"
+            android:textSize="@dimen/manageTitleTextSize"
+            android:textStyle="bold"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtMonthValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:text="Change"
+            android:textColor="@color/colorMain"
+            android:textSize="@dimen/manageTitleTextSize"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--    shadow-->

@@ -4,6 +4,7 @@
     package="com.albertkhang.bonsaicare">
 
     <application
+        tools:replace="android:icon"
         android:allowBackup="true"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
