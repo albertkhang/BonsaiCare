@@ -1043,26 +1043,30 @@ public class ManipulationDb {
         getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
 
         for (int i = 0; i < bonsaiArrayList.size(); i++) {
-            BonsaiStatusReportItem bonsaiStatusReportItem = new BonsaiStatusReportItem();
 
-            //bonsaiName
-            bonsaiStatusReportItem.setBonsaiName(bonsaiArrayList.get(i).getBonsaiName());
-            //bonsaiType
-            bonsaiStatusReportItem.setBonsaiType(bonsaiArrayList.get(i).getBonsaiType());
-            //bonsaiPlace
-            bonsaiStatusReportItem.setBonsaiPlace(bonsaiArrayList.get(i).getBonsaiPlacementName());
-            //bonsaiDayTakeCare
-            bonsaiStatusReportItem.setBonsaiDayTakeCare(getDayTakeCareFromBonsaiName(dbHelper, bonsaiArrayList.get(i).getBonsaiName()));
+            int total = getTotalDayTakeCareFromBonsaiName(dbHelper, bonsaiArrayList.get(i).getBonsaiName());
+            for (int j = 0; j < total; j++) {
+                BonsaiStatusReportItem bonsaiStatusReportItem = new BonsaiStatusReportItem();
 
-            //isTicked
-            //get isTicked from schedule table
-            bonsaiStatusReportItem.setTicked(getIsTickedFromBonsaiName(dbHelper, bonsaiArrayList.get(i).getBonsaiName()));
+                //bonsaiName
+                bonsaiStatusReportItem.setBonsaiName(bonsaiArrayList.get(i).getBonsaiName());
+                //bonsaiType
+                bonsaiStatusReportItem.setBonsaiType(bonsaiArrayList.get(i).getBonsaiType());
+                //bonsaiPlace
+                bonsaiStatusReportItem.setBonsaiPlace(bonsaiArrayList.get(i).getBonsaiPlacementName());
+                //bonsaiDayTakeCare
+                bonsaiStatusReportItem.setBonsaiDayTakeCare(getDayTakeCareFromBonsaiName(dbHelper, bonsaiArrayList.get(i).getBonsaiName(), j));
 
-            bonsaiStatusReportArrayList.add(bonsaiStatusReportItem);
+                //isTicked
+                //get isTicked from schedule table
+                bonsaiStatusReportItem.setTicked(getIsTickedFromBonsaiName(dbHelper, bonsaiArrayList.get(i).getBonsaiName(), j));
+
+                bonsaiStatusReportArrayList.add(bonsaiStatusReportItem);
+            }
         }
     }
 
-    private static boolean getIsTickedFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName) {
+    private static boolean getIsTickedFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName, int position) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -1082,22 +1086,22 @@ public class ManipulationDb {
                 null
         );
 
-        boolean isTicked = false;
+        ArrayList<Boolean> isTickedArrayList = new ArrayList<>();
         while (cursor.moveToNext()) {
             int temp = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_TICKED));
             if (temp == 0) {
-                isTicked = false;
+                isTickedArrayList.add(false);
             } else {
-                isTicked = true;
+                isTickedArrayList.add(true);
             }
         }
 
         cursor.close();
 
-        return isTicked;
+        return isTickedArrayList.get(position);
     }
 
-    private static String getDayTakeCareFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName) {
+    private static int getTotalDayTakeCareFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String[] projection = {
@@ -1117,13 +1121,44 @@ public class ManipulationDb {
                 null
         );
 
-        String s = "";
+        int count = 0;
         while (cursor.moveToNext()) {
-            s = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE));
+            count++;
+        }
+        Log.d("_count", "" + count);
+
+        cursor.close();
+
+        return count;
+    }
+
+    private static String getDayTakeCareFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName, int position) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE
+        };
+
+        String selection = FeedReaderContract.FeedEntry.SCHEDULE_BONSAI_ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(getBonsaiIdFromBonsaiName(dbHelper, bonsaiName))};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        ArrayList<String> dateArrayList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            dateArrayList.add(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE)));
         }
 
         cursor.close();
 
-        return s;
+        return dateArrayList.get(position);
     }
 }
