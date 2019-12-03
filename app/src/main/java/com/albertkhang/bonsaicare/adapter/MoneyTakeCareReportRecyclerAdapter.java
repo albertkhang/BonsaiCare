@@ -39,12 +39,12 @@ public class MoneyTakeCareReportRecyclerAdapter extends RecyclerView.Adapter<Mon
     }
 
     public void update(int month, int year) {
-
 //        Log.d("_update", "month: " + month);
 //        Log.d("_update", "year: " + year);
         //get data
         moneyTakeCareReportArrayList.clear();
         ManipulationDb.getMoneyTakeCareReportData(dbHelper, moneyTakeCareReportArrayList, month, year);
+
         //find sum of money - set sum of money
         sumOfMoney = 0;
         for (int i = 0; i < moneyTakeCareReportArrayList.size(); i++) {
@@ -74,6 +74,7 @@ public class MoneyTakeCareReportRecyclerAdapter extends RecyclerView.Adapter<Mon
         } else {
             isEmpty = false;
         }
+
         notifyDataSetChanged();
     }
 
@@ -81,9 +82,6 @@ public class MoneyTakeCareReportRecyclerAdapter extends RecyclerView.Adapter<Mon
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-//        View view = inflater.inflate(R.layout.item_money_take_care_report, parent, false);
-//
-//        return new ViewHolder(view);
         View view;
         if (viewType == VIEW_TYPE_EMPTY) {
             view = inflater.inflate(R.layout.item_empty_layout, parent, false);

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.objectClass.BonsaiItem;
+import com.albertkhang.bonsaicare.objectClass.BonsaiStatusReportItem;
 import com.albertkhang.bonsaicare.objectClass.MoneyTakeCareReportItem;
 import com.albertkhang.bonsaicare.objectClass.PlacementItem;
 import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
@@ -1034,5 +1035,95 @@ public class ManipulationDb {
         int year = calendar.get(Calendar.YEAR);
 
         return year;
+    }
+
+    public static void getBonsaiStatusReportData(FeedReaderDbHelper dbHelper, ArrayList<BonsaiStatusReportItem> bonsaiStatusReportArrayList) {
+        //get all bonsai to run into find schedule was scheduled
+        ArrayList<BonsaiItem> bonsaiArrayList = new ArrayList<>();
+        getAllDataBonsaiTable(dbHelper, bonsaiArrayList);
+
+        for (int i = 0; i < bonsaiArrayList.size(); i++) {
+            BonsaiStatusReportItem bonsaiStatusReportItem = new BonsaiStatusReportItem();
+
+            //bonsaiName
+            bonsaiStatusReportItem.setBonsaiName(bonsaiArrayList.get(i).getBonsaiName());
+            //bonsaiType
+            bonsaiStatusReportItem.setBonsaiType(bonsaiArrayList.get(i).getBonsaiType());
+            //bonsaiPlace
+            bonsaiStatusReportItem.setBonsaiPlace(bonsaiArrayList.get(i).getBonsaiPlacementName());
+            //bonsaiDayTakeCare
+            bonsaiStatusReportItem.setBonsaiDayTakeCare(getDayTakeCareFromBonsaiName(dbHelper, bonsaiArrayList.get(i).getBonsaiName()));
+
+            //isTicked
+            //get isTicked from schedule table
+            bonsaiStatusReportItem.setTicked(getIsTickedFromBonsaiName(dbHelper, bonsaiArrayList.get(i).getBonsaiName()));
+
+            bonsaiStatusReportArrayList.add(bonsaiStatusReportItem);
+        }
+    }
+
+    private static boolean getIsTickedFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.SCHEDULE_TICKED
+        };
+
+        String selection = FeedReaderContract.FeedEntry.SCHEDULE_BONSAI_ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(getBonsaiIdFromBonsaiName(dbHelper, bonsaiName))};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        boolean isTicked = false;
+        while (cursor.moveToNext()) {
+            int temp = cursor.getInt(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_TICKED));
+            if (temp == 0) {
+                isTicked = false;
+            } else {
+                isTicked = true;
+            }
+        }
+
+        cursor.close();
+
+        return isTicked;
+    }
+
+    private static String getDayTakeCareFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE
+        };
+
+        String selection = FeedReaderContract.FeedEntry.SCHEDULE_BONSAI_ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(getBonsaiIdFromBonsaiName(dbHelper, bonsaiName))};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        String s = "";
+        while (cursor.moveToNext()) {
+            s = cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE));
+        }
+
+        cursor.close();
+
+        return s;
     }
 }
