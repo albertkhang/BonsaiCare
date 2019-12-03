@@ -1056,6 +1056,8 @@ public class ManipulationDb {
                 bonsaiStatusReportItem.setBonsaiPlace(bonsaiArrayList.get(i).getBonsaiPlacementName());
                 //bonsaiDayTakeCare
                 bonsaiStatusReportItem.setBonsaiDayTakeCare(getDayTakeCareFromBonsaiName(dbHelper, bonsaiArrayList.get(i).getBonsaiName(), j));
+                //bonsaiTimeTakeCare
+                bonsaiStatusReportItem.setTimeTakeCare(getTimeTakeCareFromBonsaiName(dbHelper, bonsaiArrayList.get(i).getBonsaiName(), j));
 
                 //isTicked
                 //get isTicked from schedule table
@@ -1155,6 +1157,36 @@ public class ManipulationDb {
         ArrayList<String> dateArrayList = new ArrayList<>();
         while (cursor.moveToNext()) {
             dateArrayList.add(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_DATE_TAKE_CARE)));
+        }
+
+        cursor.close();
+
+        return dateArrayList.get(position);
+    }
+
+    private static String getTimeTakeCareFromBonsaiName(FeedReaderDbHelper dbHelper, String bonsaiName, int position) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                FeedReaderContract.FeedEntry.SCHEDULE_TIME_TAKE_CARE
+        };
+
+        String selection = FeedReaderContract.FeedEntry.SCHEDULE_BONSAI_ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(getBonsaiIdFromBonsaiName(dbHelper, bonsaiName))};
+
+        Cursor cursor = db.query(
+                FeedReaderContract.FeedEntry.SCHEDULE_TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
+        ArrayList<String> dateArrayList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            dateArrayList.add(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.SCHEDULE_TIME_TAKE_CARE)));
         }
 
         cursor.close();

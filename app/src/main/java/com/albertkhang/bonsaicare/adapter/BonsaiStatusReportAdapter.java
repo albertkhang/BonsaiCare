@@ -85,8 +85,10 @@ public class BonsaiStatusReportAdapter extends RecyclerView.Adapter<BonsaiStatus
             //No.
             holder.txtNoValue.setText("No. " + (position + 1));
 
-            //bonsaiName
-            holder.txtBonsaiName.setText(bonsaiStatusReportArrayList.get(position).getBonsaiName());
+            //bonsaiName + timeTakeCare
+            String bonsaiName = bonsaiStatusReportArrayList.get(position).getBonsaiName();
+            String timeTakeCare = bonsaiStatusReportArrayList.get(position).getTimeTakeCare();
+            holder.txtBonsaiName.setText(bonsaiName + ", " + timeTakeCare);
 
             //bonsaiType
             holder.txtBonsaiTypeValue.setText(bonsaiStatusReportArrayList.get(position).getBonsaiType());

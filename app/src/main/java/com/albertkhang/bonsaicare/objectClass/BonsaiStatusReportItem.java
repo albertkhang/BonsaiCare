@@ -9,6 +9,7 @@ public class BonsaiStatusReportItem {
     private String bonsaiType;
     private String bonsaiPlace;
     private String bonsaiDayTakeCare;
+    private String timeTakeCare;
     private boolean isTicked;
 
     public BonsaiStatusReportItem() {
@@ -59,6 +60,14 @@ public class BonsaiStatusReportItem {
 
     public void setBonsaiDayTakeCare(String bonsaiDayTakeCare) {
         this.bonsaiDayTakeCare = bonsaiDayTakeCare;
+    }
+
+    public String getTimeTakeCare() {
+        return timeTakeCare;
+    }
+
+    public void setTimeTakeCare(String timeTakeCare) {
+        this.timeTakeCare = timeTakeCare;
     }
 
     public boolean isTicked() {
