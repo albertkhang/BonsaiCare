@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case ADD_NEW_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
-                    fragmentSchedule.sortAdapter();
+                    fragmentSchedule.updateSelectedMonthYearAdapter();
                 }
 
                 break;

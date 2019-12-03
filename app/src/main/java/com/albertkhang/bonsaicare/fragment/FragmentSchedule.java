@@ -21,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.albertkhang.bonsaicare.activity.schedule.NewAndEditScheduleActivity;
@@ -32,12 +33,20 @@ import com.albertkhang.bonsaicare.objectClass.ScheduleItem;
 import com.albertkhang.bonsaicare.R;
 import com.albertkhang.bonsaicare.adapter.ScheduleRecyclerViewAdapter;
 import com.albertkhang.bonsaicare.animation.TickMarkAnimation;
+import com.kal.rackmonthpicker.RackMonthPicker;
+import com.kal.rackmonthpicker.listener.DateMonthDialogListener;
+import com.kal.rackmonthpicker.listener.OnCancelMonthDialogListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -62,9 +71,12 @@ public class FragmentSchedule extends Fragment {
 
     RecyclerView rvSchedule;
     ScheduleRecyclerViewAdapter adapter;
-    ArrayList<ScheduleItem> scheduleItems;
+    ArrayList<ScheduleItem> scheduleArrayList;
 
     FeedReaderDbHelper dbHelper;
+
+    TextView txtMonthYearValue;
+    TextView txtMonthValue;
 
     private static final int EDIT_SCHEDULE_REQUEST_CODE = 1;
     private static final int DETAIL_SCHEDULE_REQUEST_CODE = 2;
@@ -123,7 +135,7 @@ public class FragmentSchedule extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     private void addControl() {
-        scheduleItems = new ArrayList<>();
+        scheduleArrayList = new ArrayList<>();
         rvSchedule = getView().findViewById(R.id.rvSchedule);
         adapter = new ScheduleRecyclerViewAdapter(getContext());
 
@@ -135,9 +147,15 @@ public class FragmentSchedule extends Fragment {
 
         dbHelper = new FeedReaderDbHelper(getActivity());
 
-        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
+        txtMonthYearValue = getView().findViewById(R.id.txtMonthYearValue);
+        txtMonthValue = getView().findViewById(R.id.txtMonthValue);
 
-        sortAdapter();
+        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleArrayList);
+
+//        sortAdapter();
+//        updateSelectedMonthYearAdapter();
+        setDateDefault();
+
 
         rvSchedule.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -150,12 +168,39 @@ public class FragmentSchedule extends Fragment {
     }
 
     private void addEvent() {
+        txtMonthValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RackMonthPicker rackMonthPicker = new RackMonthPicker(getContext());
+                rackMonthPicker.setLocale(Locale.ENGLISH)
+                        .setPositiveButton(new DateMonthDialogListener() {
+                            @Override
+                            public void onDateMonth(int month, int startDate, int endDate, int year, String monthLabel) {
+                                Log.d("_txtMonthValue", monthLabel);
+                                Log.d("_txtMonthValue", "month: " + month);
+                                Log.d("_txtMonthValue", "year: " + year);
+                                txtMonthYearValue.setText(monthLabel);
+
+                                updateSelectedMonthYearAdapter();
+                            }
+                        })
+                        .setNegativeButton(new OnCancelMonthDialogListener() {
+                            @Override
+                            public void onCancel(androidx.appcompat.app.AlertDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setColorTheme(R.color.color_primary)
+                        .show();
+            }
+        });
+
         adapter.setOnTickClickListener(new ScheduleRecyclerViewAdapter.OnTickClickListener() {
             @Override
             public void onTickClickListener(View view, final int position) {
                 final ImageView imageView = (ImageView) view;
-                if (!scheduleItems.get(position).isTicked()) {
-                    scheduleItems.get(position).setTicked(true);
+                if (!scheduleArrayList.get(position).isTicked()) {
+                    scheduleArrayList.get(position).setTicked(true);
 
                     imageView.setScaleX(0);
                     imageView.setScaleY(0);
@@ -164,7 +209,7 @@ public class FragmentSchedule extends Fragment {
                     TickMarkAnimation.showTickMark(imageView);
 
                     //update in Db
-                    ManipulationDb.updateTickedSchedule(dbHelper, scheduleItems.get(position).getId(), 1);
+                    ManipulationDb.updateTickedSchedule(dbHelper, scheduleArrayList.get(position).getId(), 1);
 
                     //remove item from schedule list
                     new Thread(new Runnable() {
@@ -175,10 +220,10 @@ public class FragmentSchedule extends Fragment {
                             imageView.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (scheduleItems.get(position).isTicked()) {
+                                    if (scheduleArrayList.get(position).isTicked()) {
                                         if (setting.getShowAllComplete() == 0) {//0 not show when click
-                                            scheduleItems.remove(position);
-                                            adapter.remove(scheduleItems, position);
+                                            scheduleArrayList.remove(position);
+                                            adapter.remove(scheduleArrayList, position);
                                         }
                                     }
                                 }
@@ -186,10 +231,10 @@ public class FragmentSchedule extends Fragment {
                         }
                     }).start();
                 } else {
-                    scheduleItems.get(position).setTicked(false);
+                    scheduleArrayList.get(position).setTicked(false);
                     imageView.setImageResource(R.drawable.ic_nottick);
 
-                    ManipulationDb.updateTickedSchedule(dbHelper, scheduleItems.get(position).getId(), 0);
+                    ManipulationDb.updateTickedSchedule(dbHelper, scheduleArrayList.get(position).getId(), 0);
                 }
             }
         });
@@ -198,17 +243,17 @@ public class FragmentSchedule extends Fragment {
             @Override
             public void onItemClickListener(View view, int position) {
                 Intent intent = new Intent(getContext(), ScheduleDetailActivity.class);
-                intent.putExtra("id", scheduleItems.get(position).getId());
-                intent.putExtra("bonsaiName", scheduleItems.get(position).getBonsaiName());
-                intent.putExtra("dayCreated", scheduleItems.get(position).getDayCreated());
-                intent.putExtra("dayTakeCare", scheduleItems.get(position).getDayTakeCare());
-                intent.putExtra("timeTakeCare", scheduleItems.get(position).getTimeTakeCare());
-                intent.putExtra("bonsaiPlace", scheduleItems.get(position).getBonsaiPlace());
-                intent.putExtra("supplyName", scheduleItems.get(position).getSupplyName());
-                intent.putExtra("amount", scheduleItems.get(position).getAmount());
-                intent.putExtra("note", scheduleItems.get(position).getNote());
+                intent.putExtra("id", scheduleArrayList.get(position).getId());
+                intent.putExtra("bonsaiName", scheduleArrayList.get(position).getBonsaiName());
+                intent.putExtra("dayCreated", scheduleArrayList.get(position).getDayCreated());
+                intent.putExtra("dayTakeCare", scheduleArrayList.get(position).getDayTakeCare());
+                intent.putExtra("timeTakeCare", scheduleArrayList.get(position).getTimeTakeCare());
+                intent.putExtra("bonsaiPlace", scheduleArrayList.get(position).getBonsaiPlace());
+                intent.putExtra("supplyName", scheduleArrayList.get(position).getSupplyName());
+                intent.putExtra("amount", scheduleArrayList.get(position).getAmount());
+                intent.putExtra("note", scheduleArrayList.get(position).getNote());
 
-                intent.putExtra("isTicked", scheduleItems.get(position).isTicked());
+                intent.putExtra("isTicked", scheduleArrayList.get(position).isTicked());
 
                 startActivityForResult(intent, DETAIL_SCHEDULE_REQUEST_CODE);
             }
@@ -237,9 +282,9 @@ public class FragmentSchedule extends Fragment {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         Toast.makeText(getContext(), "Delete", Toast.LENGTH_SHORT).show();
                                         //Delete
-                                        ManipulationDb.deleteSchedule(dbHelper, scheduleItems.get(position));
-                                        scheduleItems.remove(position);
-                                        adapter.remove(scheduleItems, position);
+                                        ManipulationDb.deleteSchedule(dbHelper, scheduleArrayList.get(position));
+                                        scheduleArrayList.remove(position);
+                                        adapter.remove(scheduleArrayList, position);
                                     }
                                 });
 
@@ -262,20 +307,52 @@ public class FragmentSchedule extends Fragment {
         });
     }
 
+    public void updateSelectedMonthYearAdapter() {
+        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleArrayList);
+
+        Date selectedDate = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMM, yyyy", Locale.US);
+        try {
+            selectedDate = df.parse(txtMonthYearValue.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar selectedCal = Calendar.getInstance();
+        selectedCal.setTime(selectedDate);
+
+        Calendar dayTakeCareCal = Calendar.getInstance();
+
+        ArrayList<ScheduleItem> temp = new ArrayList<>();
+        for (int i = 0; i < scheduleArrayList.size(); i++) {
+            dayTakeCareCal.setTime(scheduleArrayList.get(i).getDateTakeCare());
+
+            if (selectedCal.get(Calendar.YEAR) == dayTakeCareCal.get(Calendar.YEAR)) {
+                if (selectedCal.get(Calendar.MONTH) == dayTakeCareCal.get(Calendar.MONTH)) {
+                    temp.add(scheduleArrayList.get(i));
+                }
+            }
+        }
+        scheduleArrayList.clear();
+        scheduleArrayList.addAll(temp);
+
+        sortAdapter();
+    }
+
     private void startScheduleEditActivity(int position) {
         Intent intent = new Intent(getContext(), NewAndEditScheduleActivity.class);
         intent.putExtra("title", "Edit Schedule");
 
-        intent.putExtra("id", scheduleItems.get(position).getId());
-        intent.putExtra("bonsaiName", scheduleItems.get(position).getBonsaiName());
-        intent.putExtra("dayCreated", scheduleItems.get(position).getDayCreated());
-        intent.putExtra("dayTakeCare", scheduleItems.get(position).getDayTakeCare());
-        intent.putExtra("timeTakeCare", scheduleItems.get(position).getTimeTakeCare());
-        intent.putExtra("bonsaiPlace", scheduleItems.get(position).getBonsaiPlace());
-        intent.putExtra("supplyName", scheduleItems.get(position).getSupplyName());
-        intent.putExtra("amount", scheduleItems.get(position).getAmount());
-        intent.putExtra("note", scheduleItems.get(position).getNote());
-        intent.putExtra("ticked", scheduleItems.get(position).isTicked());
+        intent.putExtra("id", scheduleArrayList.get(position).getId());
+        intent.putExtra("bonsaiName", scheduleArrayList.get(position).getBonsaiName());
+        intent.putExtra("dayCreated", scheduleArrayList.get(position).getDayCreated());
+        intent.putExtra("dayTakeCare", scheduleArrayList.get(position).getDayTakeCare());
+        intent.putExtra("timeTakeCare", scheduleArrayList.get(position).getTimeTakeCare());
+        intent.putExtra("bonsaiPlace", scheduleArrayList.get(position).getBonsaiPlace());
+        intent.putExtra("supplyName", scheduleArrayList.get(position).getSupplyName());
+        intent.putExtra("amount", scheduleArrayList.get(position).getAmount());
+        intent.putExtra("note", scheduleArrayList.get(position).getNote());
+        intent.putExtra("ticked", scheduleArrayList.get(position).isTicked());
 
         startActivityForResult(intent, EDIT_SCHEDULE_REQUEST_CODE);
     }
@@ -286,27 +363,32 @@ public class FragmentSchedule extends Fragment {
             case EDIT_SCHEDULE_REQUEST_CODE:
             case DETAIL_SCHEDULE_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK) {
-                    sortAdapter();
+                    updateSelectedMonthYearAdapter();
                 }
                 break;
         }
     }
 
-    public void sortAdapter() {
-        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
-
+    private void sortAdapter() {
         SharedPreferencesSetting setting = new SharedPreferencesSetting(getContext());
         if (setting.getShowAllComplete() == 0) {
-            //filter schedule complete
             filterScheduleComplete();
         }
 
-        adapter.sort(scheduleItems);
-        adapter.update(scheduleItems);
+        adapter.sort(scheduleArrayList);
+        adapter.update(scheduleArrayList);
+    }
+
+    private void setDateDefault() {
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("MMM, yyyy", Locale.US);
+        txtMonthYearValue.setText(df.format(date));
+
+        updateSelectedMonthYearAdapter();
     }
 
     public void filterAdapter(String text) {
-        adapter.Filter(text, scheduleItems);
+        adapter.Filter(text, scheduleArrayList);
     }
 
     @Override
@@ -362,28 +444,29 @@ public class FragmentSchedule extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(String status) {
         int statusInt = Integer.parseInt(status);
-        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleItems);
+        ManipulationDb.getAllDataScheduleTable(dbHelper, scheduleArrayList);
+        updateSelectedMonthYearAdapter();
 
         if (statusInt == 0) {//0 is do not show complete schedule
             //filter schedule complete
             filterScheduleComplete();
         } else {
             //show all
-            adapter.update(scheduleItems);
+            adapter.update(scheduleArrayList);
         }
 
     }
 
     private void filterScheduleComplete() {
         ArrayList<ScheduleItem> tempArrayList = new ArrayList<>();
-        for (int i = 0; i < scheduleItems.size(); i++) {
-            if (!scheduleItems.get(i).isTicked()) {
-                tempArrayList.add(scheduleItems.get(i));
+        for (int i = 0; i < scheduleArrayList.size(); i++) {
+            if (!scheduleArrayList.get(i).isTicked()) {
+                tempArrayList.add(scheduleArrayList.get(i));
             }
         }
 
-        scheduleItems.clear();
-        scheduleItems.addAll(tempArrayList);
+        scheduleArrayList.clear();
+        scheduleArrayList.addAll(tempArrayList);
     }
 
     @Override
